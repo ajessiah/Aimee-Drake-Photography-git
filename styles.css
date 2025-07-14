@@ -432,12 +432,6 @@ html, body {
     overflow-x: hidden;
 }
 
-/*
-body {
-    background-color: black;
-}
-*/
-
 body::-webkit-scrollbar {
     width: 0;
     height: 0;
@@ -464,6 +458,51 @@ body::-webkit-scrollbar {
 #menu-overlay.active {
   display: flex;
 }
+
+#rates-summary {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+
+.dropdown-btn {
+    width: 90vw;
+    height: 7vh;
+    text-align: left;
+    padding-left: 20px;
+    font-size: 1.2rem;
+    background-color: #151515;
+    color: whitesmoke;
+    border: 1px solid white;
+}
+
+.dropdown-content {
+    margin: 10px 0;
+    transition: max-height 0.3s ease;
+    overflow: hidden;
+    background-color: white;
+    height: fit-content;
+    width: 90vw;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 10px;
+}
+
+.price {
+    font-weight: bold;
+}
+
+.emp {
+    font-size: 1.3rem;
+}
+
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: block;
+}
+
 
 /*
 #header-div {

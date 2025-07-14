@@ -64,7 +64,6 @@ const toAbout = () => {
         });
 };
 
-toAbout();
 
 aboutBtn.addEventListener("click", toAbout);
 hamAbout.addEventListener("click", toAbout);
@@ -124,4 +123,39 @@ overlayButtons.forEach(button => {
   });
 });
 
+const toRates = () => {
+    content.classList.add('loading');
+    fetch("Pages/rates.txt")
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Network response was not ok: " + response.statusText);
+        }
+        return response.text();
+    })
+    .then(data => {
+        setTimeout(() => {
+            content.className = 'rates';
+            content.innerHTML = data;
+            const dropdownBtns = document.querySelectorAll(".dropdown-btn");
+            const dropdownContent = document.querySelectorAll(".dropdown-content");
+
+            dropdownBtns.forEach((button, index) => {
+                button.addEventListener("click", () => {
+                    dropdownContent[index].classList.toggle("hidden");
+                    dropdownContent[index].classList.toggle("visible");
+                })
+            })
+            content.style.height = "fit-content";
+            content.style.minHeight = "60vh";
+            content.classList.remove('loading');
+        }, 200);
+    })
+    .catch(error => {
+        console.error('Error loading the text file:', error);
+    });
+};
+
+
+
+toRates();
 

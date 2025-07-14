@@ -1,0 +1,53 @@
+      <div id="page-title">
+        <p>RATES</p>
+        <div class="underline"></div>
+      </div>
+      <div id="rates-summary">
+        <button id="tier-one-rates" class="dropdown-btn">Up to 2500 sqft</button>
+        <div id="tier-one-dropdown" class="dropdown-content hidden">
+          <p class='price emp'>$299</p>
+          <p>Includes:</p>
+          <ul>
+            <li>Up to 32 Photos for MLS & Print</li>
+            <li>Comprehensive Editing</li>
+            <li>24hr Turnaround</li>
+          </ul>
+        </div>
+
+        <button id="tier-two-rates" class="dropdown-btn">2500 - 4000 sqft</button>
+        <div id="tier-two-dropdown" class="dropdown-content hidden">
+          <p class='price emp'>$349</p>
+          <p>Includes:</p>
+          <ul>
+            <li>32+ Photos for MLS & Print</li>
+            <li>Comprehensive Editing</li>
+            <li>Up to 5 Drone Photos</li>
+            <li>24hr Turnaround</li>
+          </ul>
+        </div>
+
+        <button id="tier-three-rates" class="dropdown-btn">More Than 4000 sqft</button>
+        <div id="tier-three-dropdown" class="dropdown-content hidden">
+          <p class='price emp'>$599</p>
+          <p>Includes:</p>
+          <ul>
+            <li>32+ Photos for MLS & Print</li>
+            <li>Comprehensive Editing</li>
+            <li>Up to 10 Drone Photos</li>
+            <li>30sec Drone Video</li>
+            <li>Virtual Walkthrough Video</li>
+          </ul>
+        </div>
+
+        <button id="add-ons-rates" class="dropdown-btn">Add-Ons</button>
+        <div id="add-ons-dropdown" class="dropdown-content hidden">
+          <ul>
+            <li><span class='price'>$49</span> 5 Drone Photos</li>
+            <li><span class='price'>$49</span> 30sec Drone Video</li>
+            <li><span class='price'>$29</span> Virtual Walkthrough Video</li>
+            <li><span class='price'>$39</span> Virtual Staging</li>
+            <li><span class='price'>$49</span> Agent Walkthrough Video</li>
+            <li><span class='price'>$39</span> Online Hosting for Gallery/Slideshow/Video</li>
+          </ul>
+        </div>
+      </div>
