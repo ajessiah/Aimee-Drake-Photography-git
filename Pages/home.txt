@@ -1,0 +1,5 @@
+
+<div id="slideshow-div">
+  <div class="vignette-overlay"></div>
+  <img src="Photos/nature.jpg" alt="stock nature photo">
+</div>

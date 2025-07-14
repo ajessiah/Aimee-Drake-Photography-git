@@ -1,0 +1,23 @@
+
+<div id="page-title">
+            <p>ABOUT ME</p>
+	    <div class="underline"></div>
+        </div>
+        <div id="about-me">
+            <p>
+                Hi, I’m Aimee Drake, a passionate photographer dedicated to capturing the beauty and emotion in every moment. 
+                With over a decade of experience behind the lens, I specialize in portrait, lifestyle, and nature photography that tells your unique story.
+                <br>
+                <br>
+                Photography isn’t just my profession — it’s my way of seeing the world. 
+                Whether it’s the glow of golden hour, the sparkle in a child’s eye, or the quiet strength of a landscape, I strive to create images that evoke feeling and preserve memories for a lifetime.
+                <br>
+                <br>
+                When I’m not photographing, you can find me exploring scenic trails, experimenting with new creative techniques, or curled up with a good book and a cup of coffee. 
+                I believe every photo should be as authentic and meaningful as the person in front of the camera.
+                <br>
+                <br>
+                Thank you for visiting my site. 
+                I’d love to work with you and help capture your special moments in a way that feels natural, timeless, and truly you.
+            </p>
+        </div>

@@ -1,0 +1,686 @@
+* {
+    box-sizing: border-box;
+}
+
+@media (max-width: 480px) {
+
+    body {
+        background-color: black;
+    }
+
+    #header-div {
+        height: 20vh;
+        width: 100vw;
+        margin: 0;
+        overflow: hidden;
+        position: fixed;
+    }
+
+    #site-title {
+        flex-flow: row nowrap;
+        align-items: center;
+        justify-content: space-between;
+        height: 20vh;
+        width: 100vw;
+        display: flex;
+        background-color: black;
+        box-shadow: 0 4px 15px #9fa898;
+        color: white;
+        margin: 0 auto;
+        padding: 0 20px 0 20px;
+    }
+
+    #logo-container {
+        display: flex;
+        width: 70vw;
+        height: 16vh;
+        margin: 0;
+    }
+
+    #logo-container img {
+        object-fit: fill;
+    }
+
+    #hamburger-btn {
+        display: block;
+        font-size: 2rem;
+        width: fit-content;
+        background: none;
+        border: none;
+        margin: 0;
+        color: white;
+        cursor: pointer;
+        padding: 0;
+    }
+
+    #to-instagram {
+        display: none;
+    }
+
+    #nav-menu, #nav-menu ul, #nav-menu li, #nav-menu button {
+        display: none;
+    }
+
+    #page-content {
+        background: black;
+        height: 60vh;
+        width: 100%;
+        margin-top: 20vh;
+    }
+
+    #menu-overlay {
+        height: 42vh;
+        width: 85%;
+        position: fixed;
+        right: 0;
+        background-color: #000000e8;
+        margin-top: 20vh;
+        padding-right: 25px;
+        display: flex;
+        flex-flow: column wrap;
+        justify-content: space-between;
+        box-shadow:  0 0 50px 25px #00000099;
+        z-index: 3;
+        
+    }
+
+    #menu-overlay ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        z-index: 4;
+        position: relative;
+    }
+
+    .overlay-btns {
+        width: 100%;
+        text-align: right;
+        height: 8vh;
+        font-size: 1.2rem;
+        color: whitesmoke;
+        background: none;
+        border: none;
+        margin: 0;
+        letter-spacing: 2px;
+        position: relative;
+    }
+
+    .overlay-btns:hover {
+        background-color: whitesmoke;
+        color: black;
+    }
+
+    #ham-to-instagram {
+        width: fit-content;
+        background: none;
+        border: none;
+        color: white;
+        margin:1vh auto;
+        display: flex;
+    }
+
+    /* HOME */
+    #slideshow-div {
+        width: 100%;
+        height: 35vh;
+        overflow: hidden;
+    }
+
+    #slideshow-div img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        z-index: 1;
+    }
+
+    .vignette-overlay {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none; 
+        box-shadow: inset 0 0 50px 25px #00000099;
+        z-index: 2;
+    }
+
+    #licensing {
+        height: 10vh;
+        width: 70vw;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+    }
+
+    #licensing p {
+        text-align: center;
+        margin: auto;
+        font-size: 12px;
+        color: white;
+    }
+    /* ABOUT ME */
+
+    #page-title {
+        height: 8vh;
+        width: 100%;
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .underline {
+        height: 2px;
+        background-color: white;
+        width: 60%;
+        margin: 5px auto;
+        border-radius: 1px;
+        display: block;
+    }
+
+    #page-title p {
+        margin: 0;
+        font-size: 1.6rem;
+        font-family: Arial, Helvetica, sans-serif;
+        color: white;
+        letter-spacing: 7px;
+        font-weight: 600;
+    }
+
+    #about-me {
+        height: 50vh;
+        width: 75%;
+        margin: 0 auto;
+        background-color: whitesmoke;
+        padding: 20px 30px;
+        overflow-y: scroll;
+    }
+
+    #about-me p {
+        margin: 0;
+        font-size: clamp(0.5rem, 3.6vw, 1rem);
+        text-align: justify;
+        font-family: Arial, Helvetica, sans-serif;
+        color: black;
+    }
+
+    /* PORTFOLIO */
+
+    #portfolio-container {
+        width: 100%;
+        height: fit-content;
+        padding: 0 15px 15px 15px;
+        display: grid;
+        grid-template-rows: auto;
+        grid-template-columns: 350px;
+        gap: 15px;
+        justify-content: center;
+    }
+
+    .img-container {
+        height: 250px;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .portfolio-img {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+
+@media (min-width: 481px) and (max-width: 768px) {
+
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+
+}
+
+
+@media (min-width: 1025px) {
+    #header-div {
+        height: 28%;
+        width: 100%;
+        margin: 0;
+        display: flex;
+        flex-flow: column nowrap;
+    }
+
+    #site-title {
+        flex-flow: row nowrap;
+        align-items: center;
+        justify-content: space-between;
+        height: 75%;
+        background-color: black;
+        width: 100%;
+        display: flex;
+        color: white;
+    }
+
+    #logo-container {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        padding: 5px 5px 5px 40px;
+    }
+
+    #logo-container img {
+        object-fit: contain;  
+    }
+
+    #hamburger-btn {
+        display: none;
+    }
+
+
+    #to-instagram {
+        width: fit-content;
+        padding-right: 50px;
+        background-color: black;
+        border: none;
+        justify-self: flex-end;
+        color: white;
+    }
+
+    #nav-menu {
+        height: 25%;
+        width: 100%;
+        margin: 0 auto;
+        display: flex;
+        background-color: white;
+    }
+
+    #nav-menu ul {
+        display: flex;
+        flex-flow: row nowrap;
+        list-style: none;
+        justify-content: center;
+        width: 65%;
+        margin: 0 auto;
+        padding: 1px;
+    }
+
+    #nav-menu li {
+        align-self: center;
+    }
+
+    #nav-menu button {
+        font-size: 18px;
+        width: 140px;
+        border: none;
+        background: none;
+    }
+
+    #menu-overlay {
+        display: none;
+    }
+
+    /* HOME */
+    .home {
+        border-top: 1px solid black;
+        background: linear-gradient(black, white);
+        height: 72%;
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    #slideshow-div {
+        position: relative;
+        width: 90%;
+        max-width: 1000px;
+        height: 75%;
+        margin: 60px auto 0 auto;
+        overflow: hidden;
+        box-shadow: 0px 0px 20px 2px #35343484;
+    }
+
+    #slideshow-div img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;       
+    }
+
+    .vignette-overlay {
+        position: absolute;
+        top: 0; 
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none; 
+        box-shadow: inset 0 0 50px 25px #00000099;
+        z-index: 2;
+    }
+
+    #licensing {
+        height: 10%;
+        width: 70vw;
+        margin: 20px auto 0 auto;
+        display: flex;
+        justify-content: center;
+    }
+
+    #licensing p {
+        text-align: center;
+        margin: auto;
+        font-size: 1rem;
+        color: black;
+    }
+
+    /* ABOUT */
+    .about {
+        border-top: 1px solid black;
+        background: linear-gradient(black, white);
+        height: 72%;
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    #page-title {
+        height: 20%;
+        width: 100%;
+        background-color: none;
+        padding: 25px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-flow: column wrap;
+    }
+
+    .underline {
+        height: 2px;
+        background-color: white;
+        width: 50%;
+        margin: 10px auto;
+        border-radius: 1px;
+        display: block;
+    }
+
+    #page-title p {
+        margin: 0;
+        font-size: 1.7rem;
+        font-family: Arial, Helvetica, sans-serif;
+        color: white;
+        letter-spacing: 7px;
+        font-weight: 600;
+    }
+
+    #about-me {
+        height: fit-content;
+        width: 75%;
+        margin: 0 auto;
+        background-color: whitesmoke;
+        padding: 20px 30px;
+    }
+
+    #about-me p {
+        margin: 0;
+        font-size: clamp(1rem, 2vw, 1.3rem);
+        text-align: justify;
+        font-family: Arial, Helvetica, sans-serif;
+        color: black;
+    }
+
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+/*
+body {
+    background-color: black;
+}
+*/
+
+body::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+#about-me::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+#page-content {
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+}
+
+#page-content.loading {
+  opacity: 0;
+}
+
+#menu-overlay {
+    display: none;
+}
+
+#menu-overlay.active {
+  display: flex;
+}
+
+/*
+#header-div {
+    height: 28vh;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+#site-title {
+    height: 75%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: space-between;
+    border-bottom: 4px solid black;
+    background-color: black;
+    box-shadow: 0 4px 15px #9fa898;
+    color: white;
+}   
+
+#logo-container {
+    display: flex;
+    align-self: center;
+    height: 22vh;
+    padding: 15px 30px;
+    justify-self: flex-start;
+}
+
+#logo-container img {
+    object-fit: cover;  
+}
+
+#hamburger-btn {
+    display: none;
+}
+
+#to-instagram {
+    width: fit-content;
+    margin-right: 2vw;
+    background-color: black;
+    border: none;
+    justify-self: flex-end;
+}
+
+#site-title i {
+     color: white;
+     text-align: right;
+}
+
+#nav-menu {
+    height: 25%;
+    width: 100%;
+    display: flex;
+}
+
+#nav-menu ul {
+    display:flex;
+    flex-flow: row nowrap;
+    list-style: none;
+    justify-content: space-evenly;
+    width: 100%;
+    margin: 0 auto;
+    padding: 1px;
+}
+
+#nav-menu li {
+    align-self: center;
+}
+
+#nav-menu li:hover {
+    border-bottom: 2px solid black;
+}
+
+#nav-menu button {
+    font-size: 18px;
+    width: 120px;
+    background: none;
+    border: none;
+}
+
+#page-content {
+
+}
+
+.home {
+    border-top: 1px solid black;
+    background: linear-gradient(black, white);
+    height: 68vh;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.about {
+    background: linear-gradient(black, white);
+}
+
+.portfolio {
+    background: linear-gradient(black, white);
+}
+
+.rates {
+
+}
+
+.contact {
+
+}
+
+HOME
+#slideshow-div {
+    position: relative;
+    width: 90%;
+    height: 50vh;
+    margin: 60px auto 0 auto;
+    overflow: hidden;
+    box-shadow: 0px 0px 20px 2px #35343484;
+}
+
+.vignette-overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; 
+  box-shadow: inset 0 0 50px 25px #00000099;
+  z-index: 2;
+}
+
+#slideshow-div img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+#licensing {
+    height: 10vh;
+    width: 70vw;
+    margin: 20px auto 0 auto;
+    display: flex;
+    justify-content: center;
+}
+
+#licensing p {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    margin: auto;
+    font-size: 12px;
+}
+
+ABOUT ME
+#page-title {
+    height: 20%;
+    width: 100%;
+    background-color: none;
+    padding: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#page-title p {
+    margin: 0;
+    text-align: center;
+    font-size: 32px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    letter-spacing: 8px;
+    font-weight: 600;
+}
+
+#about-me {
+    height: fit-content;
+    width: 80%;
+    margin:0 auto;
+    background-color: white;
+    padding: 20px 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 50px 10px #7f7e7e78;
+}
+
+#about-me p {
+    margin: 0;
+    font-size: 18px;
+    text-align: justify;
+    font-family: Arial, Helvetica, sans-serif;
+    color: black;
+}
+
+PORTFOLIO
+#portfolio-container {
+    background-color: white;
+    width: 815px;
+    height: fit-content;
+    margin: 0 auto 10px auto;
+    padding: 15px;
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: 250px 250px 250px;
+    gap: 15px;
+    justify-content: center;
+    box-shadow: 0 0 50px 10px #7f7e7e78;
+}
+
+.img-container {
+    height: 250px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.portfolio-img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+*/
