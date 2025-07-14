@@ -11,6 +11,7 @@ const hamMenu = document.getElementById('menu-overlay');
 const hamHome = document.getElementById('ham-home-btn');
 const hamAbout = document.getElementById('ham-about-btn');
 const hamPortfolio = document.getElementById('ham-portfolio-btn');
+const hamRates = document.getElementById('ham-rates-btn');
 const header = document.getElementById('header-div');
 
 const allImgs = ["Photos/nature.jpg", "Photos/nature2.jpg", "Photos/nature3.jpg", "Photos/nature4.jpg", "Photos/nature5.jpg", "Photos/nature6.jpg"];
@@ -155,7 +156,6 @@ const toRates = () => {
     });
 };
 
-
-
-toRates();
+ratesBtn.addEventListener("click", toRates);
+hamRates.addEventListener("click", toRates);
 
