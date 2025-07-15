@@ -69,7 +69,7 @@ const toHome = () => {
         });
 };
 
-//window.onload = toHome;
+window.onload = toHome;
 homeBtn.addEventListener("click", toHome);
 logoDiv.addEventListener("click", toHome);
 hamHome.addEventListener("click", toHome);
@@ -100,8 +100,6 @@ const toAbout = () => {
 
 aboutBtn.addEventListener("click", toAbout);
 hamAbout.addEventListener("click", toAbout);
-
-// GPT
 
 const toPortfolio = () => {
     content.classList.add('loading');
@@ -219,5 +217,3 @@ const toRates = () => {
 
 ratesBtn.addEventListener("click", toRates);
 hamRates.addEventListener("click", toRates);
-
-toRates();
