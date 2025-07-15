@@ -14,7 +14,39 @@ const hamPortfolio = document.getElementById('ham-portfolio-btn');
 const hamRates = document.getElementById('ham-rates-btn');
 const header = document.getElementById('header-div');
 
-const allImgs = ["Photos/nature.jpg", "Photos/nature2.jpg", "Photos/nature3.jpg", "Photos/nature4.jpg", "Photos/nature5.jpg", "Photos/nature6.jpg"];
+const allImgs = 
+[
+    {
+        name: "23 Valley View",
+        gallery: [
+            "Photos/23 Valley View/Sun Room 1.jpg", 
+            "Photos/23 Valley View/Combo 1.jpg", 
+            "Photos/23 Valley View/Bathroom.jpg", 
+            "Photos/23 Valley View/Living Room 2.jpg", 
+            "Photos/23 Valley View/Fire Pit.jpg"
+        ]
+    }, 
+    {
+        name: "290 Liberty",
+        gallery: [
+            "Photos/290 Liberty/Kitchen 1.jpg", 
+            "Photos/290 Liberty/Fire Pit 1.jpg", 
+            "Photos/290 Liberty/Bedroom 1.jpg", 
+            "Photos/290 Liberty/Bathroom 1.jpg", 
+            "Photos/290 Liberty/Living Room 2.jpg"
+        ]
+    }, 
+    {
+        name: "843 Monte Vista",
+        gallery: [
+            "Photos/843 Monte Vista/Backyard 1.jpg", 
+            "Photos/843 Monte Vista/Kitchen 1.jpg", 
+            "Photos/843 Monte Vista/Bedroom 1.jpg", 
+            "Photos/843 Monte Vista/Aerial 1.jpg", 
+            "Photos/843 Monte Vista/Exterior 1.jpg"
+        ]
+    }
+];
 
 const toHome = () => {
     content.classList.add('loading');
@@ -69,15 +101,7 @@ const toAbout = () => {
 aboutBtn.addEventListener("click", toAbout);
 hamAbout.addEventListener("click", toAbout);
 
-const popPortfolio = () => {
-    allImgs.forEach((img) => {
-        portfolioDiv.innerHTML += `
-            <div id="${img}" class="img-container">
-                <img src="${img}" class="portfolio-img">
-            </div>
-        `;
-    })
-};
+// GPT
 
 const toPortfolio = () => {
     content.classList.add('loading');
@@ -92,13 +116,50 @@ const toPortfolio = () => {
             setTimeout(() => {
                 content.className = 'portfolio';
                 content.innerHTML = data;
+
                 const portfolioDiv = document.getElementById('portfolio-container');
-                allImgs.forEach((img) => {
-                    portfolioDiv.innerHTML += `
-                        <div id="${img}" class="img-container">
-                            <img src="${img}" class="portfolio-img">
-                        </div>
-                    `;
+                const allProjects = []; // To keep track of all image containers
+
+                allImgs.forEach((project) => {
+                    // Create container for each gallery set
+                    const projectDiv = document.createElement("div");
+                    projectDiv.classList.add("project-div");
+
+                    // Create button for the gallery name
+                    const projectLink = document.createElement("button");
+                    projectLink.textContent = project.name;
+                    projectLink.classList.add("project-btn");
+
+                    // Create image container
+                    const imgContainer = document.createElement("div");
+                    imgContainer.classList.add("project-content", "hidden");
+
+                    // Add images to container
+                    project.gallery.forEach(imagePath => {
+                    const img = document.createElement("img");
+                    img.src = imagePath;
+                    img.alt = project.name;
+                    img.classList.add("project-img");
+                    imgContainer.appendChild(img);
+                    });
+
+                    // Track this container
+                    allProjects.push(imgContainer);
+
+                    // Toggle behavior
+                    projectLink.addEventListener("click", () => {
+                    allProjects.forEach(container => {
+                        if (container !== imgContainer) {
+                        container.classList.add("hidden"); // Close others
+                        }
+                    });
+                    imgContainer.classList.toggle("hidden"); // Toggle clicked one
+                    });
+
+                    // Append elements
+                    projectDiv.appendChild(projectLink);
+                    projectDiv.appendChild(imgContainer);
+                    portfolioDiv.appendChild(projectDiv);
                 });
                 content.style.height = "fit-content";
                 content.classList.remove('loading');
