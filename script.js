@@ -97,7 +97,6 @@ const toAbout = () => {
         });
 };
 
-
 aboutBtn.addEventListener("click", toAbout);
 hamAbout.addEventListener("click", toAbout);
 
@@ -173,6 +172,11 @@ hamPortfolio.addEventListener("click", toPortfolio);
 
 hamMenuBtn.addEventListener("click", () => {
   hamMenu.classList.toggle("active");
+  if (hamMenu.classList.contains("active")) {
+    hamMenuBtn.style.color = "#a08f39";
+  } else {
+    hamMenuBtn.style.color = "white";
+  }
 });
 
 const overlayButtons = document.querySelectorAll(".overlay-btns");
@@ -180,6 +184,7 @@ const overlayButtons = document.querySelectorAll(".overlay-btns");
 overlayButtons.forEach(button => {
   button.addEventListener("click", () => {
     hamMenu.classList.remove("active");
+    hamMenuBtn.style.color = "white";
   });
 });
 
