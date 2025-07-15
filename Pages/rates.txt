@@ -5,6 +5,7 @@
       <div id="rates-summary">
         <button id="tier-one-rates" class="dropdown-btn">Up to 2500 sqft</button>
         <div id="tier-one-dropdown" class="dropdown-content hidden">
+	  <img src="Photos/23 Valley View/Twilight Ext" alt="House Exterior at Sunset"><img>
           <p class='price emp'>$299</p>
           <p>Includes:</p>
           <ul>
