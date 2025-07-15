@@ -5,19 +5,29 @@
         </div>
         <div id="about-me">
             <p>
-                Hi, I’m Aimee Drake, a passionate photographer dedicated to capturing the beauty and emotion in every moment. 
-                With over a decade of experience behind the lens, I specialize in portrait, lifestyle, and nature photography that tells your unique story.
-                <br>
-                <br>
-                Photography isn’t just my profession — it’s my way of seeing the world. 
-                Whether it’s the glow of golden hour, the sparkle in a child’s eye, or the quiet strength of a landscape, I strive to create images that evoke feeling and preserve memories for a lifetime.
-                <br>
-                <br>
-                When I’m not photographing, you can find me exploring scenic trails, experimenting with new creative techniques, or curled up with a good book and a cup of coffee. 
-                I believe every photo should be as authentic and meaningful as the person in front of the camera.
-                <br>
-                <br>
-                Thank you for visiting my site. 
-                I’d love to work with you and help capture your special moments in a way that feels natural, timeless, and truly you.
+		Born and raised in the mountains of western North Carolina, I developed a deep love for nature and the outdoors early in life. 
+		<br>
+		<br>
+		In 1997, I moved to Portland, Oregon, where I took my first photography class—Darkroom Essentials for 35mm black-and-white film—and 			discovered a lifelong passion for visual storytelling. 
+		<br>
+		<br>
+		Photography quickly became a personal outlet for artistic expression. In 2000, I became a licensed real estate broker and began using my 		photography skills to showcase properties in compelling ways. 
+		<br>
+		<br>
+		Over time, I expanded my experience by collaborating with a commercial photographer, working on a wide range of projects including 			corporate campaigns, individual portraits, food, product, and real estate photography.
+		<br>
+		<br>
+		Now back in the mountains of western North Carolina, I’ve returned to my roots and am launching my own real estate photography business—		combining my love of the craft with a keen eye for visual detail.
+		<br>
+		<br>
+		I enjoy working with owners and managers of both long and short term rental properties as well as real estate brokers listing properties 		for sale. 
+		In any of these types of real estate photography, photos serve as the first point of contact between a property and potential tenants, 			guests, or buyers, making them a critical marketing tool. 
+		<br>
+		<br>
+		High-quality images capture attention instantly, creating a strong first impression that can drive interest and highlight the home's best 		features. This can influence a buyer’s or tenant’s decision to schedule a viewing, and a potential guest’s decision to reserve a stay at 		your property. 
+		<br>
+		<br>
+		Please see my rates page for an outline of available services for your specific needs.
+		I look forward to working with you!
             </p>
         </div>
