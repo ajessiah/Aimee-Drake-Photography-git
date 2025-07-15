@@ -503,6 +503,10 @@ body::-webkit-scrollbar {
   display: block;
 }
 
+#rates-summary img {
+    width: 100%;
+    height: auto;
+}
 
 /*
 #header-div {

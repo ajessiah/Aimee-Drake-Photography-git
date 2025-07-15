@@ -5,7 +5,7 @@
       <div id="rates-summary">
         <button id="tier-one-rates" class="dropdown-btn">Up to 2500 sqft</button>
         <div id="tier-one-dropdown" class="dropdown-content hidden">
-	  <img src="Photos/23 Valley View/Twilight Ext" alt="House Exterior at Sunset"><img>
+	  <img src="Photos/23 Valley View/Twilight Ext.jpg" alt="House Exterior at Sunset"><img>
           <p class='price emp'>$299</p>
           <p>Includes:</p>
           <ul>
@@ -17,6 +17,7 @@
 
         <button id="tier-two-rates" class="dropdown-btn">2500 - 4000 sqft</button>
         <div id="tier-two-dropdown" class="dropdown-content hidden">
+	  <img src="Photos/290 Liberty/Twilight Ext 1.jpg" alt="House Exterior at Sunset"><img>
           <p class='price emp'>$349</p>
           <p>Includes:</p>
           <ul>
@@ -29,6 +30,7 @@
 
         <button id="tier-three-rates" class="dropdown-btn">More Than 4000 sqft</button>
         <div id="tier-three-dropdown" class="dropdown-content hidden">
+	  <img src="Photos/843 Monte Vista/Twilight Ext 1.jpg" alt="House Exterior at Sunset"><img>
           <p class='price emp'>$599</p>
           <p>Includes:</p>
           <ul>

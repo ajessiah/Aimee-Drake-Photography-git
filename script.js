@@ -37,7 +37,7 @@ const toHome = () => {
         });
 };
 
-window.onload = toHome;
+//window.onload = toHome;
 homeBtn.addEventListener("click", toHome);
 logoDiv.addEventListener("click", toHome);
 hamHome.addEventListener("click", toHome);
@@ -159,3 +159,4 @@ const toRates = () => {
 ratesBtn.addEventListener("click", toRates);
 hamRates.addEventListener("click", toRates);
 
+toRates();
