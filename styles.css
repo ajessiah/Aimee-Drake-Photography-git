@@ -119,17 +119,54 @@
     }
 
     /* HOME */
+
+    /* FOCUS *//* FOCUS *//* FOCUS *//* FOCUS *//* FOCUS *//* FOCUS *//* FOCUS *//* FOCUS *//* FOCUS */
     #slideshow-div {
         width: 100%;
         height: 35vh;
         overflow: hidden;
+        position: relative;
     }
+    /* ADD. RECOMMENDATION 
+    .slideshow-div {
+        position: relative;
+    }
+    */
 
+    /* REMOVED FOR TESTING CLARITY FOR NOW
     #slideshow-div img {
         height: 100%;
         width: 100%;
         object-fit: cover;
         z-index: 1;
+    }
+    */
+
+    .slide {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 100%;
+        opacity: 0;
+        transition: left 0.8s ease-in-out, opacity 0.8s ease-in-out;
+        object-fit: cover;
+        z-index: 1;
+    }
+
+    .slide.active {
+        left: 0;
+        opacity: 1;
+        z-index: 2;
+    }
+
+    .slide.out-left {
+        left: -100%;
+        opacity: 0;
+    }
+
+    .slide.out-right {
+        left: 100%;
+        opacity: 0;
     }
 
     .vignette-overlay {
@@ -141,6 +178,7 @@
         box-shadow: inset 0 0 50px 25px #00000099;
         z-index: 2;
     }
+    /* FOCUS *//* FOCUS *//* FOCUS *//* FOCUS *//* FOCUS *//* FOCUS *//* FOCUS *//* FOCUS *//* FOCUS */
 
     #licensing {
         height: 10vh;
@@ -344,6 +382,7 @@
         margin: 0 auto;
     }
 
+    /* REMOVED FOR MOBILE TESTING CLARITY
     #slideshow-div {
         position: relative;
         width: 90%;
@@ -359,6 +398,7 @@
         width: 100%;
         object-fit: cover;       
     }
+    */
 
     .vignette-overlay {
         position: absolute;
@@ -524,6 +564,32 @@ body::-webkit-scrollbar {
 #rates-summary img {
     width: 100%;
     height: auto;
+}
+
+/* NEW TESTING */
+
+
+
+/* Navigation Arrows */
+.nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.5);
+  color: white;
+  border: none;
+  font-size: 2rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.nav.prev {
+  left: 10px;
+}
+
+.nav.next {
+  right: 10px;
 }
 
 /*

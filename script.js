@@ -61,6 +61,76 @@ const toHome = () => {
             setTimeout(() => {
             content.className = 'home';
             content.innerHTML = data;
+            // NEW TESTING 
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.querySelector('.nav.prev');
+            const nextBtn = document.querySelector('.nav.next');
+            let currentIndex = 0;
+            let slideInterval = setInterval(showNextSlide, 3000);
+
+            // Core transition function
+            function transitionSlide(nextIndex, direction = 'left') {
+            const currentSlide = slides[currentIndex];
+            const nextSlide = slides[nextIndex];
+
+            currentSlide.classList.remove('active');
+            currentSlide.classList.add(direction === 'left' ? 'out-left' : 'out-right');
+
+            nextSlide.classList.remove('out-left', 'out-right');
+            nextSlide.classList.add('active');
+
+            setTimeout(() => {
+                currentSlide.classList.remove('out-left', 'out-right');
+            }, 800);
+
+            currentIndex = nextIndex;
+            }
+
+            // Show next or previous
+            function showNextSlide() {
+            const nextIndex = (currentIndex + 1) % slides.length;
+            transitionSlide(nextIndex, 'left');
+            }
+
+            function showPrevSlide() {
+            const prevIndex = (currentIndex - 1 + slides.length) % slides.length;
+            transitionSlide(prevIndex, 'right');
+            }
+
+            // Button Events
+            nextBtn.addEventListener('click', () => {
+            clearInterval(slideInterval);
+            showNextSlide();
+            slideInterval = setInterval(showNextSlide, 3000);
+            });
+
+            prevBtn.addEventListener('click', () => {
+            clearInterval(slideInterval);
+            showPrevSlide();
+            slideInterval = setInterval(showNextSlide, 3000);
+            });
+
+            // Swipe Support
+            let touchStartX = 0;
+
+            document.getElementById('carousel').addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+            }, false);
+
+            document.getElementById('carousel').addEventListener('touchend', (e) => {
+            const touchEndX = e.changedTouches[0].screenX;
+            const diff = touchStartX - touchEndX;
+
+            if (Math.abs(diff) > 50) {
+                clearInterval(slideInterval);
+                if (diff > 0) {
+                showNextSlide(); // swipe left
+                } else {
+                showPrevSlide(); // swipe right
+                }
+                slideInterval = setInterval(showNextSlide, 3000);
+            }
+            }, false);
             content.classList.remove('loading');
             }, 200);
         })
@@ -115,23 +185,19 @@ const toPortfolio = () => {
                 content.innerHTML = data;
 
                 const portfolioDiv = document.getElementById('portfolio-container');
-                const allProjects = []; // To keep track of all image containers
+                const allProjects = []; 
 
                 allImgs.forEach((project) => {
-                    // Create container for each gallery set
                     const projectDiv = document.createElement("div");
                     projectDiv.classList.add("project-div");
 
-                    // Create button for the gallery name
                     const projectLink = document.createElement("button");
                     projectLink.textContent = project.name;
                     projectLink.classList.add("project-btn");
 
-                    // Create image container
                     const imgContainer = document.createElement("div");
                     imgContainer.classList.add("project-content", "hidden");
 
-                    // Add images to container
                     project.gallery.forEach(imagePath => {
                     const img = document.createElement("img");
                     img.src = imagePath;
@@ -140,20 +206,17 @@ const toPortfolio = () => {
                     imgContainer.appendChild(img);
                     });
 
-                    // Track this container
                     allProjects.push(imgContainer);
 
-                    // Toggle behavior
                     projectLink.addEventListener("click", () => {
                     allProjects.forEach(container => {
                         if (container !== imgContainer) {
-                        container.classList.add("hidden"); // Close others
+                        container.classList.add("hidden"); 
                         }
                     });
-                    imgContainer.classList.toggle("hidden"); // Toggle clicked one
+                    imgContainer.classList.toggle("hidden"); 
                     });
 
-                    // Append elements
                     projectDiv.appendChild(projectLink);
                     projectDiv.appendChild(imgContainer);
                     portfolioDiv.appendChild(projectDiv);
@@ -222,3 +285,5 @@ const toRates = () => {
 
 ratesBtn.addEventListener("click", toRates);
 hamRates.addEventListener("click", toRates);
+
+
