@@ -139,7 +139,7 @@ const toHome = () => {
         });
 };
 
-window.onload = toHome;
+//window.onload = toHome;
 homeBtn.addEventListener("click", toHome);
 logoDiv.addEventListener("click", toHome);
 hamHome.addEventListener("click", toHome);
@@ -236,7 +236,7 @@ hamPortfolio.addEventListener("click", toPortfolio);
 hamMenuBtn.addEventListener("click", () => {
   hamMenu.classList.toggle("active");
   if (hamMenu.classList.contains("active")) {
-    hamMenuBtn.style.color = "#a08f39";
+    hamMenuBtn.style.color = "#E6C068";
   } else {
     hamMenuBtn.style.color = "white";
   }
@@ -285,5 +285,7 @@ const toRates = () => {
 
 ratesBtn.addEventListener("click", toRates);
 hamRates.addEventListener("click", toRates);
+
+const toContact = () => {};
 
 
