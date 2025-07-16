@@ -277,7 +277,6 @@ hamMenu.addEventListener("click", (e) => {
     e.stopPropagation();
 });
     
-
 const overlayButtons = document.querySelectorAll(".overlay-btns");
 
 overlayButtons.forEach(button => {
@@ -307,6 +306,7 @@ const toRates = () => {
                 button.addEventListener("click", () => {
                     dropdownContent[index].classList.toggle("hidden");
                     dropdownContent[index].classList.toggle("visible");
+                    button.classList.toggle("open");
                 })
             })
             content.style.height = "fit-content";

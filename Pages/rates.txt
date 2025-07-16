@@ -6,7 +6,7 @@
         <button id="tier-one-rates" class="dropdown-btn">Up to 2500 sqft</button>
         <div id="tier-one-dropdown" class="dropdown-content hidden">
 	  <img src="Photos/23 Valley View/Twilight Ext.jpg" alt="House Exterior at Sunset"><img>
-          <p class='price emp'>$299</p>
+          <p class='emp'>$299</p>
           <p>Includes:</p>
           <ul>
             <li>Up to 32 Photos for MLS & Print</li>
@@ -18,7 +18,7 @@
         <button id="tier-two-rates" class="dropdown-btn">2500 - 4000 sqft</button>
         <div id="tier-two-dropdown" class="dropdown-content hidden">
 	  <img src="Photos/290 Liberty/Twilight Ext 1.jpg" alt="House Exterior at Sunset"><img>
-          <p class='price emp'>$349</p>
+          <p class='emp'>$349</p>
           <p>Includes:</p>
           <ul>
             <li>32+ Photos for MLS & Print</li>
@@ -31,7 +31,7 @@
         <button id="tier-three-rates" class="dropdown-btn">More Than 4000 sqft</button>
         <div id="tier-three-dropdown" class="dropdown-content hidden">
 	  <img src="Photos/843 Monte Vista/Twilight Ext 1.jpg" alt="House Exterior at Sunset"><img>
-          <p class='price emp'>$599</p>
+          <p class='emp'>$599</p>
           <p>Includes:</p>
           <ul>
             <li>32+ Photos for MLS & Print</li>
@@ -45,12 +45,12 @@
         <button id="add-ons-rates" class="dropdown-btn">Add-Ons</button>
         <div id="add-ons-dropdown" class="dropdown-content hidden">
           <ul>
-            <li><span class='price'>$49</span> 5 Drone Photos</li>
-            <li><span class='price'>$49</span> 30sec Drone Video</li>
-            <li><span class='price'>$29</span> Virtual Walkthrough Video</li>
-            <li><span class='price'>$39</span> Virtual Staging</li>
-            <li><span class='price'>$49</span> Agent Walkthrough Video</li>
-            <li><span class='price'>$39</span> Online Hosting for Gallery/Slideshow/Video</li>
+            <li><span class='price'>$49</span>  5 Drone Photos</li>
+            <li><span class='price'>$49</span>  30sec Drone Video</li>
+            <li><span class='price'>$29</span>  Virtual Walkthrough Video</li>
+            <li><span class='price'>$39</span>  Virtual Staging</li>
+            <li><span class='price'>$49</span>  Agent Walkthrough Video</li>
+            <li><span class='price'>$39</span>  Online Hosting for Gallery/Slideshow/Video</li>
           </ul>
         </div>
       </div>
