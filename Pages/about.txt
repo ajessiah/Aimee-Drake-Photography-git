@@ -5,6 +5,7 @@
         </div>
         <div id="about-me">
             <p>
+	      <div id="headshot"></div>
 		Born and raised in the mountains of western North Carolina, I developed a deep love for nature and the outdoors early in life. 
 		<br>
 		<br>
