@@ -12,6 +12,7 @@ const hamHome = document.getElementById('ham-home-btn');
 const hamAbout = document.getElementById('ham-about-btn');
 const hamPortfolio = document.getElementById('ham-portfolio-btn');
 const hamRates = document.getElementById('ham-rates-btn');
+const hamContact = document.getElementById('ham-contact-btn');
 const header = document.getElementById('header-div');
 
 const allImgs = 
@@ -59,79 +60,77 @@ const toHome = () => {
         })
         .then(data => {
             setTimeout(() => {
-            content.className = 'home';
-            content.innerHTML = data;
-            // NEW TESTING 
-            const slides = document.querySelectorAll('.slide');
-            const prevBtn = document.querySelector('.nav.prev');
-            const nextBtn = document.querySelector('.nav.next');
-            let currentIndex = 0;
-            let slideInterval = setInterval(showNextSlide, 3000);
+                content.className = 'home';
+                content.innerHTML = data;
 
-            // Core transition function
-            function transitionSlide(nextIndex, direction = 'left') {
-            const currentSlide = slides[currentIndex];
-            const nextSlide = slides[nextIndex];
+                const slides = document.querySelectorAll('.slide');
+                const prevBtn = document.querySelector('.nav.prev');
+                const nextBtn = document.querySelector('.nav.next');
+                let currentIndex = 0;
+                let slideInterval = setInterval(showNextSlide, 3000);
 
-            currentSlide.classList.remove('active');
-            currentSlide.classList.add(direction === 'left' ? 'out-left' : 'out-right');
+                function transitionSlide(nextIndex, direction = 'left') {
+                    const currentSlide = slides[currentIndex];
+                    const nextSlide = slides[nextIndex];
 
-            nextSlide.classList.remove('out-left', 'out-right');
-            nextSlide.classList.add('active');
+                    currentSlide.classList.remove('active');
+                    currentSlide.classList.add(direction === 'left' ? 'out-left' : 'out-right');
 
-            setTimeout(() => {
-                currentSlide.classList.remove('out-left', 'out-right');
-            }, 800);
+                    nextSlide.classList.remove('out-left', 'out-right');
+                    nextSlide.classList.add('active');
 
-            currentIndex = nextIndex;
-            }
+                    setTimeout(() => {
+                        currentSlide.classList.remove('out-left', 'out-right');
+                    }, 800);
 
-            // Show next or previous
-            function showNextSlide() {
-            const nextIndex = (currentIndex + 1) % slides.length;
-            transitionSlide(nextIndex, 'left');
-            }
-
-            function showPrevSlide() {
-            const prevIndex = (currentIndex - 1 + slides.length) % slides.length;
-            transitionSlide(prevIndex, 'right');
-            }
-
-            // Button Events
-            nextBtn.addEventListener('click', () => {
-            clearInterval(slideInterval);
-            showNextSlide();
-            slideInterval = setInterval(showNextSlide, 3000);
-            });
-
-            prevBtn.addEventListener('click', () => {
-            clearInterval(slideInterval);
-            showPrevSlide();
-            slideInterval = setInterval(showNextSlide, 3000);
-            });
-
-            // Swipe Support
-            let touchStartX = 0;
-
-            document.getElementById('carousel').addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-            }, false);
-
-            document.getElementById('carousel').addEventListener('touchend', (e) => {
-            const touchEndX = e.changedTouches[0].screenX;
-            const diff = touchStartX - touchEndX;
-
-            if (Math.abs(diff) > 50) {
-                clearInterval(slideInterval);
-                if (diff > 0) {
-                showNextSlide(); // swipe left
-                } else {
-                showPrevSlide(); // swipe right
+                    currentIndex = nextIndex;
                 }
-                slideInterval = setInterval(showNextSlide, 3000);
-            }
-            }, false);
-            content.classList.remove('loading');
+
+                function showNextSlide() {
+                    const nextIndex = (currentIndex + 1) % slides.length;
+                    transitionSlide(nextIndex, 'left');
+                }
+
+                function showPrevSlide() {
+                    const prevIndex = (currentIndex - 1 + slides.length) % slides.length;
+                    transitionSlide(prevIndex, 'right');
+                }
+
+                nextBtn.addEventListener('click', () => {
+                    clearInterval(slideInterval);
+                    showNextSlide();
+                    slideInterval = setInterval(showNextSlide, 3000);
+                });
+
+                prevBtn.addEventListener('click', () => {
+                    clearInterval(slideInterval);
+                    showPrevSlide();
+                    slideInterval = setInterval(showNextSlide, 3000);
+                });
+
+                let touchStartX = 0;
+
+                document.getElementById('carousel').addEventListener('touchstart', (e) => {
+                    touchStartX = e.changedTouches[0].screenX;
+                }, false);
+
+                document.getElementById('carousel').addEventListener('touchend', (e) => {
+                    const touchEndX = e.changedTouches[0].screenX;
+                    const diff = touchStartX - touchEndX;
+
+                    if (Math.abs(diff) > 50) {
+                        clearInterval(slideInterval);
+                        if (diff > 0) {
+                        showNextSlide(); // swipe left
+                        } else {
+                        showPrevSlide(); // swipe right
+                        }
+                        slideInterval = setInterval(showNextSlide, 3000);
+                    }
+                }, false);
+                content.style.height = "fit-content";
+                content.style.minHeight = "60vh";
+                content.classList.remove('loading');
             }, 200);
         })
         .catch(error => {
@@ -139,7 +138,7 @@ const toHome = () => {
         });
 };
 
-//window.onload = toHome;
+window.onload = toHome;
 homeBtn.addEventListener("click", toHome);
 logoDiv.addEventListener("click", toHome);
 hamHome.addEventListener("click", toHome);
@@ -156,7 +155,8 @@ const toAbout = () => {
         })
         .then(data => {
             setTimeout(() => {
-            content.style.height = "60vh";
+            content.style.height = "fit-content";
+            content.style.minHeight = "60vh";
             content.className = 'about';
             content.innerHTML = data;
             content.classList.remove('loading');
@@ -222,6 +222,7 @@ const toPortfolio = () => {
                     portfolioDiv.appendChild(projectDiv);
                 });
                 content.style.height = "fit-content";
+                content.style.minHeight = "60vh";
                 content.classList.remove('loading');
             }, 200);
         })
@@ -233,14 +234,28 @@ const toPortfolio = () => {
 portfolioBtn.addEventListener("click", toPortfolio);
 hamPortfolio.addEventListener("click", toPortfolio);
 
-hamMenuBtn.addEventListener("click", () => {
-  hamMenu.classList.toggle("active");
-  if (hamMenu.classList.contains("active")) {
-    hamMenuBtn.style.color = "#E6C068";
-  } else {
-    hamMenuBtn.style.color = "white";
-  }
+hamMenuBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    hamMenu.classList.toggle("active");
+
+    if (hamMenu.classList.contains("active")) {
+        hamMenuBtn.style.color = "#E6C068";
+    } else {
+        hamMenuBtn.style.color = "white";
+    }
 });
+
+document.addEventListener("click", (e) => {
+    if (hamMenu.classList.contains("active") && !hamMenu.contains(e.target) && e.target !== hamMenuBtn) {
+        hamMenu.classList.remove("active");
+        hamMenuBtn.style.color = "white";
+    }
+});
+
+hamMenu.addEventListener("click", (e) => {
+    e.stopPropagation();
+});
+    
 
 const overlayButtons = document.querySelectorAll(".overlay-btns");
 
@@ -286,6 +301,28 @@ const toRates = () => {
 ratesBtn.addEventListener("click", toRates);
 hamRates.addEventListener("click", toRates);
 
-const toContact = () => {};
+const toContact = () => {
+    content.classList.add('loading');
+    fetch("Pages/contact.txt")
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Network response was not ok: " + response.statusText);
+        }
+        return response.text();
+    })
+    .then(data => {
+        setTimeout(() => {
+            content.className = 'contact';
+            content.innerHTML = data;
+            content.style.height = "fit-content";
+            content.style.minHeight = "60vh";
+            content.classList.remove('loading');
+        }, 200);
+    })
+    .catch(error => {
+        console.error('Error loading the text file:', error);
+    });
+};
 
-
+contactBtn.addEventListener("click", toContact);
+hamContact.addEventListener("click", toContact);

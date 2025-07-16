@@ -66,6 +66,7 @@
         height: 60vh;
         width: 100%;
         margin-top: 20vh;
+        margin-bottom: 3vh;
     }
 
     #menu-overlay {
@@ -80,7 +81,7 @@
         flex-flow: column wrap;
         justify-content: space-between;
         box-shadow:  0 0 50px 25px #00000099;
-        z-index: 3;
+        z-index: 10;
         
     }
 
@@ -88,7 +89,6 @@
         list-style: none;
         margin: 0;
         padding: 0;
-        z-index: 4;
         position: relative;
     }
 
@@ -114,7 +114,7 @@
         background: none;
         border: none;
         color: #E6C068;
-        margin:1vh auto;
+        margin: 1vh auto;
         display: flex;
     }
 
@@ -203,17 +203,16 @@
     /* FOCUS *//* FOCUS *//* FOCUS *//* FOCUS *//* FOCUS *//* FOCUS *//* FOCUS *//* FOCUS *//* FOCUS */
 
     #licensing {
-        height: 10vh;
+        height: fit-content;
         width: 100vw;
-        margin: 0 auto;
         display: flex;
-        justify-content: center;
         background-color: #E6C068;
+        padding: 20px 0;
     }
 
     #licensing p {
         text-align: center;
-        margin: auto;
+        margin: auto 10px;
         font-size: 0.7rem;
         color: black;
         font-family: Arial, Helvetica, sans-serif;
@@ -477,6 +476,7 @@
 
 
 @media (min-width: 1025px) {
+/*
     #header-div {
         height: 28%;
         width: 100%;
@@ -554,7 +554,8 @@
         display: none;
     }
 
-    /* HOME */
+    HOME
+
     .home {
         border-top: 1px solid black;
         background: linear-gradient(black, white);
@@ -563,7 +564,6 @@
         margin: 0 auto;
     }
 
-    /* REMOVED FOR MOBILE TESTING CLARITY
     #slideshow-div {
         position: relative;
         width: 90%;
@@ -579,7 +579,7 @@
         width: 100%;
         object-fit: cover;       
     }
-    */
+
 
     .vignette-overlay {
         position: absolute;
@@ -607,7 +607,8 @@
         color: black;
     }
 
-    /* ABOUT */
+    ABOUT 
+
     .about {
         border-top: 1px solid black;
         background: linear-gradient(black, white);
@@ -660,7 +661,7 @@
         font-family: Arial, Helvetica, sans-serif;
         color: black;
     }
-
+*/
 }
 
 html, body {
