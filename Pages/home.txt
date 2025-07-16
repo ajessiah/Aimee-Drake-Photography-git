@@ -1,3 +1,7 @@
+<div id="page-title">
+  <p>WELCOME</p>
+  <div class="underline"></div>
+</div>
 <div id="slideshow-div" class="carousel">
   <img class="slide active" src="Photos/290 Liberty/Twilight Ext 1.jpg" alt="Slide 1">
   <img class="slide" src="Photos/843 Monte Vista/Backyard 1.jpg" alt="Slide 2">

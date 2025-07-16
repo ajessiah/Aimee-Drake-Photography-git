@@ -73,14 +73,35 @@ const toHome = () => {
                     const currentSlide = slides[currentIndex];
                     const nextSlide = slides[nextIndex];
 
-                    currentSlide.classList.remove('active');
-                    currentSlide.classList.add(direction === 'left' ? 'out-left' : 'out-right');
+                    nextSlide.classList.remove('active', 'out-left', 'out-right');
+                    nextSlide.style.transition = 'none';
+                    nextSlide.style.transform = direction === 'left' ? 'translateX(100%)' : 'translateX(-100%)';
+                    nextSlide.style.opacity = '1'; 
+                    nextSlide.style.zIndex = '2';
 
-                    nextSlide.classList.remove('out-left', 'out-right');
-                    nextSlide.classList.add('active');
+                    void nextSlide.offsetWidth;
+
+                    nextSlide.style.transition = 'transform 0.8s ease-in-out, opacity 0.8s ease-in-out';
+                    nextSlide.style.transform = 'translateX(0)';
+
+                    currentSlide.style.transition = 'transform 0.8s ease-in-out, opacity 0.8s ease-in-out';
+                    currentSlide.style.transform = direction === 'left' ? 'translateX(-100%)' : 'translateX(100%)';
+                    currentSlide.style.opacity = '0';
+                    currentSlide.style.zIndex = '1';
 
                     setTimeout(() => {
-                        currentSlide.classList.remove('out-left', 'out-right');
+                        currentSlide.classList.remove('active');
+                        nextSlide.classList.add('active');
+
+                        currentSlide.style.transition = '';
+                        currentSlide.style.transform = '';
+                        currentSlide.style.opacity = '';
+                        currentSlide.style.zIndex = '';
+
+                        nextSlide.style.transition = '';
+                        nextSlide.style.transform = '';
+                        nextSlide.style.opacity = '';
+                        nextSlide.style.zIndex = '';
                     }, 800);
 
                     currentIndex = nextIndex;
