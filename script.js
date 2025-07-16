@@ -164,7 +164,6 @@ homeBtn.addEventListener("click", toHome);
 logoDiv.addEventListener("click", toHome);
 hamHome.addEventListener("click", toHome);
 
-
 const toAbout = () => {
     content.classList.add('loading');
     fetch("Pages/about.txt")
@@ -206,7 +205,7 @@ const toPortfolio = () => {
                 content.innerHTML = data;
 
                 const portfolioDiv = document.getElementById('portfolio-container');
-                const allProjects = []; 
+                const allProjects = [];
 
                 allImgs.forEach((project) => {
                     const projectDiv = document.createElement("div");
@@ -216,32 +215,86 @@ const toPortfolio = () => {
                     projectLink.textContent = project.name;
                     projectLink.classList.add("project-btn");
 
+                    // Create image container (slideshow wrapper)
                     const imgContainer = document.createElement("div");
                     imgContainer.classList.add("project-content", "hidden");
 
-                    project.gallery.forEach(imagePath => {
-                    const img = document.createElement("img");
-                    img.src = imagePath;
-                    img.alt = project.name;
-                    img.classList.add("project-img");
-                    imgContainer.appendChild(img);
+                    const slideshow = document.createElement("div");
+                    slideshow.classList.add("slideshow");
+
+                    // Image elements
+                    const imgElements = project.gallery.map((imagePath, index) => {
+                        const img = document.createElement("img");
+                        img.src = imagePath;
+                        img.alt = project.name;
+                        img.classList.add("project-img");
+                        if (index !== 0) img.style.display = "none"; // Show only the first image
+                        return img;
+                    });
+
+                    imgElements.forEach(img => slideshow.appendChild(img));
+                    imgContainer.appendChild(slideshow);
+
+                    // Nav buttons
+                    const prevBtn = document.createElement("button");
+                    prevBtn.textContent = "‹";
+                    prevBtn.classList.add("slideshow-nav", "prev");
+
+                    const nextBtn = document.createElement("button");
+                    nextBtn.textContent = "›";
+                    nextBtn.classList.add("slideshow-nav", "next");
+
+                    imgContainer.appendChild(prevBtn);
+                    imgContainer.appendChild(nextBtn);
+
+                    let currentIndex = 0;
+
+                    const showImage = (index) => {
+                        imgElements.forEach((img, i) => {
+                            img.style.display = i === index ? "block" : "none";
+                        });
+                    };
+
+                    prevBtn.addEventListener("click", (e) => {
+                        e.stopPropagation();
+                        currentIndex = (currentIndex - 1 + imgElements.length) % imgElements.length;
+                        showImage(currentIndex);
+                    });
+
+                    nextBtn.addEventListener("click", (e) => {
+                        e.stopPropagation();
+                        currentIndex = (currentIndex + 1) % imgElements.length;
+                        showImage(currentIndex);
                     });
 
                     allProjects.push(imgContainer);
 
                     projectLink.addEventListener("click", () => {
-                    allProjects.forEach(container => {
-                        if (container !== imgContainer) {
-                        container.classList.add("hidden"); 
+                        allProjects.forEach(container => {
+                            const link = container.previousElementSibling;
+                            if (container !== imgContainer) {
+                                container.classList.add("hidden");
+                                if (link) link.classList.remove("open");
+                            }
+                        });
+
+                        const isHidden = imgContainer.classList.contains("hidden");
+                        imgContainer.classList.toggle("hidden");
+
+                        if (isHidden) {
+                            projectLink.classList.add("open");
+                            showImage(0); // Reset to first image on open
+                            currentIndex = 0;
+                        } else {
+                            projectLink.classList.remove("open");
                         }
-                    });
-                    imgContainer.classList.toggle("hidden"); 
                     });
 
                     projectDiv.appendChild(projectLink);
                     projectDiv.appendChild(imgContainer);
                     portfolioDiv.appendChild(projectDiv);
                 });
+
                 content.style.height = "fit-content";
                 content.style.minHeight = "60vh";
                 content.classList.remove('loading');
@@ -254,37 +307,6 @@ const toPortfolio = () => {
 
 portfolioBtn.addEventListener("click", toPortfolio);
 hamPortfolio.addEventListener("click", toPortfolio);
-
-hamMenuBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    hamMenu.classList.toggle("active");
-
-    if (hamMenu.classList.contains("active")) {
-        hamMenuBtn.style.color = "#E6C068";
-    } else {
-        hamMenuBtn.style.color = "white";
-    }
-});
-
-document.addEventListener("click", (e) => {
-    if (hamMenu.classList.contains("active") && !hamMenu.contains(e.target) && e.target !== hamMenuBtn) {
-        hamMenu.classList.remove("active");
-        hamMenuBtn.style.color = "white";
-    }
-});
-
-hamMenu.addEventListener("click", (e) => {
-    e.stopPropagation();
-});
-    
-const overlayButtons = document.querySelectorAll(".overlay-btns");
-
-overlayButtons.forEach(button => {
-  button.addEventListener("click", () => {
-    hamMenu.classList.remove("active");
-    hamMenuBtn.style.color = "white";
-  });
-});
 
 const toRates = () => {
     content.classList.add('loading');
@@ -347,3 +369,34 @@ const toContact = () => {
 
 contactBtn.addEventListener("click", toContact);
 hamContact.addEventListener("click", toContact);
+
+hamMenuBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    hamMenu.classList.toggle("active");
+
+    if (hamMenu.classList.contains("active")) {
+        hamMenuBtn.style.color = "#E6C068";
+    } else {
+        hamMenuBtn.style.color = "white";
+    }
+});
+
+document.addEventListener("click", (e) => {
+    if (hamMenu.classList.contains("active") && !hamMenu.contains(e.target) && e.target !== hamMenuBtn) {
+        hamMenu.classList.remove("active");
+        hamMenuBtn.style.color = "white";
+    }
+});
+
+hamMenu.addEventListener("click", (e) => {
+    e.stopPropagation();
+});
+    
+const overlayButtons = document.querySelectorAll(".overlay-btns");
+
+overlayButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    hamMenu.classList.remove("active");
+    hamMenuBtn.style.color = "white";
+  });
+});
