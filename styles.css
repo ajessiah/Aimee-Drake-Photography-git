@@ -179,7 +179,7 @@
         border: none;
         border-radius: 50px;
         font-size: 2rem;
-        padding: 0.4rem 1.4rem 0.6rem 1.3rem;
+        padding: 0.4rem 1rem 0.6rem 0.9rem;
         cursor: pointer;
         z-index: 3;
     }
@@ -371,6 +371,7 @@
         width: 100%;
         height: auto;
     }
+
     /* CONTACT */
     form {
         color: white;
