@@ -5,7 +5,7 @@
       <div id="rates-summary">
         <button id="tier-one-rates" class="dropdown-btn">Up to 2500 sqft</button>
         <div id="tier-one-dropdown" class="dropdown-content hidden">
-	  <img src="Photos/843 Monte Vista/Twilight Ext 1.jpg" alt="House Exterior at Sunset"><img>
+	  <img src="Photos/843 Monte Vista/Twilight Ext 01.jpg" alt="House Exterior at Sunset"><img>
           <p class='emp'>$299</p>
           <p>Includes:</p>
           <ul>

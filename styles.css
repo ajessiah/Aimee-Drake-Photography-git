@@ -421,7 +421,7 @@
     }
 
     .visible {
-    display: block;
+        display: block;
     }
 
     .open {
@@ -622,8 +622,9 @@
     #email-input {
         display: none;
         height: 25px;
-        width: 200px;
-        text-align: center;
+        width: 170px;
+        padding-left: 8px;
+        border: none;
     }
 
     button[type="submit"] {

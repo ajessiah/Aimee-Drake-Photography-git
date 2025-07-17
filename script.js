@@ -420,6 +420,36 @@ const toContact = () => {
         setTimeout(() => {
             content.className = 'contact';
             content.innerHTML = data;
+            const dropdownBtn = document.getElementById('contact-form-btn');
+            const dropdownContent = document.getElementById('contact-form');
+            dropdownContent.classList.add("hidden");
+
+            dropdownBtn.addEventListener("click", () => {
+                dropdownContent.classList.toggle("hidden");
+
+                if(!dropdownContent.classList.contains("hidden")) {
+                                const phoneRadio = document.getElementById("pref-phone");
+            const emailRadio = document.getElementById("pref-email");
+            const phoneInput = document.getElementById("phone-input");
+            const emailInput = document.getElementById("email-input");
+
+            function toggleContactInput() {
+                if (phoneRadio.checked) {
+                phoneInput.style.display = "block";
+                emailInput.style.display = "none";
+                } else if (emailRadio.checked) {
+                emailInput.style.display = "block";
+                phoneInput.style.display = "none";
+                }
+            }
+
+            phoneRadio.addEventListener("change", toggleContactInput);
+            emailRadio.addEventListener("change", toggleContactInput);
+                }
+            })
+
+
+
             content.style.height = "fit-content";
             content.style.minHeight = "60vh";
             content.classList.remove('loading');
