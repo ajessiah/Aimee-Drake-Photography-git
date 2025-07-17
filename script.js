@@ -17,6 +17,53 @@ const header = document.getElementById('header-div');
 
 const allImgs = 
 [
+    "Photos/Featured/23ValleyView_05.jpg",
+    "Photos/Featured/23ValleyView_11.jpg",
+    "Photos/Featured/23ValleyView_16.jpg",
+    "Photos/Featured/23ValleyView_30.jpg",
+    "Photos/Featured/23ValleyViewAerials_10.jpg",
+    "Photos/Featured/23ValleyViewAerials_15.jpg",
+    "Photos/Featured/290LibertyRd_27.jpg",
+    "Photos/Featured/290LibertyRd_31.jpg",
+    "Photos/Featured/290LibertyRd.Aerials_06.jpg",
+    "Photos/Featured/290LibertyRd.Aerials_07.jpg",
+    "Photos/Featured/290LibertyRd.Aerials_09.jpg",
+    "Photos/Featured/843MonteVista_07.jpg",
+    "Photos/Featured/843MonteVista_12.jpg",
+    "Photos/Featured/843MonteVista_16.jpg",
+    "Photos/Featured/843MonteVista_27.jpg",
+    "Photos/Featured/843MonteVista_34.jpg",
+    "Photos/Featured/843MonteVista_35.jpg",
+    "Photos/Featured/843MonteVista_38.jpg",
+    "Photos/Featured/843MonteVista_46.jpg",
+    "Photos/Featured/843MonteVista_52.jpg",
+    "Photos/Featured/843MonteVista_59.jpg",
+    "Photos/Featured/Aerial 1.jpg",
+    "Photos/Featured/Backyard 1.jpg",
+    "Photos/Featured/Bathroom 1.jpg",
+    "Photos/Featured/Bathroom 01.jpg",
+    "Photos/Featured/Bathroom.jpg",
+    "Photos/Featured/Bedroom 1.jpg",
+    "Photos/Featured/Dining Room 1.jpg",
+    "Photos/Featured/Dining Room 01.jpg",
+    "Photos/Featured/Exterior 1.jpg",
+    "Photos/Featured/Fire Pit 1.jpg",
+    "Photos/Featured/Fire Pit.jpg",
+    "Photos/Featured/Kitchen 1.jpg",
+    "Photos/Featured/Kitchen 01.jpg",
+    "Photos/Featured/Kitchen 001.jpg",
+    "Photos/Featured/Kitchen 3.jpg",
+    "Photos/Featured/Living Room 1.jpg",
+    "Photos/Featured/Living Room 01.jpg",
+    "Photos/Featured/Living Room 2.jpg",
+    "Photos/Featured/Living Room 3.jpg",
+    "Photos/Featured/Sun Room 1.jpg",
+    "Photos/Featured/Sun Room 3.jpg",
+    "Photos/Featured/Twilight Ext 1.jpg",
+    "Photos/Featured/Twilight Ext 01.jpg",
+    "Photos/Featured/Twilight Ext 2.jpg",
+    "Photos/Featured/Twilight Ext.jpg"
+    /*
     {
         name: "23 Valley View",
         gallery: [
@@ -47,6 +94,7 @@ const allImgs =
             "Photos/843 Monte Vista/Exterior 1.jpg"
         ]
     }
+        */
 ];
 
 const toHome = () => {
@@ -159,7 +207,7 @@ const toHome = () => {
         });
 };
 
-window.onload = toHome;
+//window.onload = toHome;
 homeBtn.addEventListener("click", toHome);
 logoDiv.addEventListener("click", toHome);
 hamHome.addEventListener("click", toHome);
@@ -205,6 +253,21 @@ const toPortfolio = () => {
                 content.innerHTML = data;
 
                 const portfolioDiv = document.getElementById('portfolio-container');
+
+                allImgs.forEach((image) => {
+                    const imgContainer = document.createElement("div");
+                    imgContainer.classList.add("img-frame");
+
+                    const portfolioImg = document.createElement("img");
+                    portfolioImg.src = image;
+                    portfolioImg.alt = image;
+                    portfolioImg.classList.add("portfolio-img");
+
+                    imgContainer.appendChild(portfolioImg);
+                    portfolioDiv.appendChild(imgContainer);
+                })
+                /* TESTING */
+                /*
                 const allProjects = [];
 
                 allImgs.forEach((project) => {
@@ -294,7 +357,7 @@ const toPortfolio = () => {
                     projectDiv.appendChild(imgContainer);
                     portfolioDiv.appendChild(projectDiv);
                 });
-
+                */
                 content.style.height = "fit-content";
                 content.style.minHeight = "60vh";
                 content.classList.remove('loading');
@@ -304,7 +367,7 @@ const toPortfolio = () => {
             console.error('Error loading the text file:', error);
         });
 };
-
+toPortfolio();
 portfolioBtn.addEventListener("click", toPortfolio);
 hamPortfolio.addEventListener("click", toPortfolio);
 

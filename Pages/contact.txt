@@ -2,6 +2,11 @@
       <p>CONTACT</p>
       <div class="underline"></div>
     </div>
+    <div id="contact-btns">
+      <button type="button"><i class="fa-solid fa-phone" style="color: #e6c068;"></i>503.528.6244</button>
+      <button type="button"><i class="fa-solid fa-envelope" style="color: #e6c068;"></i>aimee@aimeedrake.com</button>
+    </div>
+    <button id="contact-form" class="contact-form-btn">Get a Quote</button>
     <form action="#" method="post">
       <fieldset id="contact-name">
         <p>Your Name</p>
