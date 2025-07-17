@@ -207,7 +207,7 @@ const toHome = () => {
         });
 };
 
-//window.onload = toHome;
+window.onload = toHome;
 homeBtn.addEventListener("click", toHome);
 logoDiv.addEventListener("click", toHome);
 hamHome.addEventListener("click", toHome);
@@ -367,7 +367,7 @@ const toPortfolio = () => {
             console.error('Error loading the text file:', error);
         });
 };
-toPortfolio();
+
 portfolioBtn.addEventListener("click", toPortfolio);
 hamPortfolio.addEventListener("click", toPortfolio);
 
