@@ -197,8 +197,6 @@ const toHome = () => {
                         slideInterval = setInterval(showNextSlide, 3000);
                     }
                 }, false);
-                content.style.height = "fit-content";
-                content.style.minHeight = "60vh";
                 content.classList.remove('loading');
             }, 200);
         })
@@ -223,8 +221,6 @@ const toAbout = () => {
         })
         .then(data => {
             setTimeout(() => {
-            content.style.height = "fit-content";
-            content.style.minHeight = "60vh";
             content.className = 'about';
             content.innerHTML = data;
             content.classList.remove('loading');
@@ -358,8 +354,6 @@ const toPortfolio = () => {
                     portfolioDiv.appendChild(projectDiv);
                 });
                 */
-                content.style.height = "fit-content";
-                content.style.minHeight = "60vh";
                 content.classList.remove('loading');
             }, 200);
         })
@@ -394,8 +388,6 @@ const toRates = () => {
                     button.classList.toggle("open");
                 })
             })
-            content.style.height = "fit-content";
-            content.style.minHeight = "60vh";
             content.classList.remove('loading');
         }, 200);
     })
@@ -428,30 +420,25 @@ const toContact = () => {
                 dropdownContent.classList.toggle("hidden");
 
                 if(!dropdownContent.classList.contains("hidden")) {
-                                const phoneRadio = document.getElementById("pref-phone");
-            const emailRadio = document.getElementById("pref-email");
-            const phoneInput = document.getElementById("phone-input");
-            const emailInput = document.getElementById("email-input");
+                    const phoneRadio = document.getElementById("pref-phone");
+                    const emailRadio = document.getElementById("pref-email");
+                    const phoneInput = document.getElementById("phone-input");
+                    const emailInput = document.getElementById("email-input");
 
-            function toggleContactInput() {
-                if (phoneRadio.checked) {
-                phoneInput.style.display = "block";
-                emailInput.style.display = "none";
-                } else if (emailRadio.checked) {
-                emailInput.style.display = "block";
-                phoneInput.style.display = "none";
-                }
-            }
+                    function toggleContactInput() {
+                        if (phoneRadio.checked) {
+                        phoneInput.style.display = "block";
+                        emailInput.style.display = "none";
+                        } else if (emailRadio.checked) {
+                        emailInput.style.display = "block";
+                        phoneInput.style.display = "none";
+                        }
+                    }
 
-            phoneRadio.addEventListener("change", toggleContactInput);
-            emailRadio.addEventListener("change", toggleContactInput);
+                    phoneRadio.addEventListener("change", toggleContactInput);
+                    emailRadio.addEventListener("change", toggleContactInput);
                 }
             })
-
-
-
-            content.style.height = "fit-content";
-            content.style.minHeight = "60vh";
             content.classList.remove('loading');
         }, 200);
     })
