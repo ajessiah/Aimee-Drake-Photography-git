@@ -3,14 +3,30 @@
   <div class="underline"></div>
 </div>
 <div id="slideshow-div" class="carousel">
-  <img class="slide active" src="Photos/290 Liberty/Twilight Ext 1.jpg" alt="Slide 1">
-  <img class="slide" src="Photos/843 Monte Vista/Backyard 1.jpg" alt="Slide 2">
-  <img class="slide" src="Photos/290 Liberty/Living Room 3.jpg" alt="Slide 3">
-  <img class="slide" src="Photos/23 Valley View/Sun Room 1.jpg" alt="Slide 4">
-  <img class="slide" src="Photos/23 Valley View/Kitchen 1.jpg" alt="Slide 5">
-  <img class="slide" src="Photos/290 Liberty/Dining Room 1.jpg" alt="Slide 6">
-  <img class="slide" src="Photos/843 Monte Vista/Kitchen 1.jpg" alt="Slide 7">
+  <img class="slide active" src="Photos/Featured/Sun Room 1.jpg" alt="Slide 1">
+  <img class="slide" src="Photos/Featured/Twilight Ext 01.jpg" alt="Slide 2">
+  <img class="slide" src="Photos/Featured/Dining Room 1.jpg" alt="Slide 3">
+  <img class="slide" src="Photos/Featured/Kitchen 01.jpg" alt="Slide 4">
+  <img class="slide" src="Photos/Featured/Backyard 1.jpg" alt="Slide 5">
+  <img class="slide" src="Photos/Featured/Aerial 1.jpg" alt="Slide 6">
+  <img class="slide" src="Photos/Featured/Twilight Ext.jpg" alt="Slide 7">
+  <img class="slide" src="Photos/Featured/23ValleyView_16.jpg" alt="Slide 8">
+  <img class="slide" src="Photos/Featured/23ValleyView_11.jpg" alt="Slide 9">
+
+  <img class="slide" src="Photos/Featured/Living Room 01.jpg" alt="Slide 10">
+  <img class="slide" src="Photos/Featured/Living Room 2.jpg" alt="Slide 11">
 
   <button class="nav prev">&#10094;</button>
   <button class="nav next">&#10095;</button>
 </div>
+
+
+<!-- 
+290 Liberty/Twilight Ext 1.jpg
+843 Monte Vista/Backyard 1.jpg
+290 Liberty/Living Room 3.jpg
+23 Valley View/Sun Room 1.jpg
+23 Valley View/Kitchen 1.jpg
+290 Liberty/Dining Room 1.jpg
+843 Monte Vista/Kitchen 1.jpg
+"C:\Users\jessi\OneDrive\Documents\dev\Aimee Drake Photography\Photos\Featured\Bathroom.jpg"-->

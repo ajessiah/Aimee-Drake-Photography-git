@@ -48,10 +48,6 @@
           <ul>
             <li><span class='price'>$49</span>  5 Drone Photos</li>
             <li><span class='price'>$49</span>  30sec Drone Video</li>
-            <li><span class='price'>$29</span>  Virtual Walkthrough Video</li>
-            <li><span class='price'>$39</span>  Virtual Staging</li>
-            <li><span class='price'>$49</span>  Agent Walkthrough Video</li>
-            <li><span class='price'>$39</span>  Online Hosting for Gallery/Slideshow/Video</li>
           </ul>
         </div>
       </div>

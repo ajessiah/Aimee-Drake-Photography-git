@@ -159,7 +159,7 @@ const toHome = () => {
         });
 };
 
-//window.onload = toHome;
+window.onload = toHome;
 homeBtn.addEventListener("click", toHome);
 logoDiv.addEventListener("click", toHome);
 hamHome.addEventListener("click", toHome);
@@ -400,5 +400,3 @@ overlayButtons.forEach(button => {
     hamMenuBtn.style.color = "white";
   });
 });
-
-toRates();
