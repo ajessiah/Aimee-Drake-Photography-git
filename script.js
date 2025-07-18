@@ -263,117 +263,136 @@ const toPortfolio = () => {
                         top: 0,
                         behavior: "smooth"
                     });
+                requestAnimationFrame(() => {
+                    const portfolioDiv = document.getElementById('portfolio-container');
 
-                const portfolioDiv = document.getElementById('portfolio-container');
-                if (portfolioDiv) {
-                    allImgs.forEach((image) => {
-                        const imgContainer = document.createElement("div");
-                        imgContainer.classList.add("img-frame");
+                        if (portfolioDiv) {
+                        allImgs.forEach((image, i) => {
+                            const imgContainer = document.createElement("div");
+                            imgContainer.classList.add("img-frame");
 
-                        const portfolioImg = document.createElement("img");
-                        portfolioImg.src = image;
-                        portfolioImg.alt = image;
-                        portfolioImg.classList.add("portfolio-img");
+                            const portfolioImg = document.createElement("img");
+                            portfolioImg.setAttribute('data-src', image);
+                            portfolioImg.classList.add('lazy');
+                            portfolioImg.classList.add("portfolio-img");
+                            portfolioImg.setAttribute('alt', `Portfolio image ${i + 1}`);
 
-                        imgContainer.appendChild(portfolioImg);
-                        portfolioDiv.appendChild(imgContainer);
-                    })
-                };
-                /* TESTING */
-                /*
-                const allProjects = [];
 
-                allImgs.forEach((project) => {
-                    const projectDiv = document.createElement("div");
-                    projectDiv.classList.add("project-div");
+                            imgContainer.appendChild(portfolioImg);
+                            portfolioDiv.appendChild(imgContainer);
+                        })
 
-                    const projectLink = document.createElement("button");
-                    projectLink.textContent = project.name;
-                    projectLink.classList.add("project-btn");
-
-                    // Create image container (slideshow wrapper)
-                    const imgContainer = document.createElement("div");
-                    imgContainer.classList.add("project-content", "hidden");
-
-                    const slideshow = document.createElement("div");
-                    slideshow.classList.add("slideshow");
-
-                    // Image elements
-                    const imgElements = project.gallery.map((imagePath, index) => {
-                        const img = document.createElement("img");
-                        img.src = imagePath;
-                        img.alt = project.name;
-                        img.classList.add("project-img");
-                        if (index !== 0) img.style.display = "none"; // Show only the first image
-                        return img;
-                    });
-
-                    imgElements.forEach(img => slideshow.appendChild(img));
-                    imgContainer.appendChild(slideshow);
-
-                    // Nav buttons
-                    const prevBtn = document.createElement("button");
-                    prevBtn.textContent = "‹";
-                    prevBtn.classList.add("slideshow-nav", "prev");
-
-                    const nextBtn = document.createElement("button");
-                    nextBtn.textContent = "›";
-                    nextBtn.classList.add("slideshow-nav", "next");
-
-                    imgContainer.appendChild(prevBtn);
-                    imgContainer.appendChild(nextBtn);
-
-                    let currentIndex = 0;
-
-                    const showImage = (index) => {
-                        imgElements.forEach((img, i) => {
-                            img.style.display = i === index ? "block" : "none";
+                        const observer = new IntersectionObserver((entries, obs) => {
+                            entries.forEach(entry => {
+                                if (entry.isIntersecting) {
+                                const img = entry.target;
+                                img.src = img.dataset.src;
+                                img.onload = () => {
+                                    img.classList.remove('lazy');
+                                    img.classList.add('loaded');
+                                };
+                                obs.unobserve(img);
+                                }
+                            });
+        
                         });
+                        document.querySelectorAll('img.lazy').forEach(img => observer.observe(img));
                     };
+                    /* TESTING */
+                    /*
+                    const allProjects = [];
 
-                    prevBtn.addEventListener("click", (e) => {
-                        e.stopPropagation();
-                        currentIndex = (currentIndex - 1 + imgElements.length) % imgElements.length;
-                        showImage(currentIndex);
-                    });
+                    allImgs.forEach((project) => {
+                        const projectDiv = document.createElement("div");
+                        projectDiv.classList.add("project-div");
 
-                    nextBtn.addEventListener("click", (e) => {
-                        e.stopPropagation();
-                        currentIndex = (currentIndex + 1) % imgElements.length;
-                        showImage(currentIndex);
-                    });
+                        const projectLink = document.createElement("button");
+                        projectLink.textContent = project.name;
+                        projectLink.classList.add("project-btn");
 
-                    allProjects.push(imgContainer);
+                        // Create image container (slideshow wrapper)
+                        const imgContainer = document.createElement("div");
+                        imgContainer.classList.add("project-content", "hidden");
 
-                    projectLink.addEventListener("click", () => {
-                        allProjects.forEach(container => {
-                            const link = container.previousElementSibling;
-                            if (container !== imgContainer) {
-                                container.classList.add("hidden");
-                                if (link) link.classList.remove("open");
+                        const slideshow = document.createElement("div");
+                        slideshow.classList.add("slideshow");
+
+                        // Image elements
+                        const imgElements = project.gallery.map((imagePath, index) => {
+                            const img = document.createElement("img");
+                            img.src = imagePath;
+                            img.alt = project.name;
+                            img.classList.add("project-img");
+                            if (index !== 0) img.style.display = "none"; // Show only the first image
+                            return img;
+                        });
+
+                        imgElements.forEach(img => slideshow.appendChild(img));
+                        imgContainer.appendChild(slideshow);
+
+                        // Nav buttons
+                        const prevBtn = document.createElement("button");
+                        prevBtn.textContent = "‹";
+                        prevBtn.classList.add("slideshow-nav", "prev");
+
+                        const nextBtn = document.createElement("button");
+                        nextBtn.textContent = "›";
+                        nextBtn.classList.add("slideshow-nav", "next");
+
+                        imgContainer.appendChild(prevBtn);
+                        imgContainer.appendChild(nextBtn);
+
+                        let currentIndex = 0;
+
+                        const showImage = (index) => {
+                            imgElements.forEach((img, i) => {
+                                img.style.display = i === index ? "block" : "none";
+                            });
+                        };
+
+                        prevBtn.addEventListener("click", (e) => {
+                            e.stopPropagation();
+                            currentIndex = (currentIndex - 1 + imgElements.length) % imgElements.length;
+                            showImage(currentIndex);
+                        });
+
+                        nextBtn.addEventListener("click", (e) => {
+                            e.stopPropagation();
+                            currentIndex = (currentIndex + 1) % imgElements.length;
+                            showImage(currentIndex);
+                        });
+
+                        allProjects.push(imgContainer);
+
+                        projectLink.addEventListener("click", () => {
+                            allProjects.forEach(container => {
+                                const link = container.previousElementSibling;
+                                if (container !== imgContainer) {
+                                    container.classList.add("hidden");
+                                    if (link) link.classList.remove("open");
+                                }
+                            });
+
+                            const isHidden = imgContainer.classList.contains("hidden");
+                            imgContainer.classList.toggle("hidden");
+
+                            if (isHidden) {
+                                projectLink.classList.add("open");
+                                showImage(0); // Reset to first image on open
+                                currentIndex = 0;
+                            } else {
+                                projectLink.classList.remove("open");
                             }
                         });
 
-                        const isHidden = imgContainer.classList.contains("hidden");
-                        imgContainer.classList.toggle("hidden");
-
-                        if (isHidden) {
-                            projectLink.classList.add("open");
-                            showImage(0); // Reset to first image on open
-                            currentIndex = 0;
-                        } else {
-                            projectLink.classList.remove("open");
-                        }
+                        projectDiv.appendChild(projectLink);
+                        projectDiv.appendChild(imgContainer);
+                        portfolioDiv.appendChild(projectDiv);
                     });
-
-                    projectDiv.appendChild(projectLink);
-                    projectDiv.appendChild(imgContainer);
-                    portfolioDiv.appendChild(projectDiv);
-                });
-                */
-                content.classList.remove('loading');
-                window.scrollTo(0, 0);
-            }, 200);
+                    */
+                    content.classList.remove('loading');
+                }, 200);
+            });
         })
         .catch(error => {
             console.error('Error loading the text file:', error);

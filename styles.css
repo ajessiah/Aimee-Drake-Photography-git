@@ -876,6 +876,14 @@ body::-webkit-scrollbar {
   display: flex;
 }
 
+img.lazy {
+  filter: blur(10px);
+  transition: filter 0.3s;
+}
+
+img.loaded {
+  filter: blur(0);
+}
 
 /*
 #header-div {
