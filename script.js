@@ -111,6 +111,11 @@ const toHome = () => {
                 content.className = 'home';
                 content.innerHTML = data;
 
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+
                 const slides = document.querySelectorAll('.slide');
                 const prevBtn = document.querySelector('.nav.prev');
                 const nextBtn = document.querySelector('.nav.next');
@@ -223,6 +228,12 @@ const toAbout = () => {
             setTimeout(() => {
             content.className = 'about';
             content.innerHTML = data;
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
             content.classList.remove('loading');
             }, 200);
         })
@@ -248,20 +259,26 @@ const toPortfolio = () => {
                 content.className = 'portfolio';
                 content.innerHTML = data;
 
+                    window.scrollTo({
+                        top: 0,
+                        behavior: "smooth"
+                    });
+
                 const portfolioDiv = document.getElementById('portfolio-container');
+                if (portfolioDiv) {
+                    allImgs.forEach((image) => {
+                        const imgContainer = document.createElement("div");
+                        imgContainer.classList.add("img-frame");
 
-                allImgs.forEach((image) => {
-                    const imgContainer = document.createElement("div");
-                    imgContainer.classList.add("img-frame");
+                        const portfolioImg = document.createElement("img");
+                        portfolioImg.src = image;
+                        portfolioImg.alt = image;
+                        portfolioImg.classList.add("portfolio-img");
 
-                    const portfolioImg = document.createElement("img");
-                    portfolioImg.src = image;
-                    portfolioImg.alt = image;
-                    portfolioImg.classList.add("portfolio-img");
-
-                    imgContainer.appendChild(portfolioImg);
-                    portfolioDiv.appendChild(imgContainer);
-                })
+                        imgContainer.appendChild(portfolioImg);
+                        portfolioDiv.appendChild(imgContainer);
+                    })
+                };
                 /* TESTING */
                 /*
                 const allProjects = [];
@@ -355,6 +372,7 @@ const toPortfolio = () => {
                 });
                 */
                 content.classList.remove('loading');
+                window.scrollTo(0, 0);
             }, 200);
         })
         .catch(error => {
@@ -378,6 +396,12 @@ const toRates = () => {
         setTimeout(() => {
             content.className = 'rates';
             content.innerHTML = data;
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
             const dropdownBtns = document.querySelectorAll(".dropdown-btn");
             const dropdownContent = document.querySelectorAll(".dropdown-content");
 
@@ -412,6 +436,12 @@ const toContact = () => {
         setTimeout(() => {
             content.className = 'contact';
             content.innerHTML = data;
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
             const dropdownBtn = document.getElementById('contact-form-btn');
             const dropdownContent = document.getElementById('contact-form');
             dropdownContent.classList.add("hidden");
@@ -429,9 +459,13 @@ const toContact = () => {
                         if (phoneRadio.checked) {
                         phoneInput.style.display = "block";
                         emailInput.style.display = "none";
+                        phoneInput.required = true;
+                        emailInput.required = false;
                         } else if (emailRadio.checked) {
                         emailInput.style.display = "block";
                         phoneInput.style.display = "none";
+                        emailInput.required = true;
+                        phoneInput.required = false;
                         }
                     }
 
@@ -440,6 +474,7 @@ const toContact = () => {
                 }
             })
             content.classList.remove('loading');
+
         }, 200);
     })
     .catch(error => {
