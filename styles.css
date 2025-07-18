@@ -688,4 +688,9 @@ body::-webkit-scrollbar {
 
 img.lazy {
   filter: blur(10px);
-  transition: filter 
+  transition: filter 0.3s;
+}
+
+img.loaded {
+  filter: blur(0);
+}
