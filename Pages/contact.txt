@@ -3,8 +3,12 @@
       <div class="underline"></div>
     </div>
     <div id="contact-btns">
-      <button type="button"><i class="fa-solid fa-phone" style="color: #e6c068;"></i>503.528.6244</button>
-      <button type="button"><i class="fa-solid fa-envelope" style="color: #e6c068;"></i>aimee@aimeedrake.com</button>
+      <a href="tel:+15035286244">
+        <button type="button"><i class="fa-solid fa-phone" style="color: #e6c068;"></i>503.528.6244</button>
+      </a>
+      <a href="mailto:aimee@aimeedrake.com">
+        <button type="button"><i class="fa-solid fa-envelope" style="color: #e6c068;"></i>aimee@aimeedrake.com</button>
+      </a>
     </div>
     <button id="contact-form-btn" class="contact-form-btn">Get a Quote</button>
     <form action="#" method="post" id="contact-form">

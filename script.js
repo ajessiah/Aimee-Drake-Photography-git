@@ -1,3 +1,24 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+    getStorage,
+    ref,
+    uploadBytesResumable,
+    getDownloadURL,
+    listAll
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCzeqUokZe4nVbZPCaqLVkioetMEUY6M2k",
+  authDomain: "aimee-drake-photography.firebaseapp.com",
+  projectId: "aimee-drake-photography",
+  storageBucket: "aimee-drake-photography.firebasestorage.app",
+  messagingSenderId: "1044564691523",
+  appId: "1:1044564691523:web:a07dd1176339730528e2f6"
+};
+
+const app = initializeApp(firebaseConfig);
+const storage = getStorage(app);
+
 const content = document.getElementById('page-content');
 const logoDiv = document.getElementById('logo-container');
 const homeBtn = document.getElementById('home-btn');
@@ -15,202 +36,148 @@ const hamRates = document.getElementById('ham-rates-btn');
 const hamContact = document.getElementById('ham-contact-btn');
 const header = document.getElementById('header-div');
 
-const allImgs = 
-[
-    "Photos/Featured/23ValleyView_05.jpg",
-    "Photos/Featured/23ValleyView_11.jpg",
-    "Photos/Featured/23ValleyView_16.jpg",
-    "Photos/Featured/23ValleyView_30.jpg",
-    "Photos/Featured/23ValleyViewAerials_10.jpg",
-    "Photos/Featured/23ValleyViewAerials_15.jpg",
-    "Photos/Featured/290LibertyRd_27.jpg",
-    "Photos/Featured/290LibertyRd_31.jpg",
-    "Photos/Featured/290LibertyRd.Aerials_06.jpg",
-    "Photos/Featured/290LibertyRd.Aerials_07.jpg",
-    "Photos/Featured/290LibertyRd.Aerials_09.jpg",
-    "Photos/Featured/843MonteVista_07.jpg",
-    "Photos/Featured/843MonteVista_12.jpg",
-    "Photos/Featured/843MonteVista_16.jpg",
-    "Photos/Featured/843MonteVista_27.jpg",
-    "Photos/Featured/843MonteVista_34.jpg",
-    "Photos/Featured/843MonteVista_35.jpg",
-    "Photos/Featured/843MonteVista_38.jpg",
-    "Photos/Featured/843MonteVista_46.jpg",
-    "Photos/Featured/843MonteVista_52.jpg",
-    "Photos/Featured/843MonteVista_59.jpg",
-    "Photos/Featured/Aerial 1.jpg",
-    "Photos/Featured/Backyard 1.jpg",
-    "Photos/Featured/Bathroom 1.jpg",
-    "Photos/Featured/Bathroom 01.jpg",
-    "Photos/Featured/Bathroom.jpg",
-    "Photos/Featured/Bedroom 1.jpg",
-    "Photos/Featured/Dining Room 1.jpg",
-    "Photos/Featured/Dining Room 01.jpg",
-    "Photos/Featured/Exterior 1.jpg",
-    "Photos/Featured/Fire Pit 1.jpg",
-    "Photos/Featured/Fire Pit.jpg",
-    "Photos/Featured/Kitchen 1.jpg",
-    "Photos/Featured/Kitchen 01.jpg",
-    "Photos/Featured/Kitchen 001.jpg",
-    "Photos/Featured/Kitchen 3.jpg",
-    "Photos/Featured/Living Room 1.jpg",
-    "Photos/Featured/Living Room 01.jpg",
-    "Photos/Featured/Living Room 2.jpg",
-    "Photos/Featured/Living Room 3.jpg",
-    "Photos/Featured/Sun Room 1.jpg",
-    "Photos/Featured/Sun Room 3.jpg",
-    "Photos/Featured/Twilight Ext 1.jpg",
-    "Photos/Featured/Twilight Ext 01.jpg",
-    "Photos/Featured/Twilight Ext 2.jpg",
-    "Photos/Featured/Twilight Ext.jpg"
-    /*
-    {
-        name: "23 Valley View",
-        gallery: [
-            "Photos/23 Valley View/Sun Room 1.jpg", 
-            "Photos/23 Valley View/Combo 1.jpg", 
-            "Photos/23 Valley View/Bathroom.jpg", 
-            "Photos/23 Valley View/Living Room 2.jpg", 
-            "Photos/23 Valley View/Fire Pit.jpg"
-        ]
-    }, 
-    {
-        name: "290 Liberty",
-        gallery: [
-            "Photos/290 Liberty/Kitchen 1.jpg", 
-            "Photos/290 Liberty/Fire Pit 1.jpg", 
-            "Photos/290 Liberty/Bedroom 1.jpg", 
-            "Photos/290 Liberty/Bathroom 1.jpg", 
-            "Photos/290 Liberty/Living Room 2.jpg"
-        ]
-    }, 
-    {
-        name: "843 Monte Vista",
-        gallery: [
-            "Photos/843 Monte Vista/Backyard 1.jpg", 
-            "Photos/843 Monte Vista/Kitchen 1.jpg", 
-            "Photos/843 Monte Vista/Bedroom 1.jpg", 
-            "Photos/843 Monte Vista/Aerial 1.jpg", 
-            "Photos/843 Monte Vista/Exterior 1.jpg"
-        ]
-    }
-        */
-];
-
 const toHome = () => {
-    content.classList.add('loading');
-    fetch("Pages/home.txt")
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok: " + response.statusText);
+  content.classList.add('loading');
+  const carouselRef = ref(storage, 'galleries/carousel');
+
+  fetch("Pages/home.txt")
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok: " + response.statusText);
+      }
+      return response.text();
+    })
+    .then(data => {
+      setTimeout(async () => {
+        content.className = 'home';
+        content.innerHTML = data;
+
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: "smooth" });
+
+        // Load slideshow container
+        const carouselDiv = document.getElementById('carousel');
+
+        // ✅ Dynamically create slide images
+        try {
+
+            const result = await listAll(carouselRef);
+            console.log(result);
+
+            await Promise.all(result.items.map(async (itemRef, index) => {
+                const url = await getDownloadURL(itemRef);
+                const slide = document.createElement('img');
+                slide.classList.add('slide', 'lazy');
+                slide.dataset.src = url;
+                slide.alt = `Slide ${index + 1}`;
+                if (index === 0) slide.classList.add('active');
+                carouselDiv.appendChild(slide);
+            }));
+
+            const slides = document.querySelectorAll('.slide');
+
+            slides.forEach(img => {
+            const realSrc = img.dataset.src;
+            img.src = realSrc;
+            img.onload = () => {
+                img.classList.remove('lazy');
+                img.classList.add('loaded');
+            };
+            });
+
+            if (slides.length === 0) throw new Error("No slides found");
+
+            const prevBtn = document.querySelector('.nav.prev');
+            const nextBtn = document.querySelector('.nav.next');
+            let currentIndex = 0;
+            let slideInterval = setInterval(showNextSlide, 3000);
+
+            function transitionSlide(nextIndex, direction = 'left') {
+                const currentSlide = slides[currentIndex];
+                const nextSlide = slides[nextIndex];
+                if (!nextSlide || !currentSlide) return; // Safety check
+
+                nextSlide.classList.remove('active', 'out-left', 'out-right');
+                nextSlide.style.transition = 'none';
+                nextSlide.style.transform = direction === 'left' ? 'translateX(100%)' : 'translateX(-100%)';
+                nextSlide.style.opacity = '1';
+                nextSlide.style.zIndex = '2';
+
+                void nextSlide.offsetWidth;
+
+                nextSlide.style.transition = 'transform 0.8s ease-in-out, opacity 0.8s ease-in-out';
+                nextSlide.style.transform = 'translateX(0)';
+
+                currentSlide.style.transition = 'transform 0.8s ease-in-out, opacity 0.8s ease-in-out';
+                currentSlide.style.transform = direction === 'left' ? 'translateX(-100%)' : 'translateX(100%)';
+                currentSlide.style.opacity = '0';
+                currentSlide.style.zIndex = '1';
+
+                setTimeout(() => {
+                currentSlide.classList.remove('active');
+                nextSlide.classList.add('active');
+
+                currentSlide.removeAttribute('style');
+                nextSlide.removeAttribute('style');
+                }, 800);
+
+                currentIndex = nextIndex;
             }
-            return response.text();
-        })
-        .then(data => {
-            setTimeout(() => {
-                content.className = 'home';
-                content.innerHTML = data;
 
-                window.scrollTo({
-                    top: 0,
-                    behavior: "smooth"
-                });
+            function showNextSlide() {
+                const nextIndex = (currentIndex + 1) % slides.length;
+                transitionSlide(nextIndex, 'left');
+            }
 
-                const slides = document.querySelectorAll('.slide');
-                const prevBtn = document.querySelector('.nav.prev');
-                const nextBtn = document.querySelector('.nav.next');
-                let currentIndex = 0;
-                let slideInterval = setInterval(showNextSlide, 3000);
+            function showPrevSlide() {
+                const prevIndex = (currentIndex - 1 + slides.length) % slides.length;
+                transitionSlide(prevIndex, 'right');
+            }
 
-                function transitionSlide(nextIndex, direction = 'left') {
-                    const currentSlide = slides[currentIndex];
-                    const nextSlide = slides[nextIndex];
+            nextBtn.addEventListener('click', () => {
+                clearInterval(slideInterval);
+                showNextSlide();
+                slideInterval = setInterval(showNextSlide, 3000);
+            });
 
-                    nextSlide.classList.remove('active', 'out-left', 'out-right');
-                    nextSlide.style.transition = 'none';
-                    nextSlide.style.transform = direction === 'left' ? 'translateX(100%)' : 'translateX(-100%)';
-                    nextSlide.style.opacity = '1'; 
-                    nextSlide.style.zIndex = '2';
+            prevBtn.addEventListener('click', () => {
+                clearInterval(slideInterval);
+                showPrevSlide();
+                slideInterval = setInterval(showNextSlide, 3000);
+            });
 
-                    void nextSlide.offsetWidth;
+            let touchStartX = 0;
 
-                    nextSlide.style.transition = 'transform 0.8s ease-in-out, opacity 0.8s ease-in-out';
-                    nextSlide.style.transform = 'translateX(0)';
+            carouselDiv.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, false);
 
-                    currentSlide.style.transition = 'transform 0.8s ease-in-out, opacity 0.8s ease-in-out';
-                    currentSlide.style.transform = direction === 'left' ? 'translateX(-100%)' : 'translateX(100%)';
-                    currentSlide.style.opacity = '0';
-                    currentSlide.style.zIndex = '1';
+            carouselDiv.addEventListener('touchend', (e) => {
+                const touchEndX = e.changedTouches[0].screenX;
+                const diff = touchStartX - touchEndX;
 
-                    setTimeout(() => {
-                        currentSlide.classList.remove('active');
-                        nextSlide.classList.add('active');
-
-                        currentSlide.style.transition = '';
-                        currentSlide.style.transform = '';
-                        currentSlide.style.opacity = '';
-                        currentSlide.style.zIndex = '';
-
-                        nextSlide.style.transition = '';
-                        nextSlide.style.transform = '';
-                        nextSlide.style.opacity = '';
-                        nextSlide.style.zIndex = '';
-                    }, 800);
-
-                    currentIndex = nextIndex;
+                if (Math.abs(diff) > 50) {
+                clearInterval(slideInterval);
+                diff > 0 ? showNextSlide() : showPrevSlide();
+                slideInterval = setInterval(showNextSlide, 3000);
                 }
 
-                function showNextSlide() {
-                    const nextIndex = (currentIndex + 1) % slides.length;
-                    transitionSlide(nextIndex, 'left');
-                }
+            }, false);
 
-                function showPrevSlide() {
-                    const prevIndex = (currentIndex - 1 + slides.length) % slides.length;
-                    transitionSlide(prevIndex, 'right');
-                }
+        } catch (err) {
+          console.error("Error loading carousel images:", err);
+        }
 
-                nextBtn.addEventListener('click', () => {
-                    clearInterval(slideInterval);
-                    showNextSlide();
-                    slideInterval = setInterval(showNextSlide, 3000);
-                });
-
-                prevBtn.addEventListener('click', () => {
-                    clearInterval(slideInterval);
-                    showPrevSlide();
-                    slideInterval = setInterval(showNextSlide, 3000);
-                });
-
-                let touchStartX = 0;
-
-                document.getElementById('carousel').addEventListener('touchstart', (e) => {
-                    touchStartX = e.changedTouches[0].screenX;
-                }, false);
-
-                document.getElementById('carousel').addEventListener('touchend', (e) => {
-                    const touchEndX = e.changedTouches[0].screenX;
-                    const diff = touchStartX - touchEndX;
-
-                    if (Math.abs(diff) > 50) {
-                        clearInterval(slideInterval);
-                        if (diff > 0) {
-                        showNextSlide(); // swipe left
-                        } else {
-                        showPrevSlide(); // swipe right
-                        }
-                        slideInterval = setInterval(showNextSlide, 3000);
-                    }
-                }, false);
-                content.classList.remove('loading');
-            }, 200);
-        })
-        .catch(error => {
-            console.error('Error loading the text file:', error);
-        });
+        content.classList.remove('loading');
+      }, 200);
+    })
+    .catch(error => {
+      console.error('Error loading the text file:', error);
+    });
 };
 
-window.onload = toHome;
+
+// window.onload = toHome;
 homeBtn.addEventListener("click", toHome);
 logoDiv.addEventListener("click", toHome);
 hamHome.addEventListener("click", toHome);
@@ -245,9 +212,12 @@ const toAbout = () => {
 aboutBtn.addEventListener("click", toAbout);
 hamAbout.addEventListener("click", toAbout);
 
+toAbout();
+
 const toPortfolio = () => {
     content.classList.add('loading');
-    fetch("Pages/portfolio.txt")
+    const portfolioRef = ref(storage, 'galleries/portfolio');
+    fetch(`Pages/portfolio.txt`)
         .then(response => {
             if (!response.ok) {
                 throw new Error("Network response was not ok: " + response.statusText);
@@ -263,10 +233,50 @@ const toPortfolio = () => {
                         top: 0,
                         behavior: "smooth"
                     });
+                    
                 requestAnimationFrame(() => {
                     const portfolioDiv = document.getElementById('portfolio-container');
 
                         if (portfolioDiv) {
+                            const observer = new IntersectionObserver((entries, obs) => {
+                                entries.forEach(entry => {
+                                    if (entry.isIntersecting) {
+                                    const img = entry.target;
+                                    img.src = img.dataset.src;
+                                    img.onload = () => {
+                                        img.classList.remove('lazy');
+                                        img.classList.add('loaded');
+                                    };
+                                    obs.unobserve(img);
+                                    }
+                                });
+                                });
+
+                                listAll(portfolioRef).then((res) => {
+                                res.items.forEach((itemRef, i) => {
+                                    getDownloadURL(itemRef).then((url) => {
+                                    console.log("Image URL:", url);
+                                    const imgContainer = document.createElement("div");
+                                    imgContainer.classList.add("img-frame");
+
+                                    const portfolioImg = document.createElement("img");
+                                    portfolioImg.setAttribute('data-src', url);
+                                    portfolioImg.classList.add('lazy', 'portfolio-img');
+                                    portfolioImg.setAttribute('alt', `Portfolio image ${i + 1}`);
+
+                                    imgContainer.appendChild(portfolioImg);
+                                    portfolioDiv.appendChild(imgContainer);
+
+                                    // Observe each lazy image as it's added
+                                    observer.observe(portfolioImg);
+                                    });
+                                });
+                                }).catch((error) => {
+                                console.error('Error accessing folder:', error);
+                                });
+
+
+/*
                         allImgs.forEach((image, i) => {
                             const imgContainer = document.createElement("div");
                             imgContainer.classList.add("img-frame");
@@ -281,22 +291,7 @@ const toPortfolio = () => {
                             imgContainer.appendChild(portfolioImg);
                             portfolioDiv.appendChild(imgContainer);
                         })
-
-                        const observer = new IntersectionObserver((entries, obs) => {
-                            entries.forEach(entry => {
-                                if (entry.isIntersecting) {
-                                const img = entry.target;
-                                img.src = img.dataset.src;
-                                img.onload = () => {
-                                    img.classList.remove('lazy');
-                                    img.classList.add('loaded');
-                                };
-                                obs.unobserve(img);
-                                }
-                            });
-        
-                        });
-                        document.querySelectorAll('img.lazy').forEach(img => observer.observe(img));
+*/
                     };
                     /* TESTING */
                     /*

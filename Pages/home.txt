@@ -3,6 +3,8 @@
   <div class="underline"></div>
 </div>
 <div id="slideshow-div" class="carousel">
+  <div id='carousel'></div>
+<!-- TESTING
   <img class="slide active" loading="lazy" src="Photos/Featured/Sun Room 1.jpg" alt="Slide 1">
   <img class="slide" loading="lazy" src="Photos/Featured/Twilight Ext 01.jpg" alt="Slide 2">
   <img class="slide" loading="lazy" src="Photos/Featured/Dining Room 1.jpg" alt="Slide 3">
@@ -14,6 +16,8 @@
   <img class="slide" loading="lazy" src="Photos/Featured/23ValleyView_11.jpg" alt="Slide 9">
   <img class="slide" loading="lazy" src="Photos/Featured/Living Room 01.jpg" alt="Slide 10">
   <img class="slide" loading="lazy" src="Photos/Featured/Living Room 2.jpg" alt="Slide 11">
+TESTING -->
+
   <button class="nav prev">&#10094;</button>
   <button class="nav next">&#10095;</button>
 </div>
