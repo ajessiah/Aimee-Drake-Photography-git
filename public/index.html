@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- TESTING -->
+  <meta name="referrer" content="unsafe-url">
+  <script src="https://kit.fontawesome.com/31bce71fcd.js" crossorigin="anonymous"></script>
+  <title>Aimee Drake Photography (Admin)</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="header">
+    <div id="logo-container">
+        <img src="Black & Gold Logo.png" alt="logo">
+    </div>
+  </div>
+  <div id="page-content">
+    <div id="status-placeholder">
+      <p id="status"></p>
+    </div>
+    <div id="page-title">
+      <h2 id='page-title-text'>ADMIN HOME</h2>
+      <div class="underline"></div>
+    </div>
+    <div id="feature-menu">
+      <button id="to-upload">Upload Photos</button>
+      <button id="to-sort">Edit Gallery</button>
+    </div>
+    <div id="upload-photos">
+      <div id="files">
+        <div id="selected-files"></div>
+        <div id="file-control">
+          <div id="content-controls">
+            <button id="clear-all-btn">Clear</button>
+            <label for="fileInput" class="custom-file-upload">
+              Choose Files
+            </label>
+            <input title="file input" type="file" id="fileInput" accept="image/*" multiple/>
+            <button id="done-btn">Done</button>
+          </div>
+          <div id="upload-controls">
+            <button id="go-back-btn">Back</button>
+            <select id="file-destination" title="file destination">
+              <option value="">Destination</option>
+              <option value="portfolio">Portfolio</option>
+              <option value="carousel">Carousel</option>
+            </select>
+            <button id="upload-btn">Upload</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="sort-photos">
+        <div id="gallery-select">
+          <button id="sort-carousel">Carousel</button>
+          <button id="sort-portfolio">Portfolio</button>
+        </div>
+      <div id="sorting-gallery"></div>
+      <button id="save-order-btn">Confirm</button>
+    </div>
+    <div id="progress-bar">
+      <div id="progress-bar-container">
+        <div id="progress-bar-visual"></div>
+      </div>
+      <span id="progress-label"></span>
+    </div>
+  </div>
+</body>
+<script src="script.js" type="module"></script>
+</html>
