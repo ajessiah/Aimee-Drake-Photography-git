@@ -163,6 +163,7 @@ h2 {
     display: flex;
     flex-flow: column wrap;
     justify-content: space-between;
+    background-color: red;
 }
 
 #content-controls {
@@ -225,7 +226,7 @@ input[type="file"] {
     height:5vh;
     width: 100%;
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: row nowrap;
     justify-content: center;
 }
 
@@ -233,8 +234,8 @@ input[type="file"] {
     background-color: #151515;
     border: 2px solid #E6C068;
     color: whitesmoke;
+    font-size: 1rem;
     flex-grow: 1;
-    flex-shrink: 1;
     flex-basis: 22.5vw;
 }
 
