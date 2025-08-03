@@ -227,6 +227,7 @@ input[type="file"] {
     display: flex;
     flex-flow: row nowrap;
     justify-content: center;
+    text-align: center;
 }
 
 #go-back-btn {
@@ -245,6 +246,7 @@ input[type="file"] {
     appearance: none;
     background-color: #151515;
     border: 2px solid #E6C068;
+    text-align-last: center;
     text-align: center;
     color: whitesmoke;
     font-size: 1rem;
