@@ -53,7 +53,7 @@ const toHome = () => {
         content.innerHTML = data;
 
         // Scroll to top
-        window.scrollTo({ top: 10, behavior: "smooth" });
+        window.scrollTo({ top: -20, behavior: "smooth" });
 
         // Load slideshow container
         const carouselDiv = document.getElementById('carousel');
@@ -197,7 +197,7 @@ const toAbout = () => {
             content.innerHTML = data;
 
             window.scrollTo({
-                top: 10,
+                top: -20,
                 behavior: "smooth"
             });
 
@@ -228,7 +228,7 @@ const toPortfolio = () => {
                 content.innerHTML = data;
 
                     window.scrollTo({
-                        top: 10,
+                        top: -20,
                         behavior: "smooth"
                     });
                     
@@ -410,7 +410,7 @@ const toRates = () => {
             content.innerHTML = data;
 
             window.scrollTo({
-                top: 10,
+                top: -20,
                 behavior: "smooth"
             });
 
@@ -450,7 +450,7 @@ const toContact = () => {
             content.innerHTML = data;
 
             window.scrollTo({
-                top: 10,
+                top: -20,
                 behavior: "smooth"
             });
 
