@@ -163,7 +163,6 @@ h2 {
     display: flex;
     flex-flow: column wrap;
     justify-content: space-between;
-    background-color: red;
 }
 
 #content-controls {
