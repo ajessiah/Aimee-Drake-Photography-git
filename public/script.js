@@ -44,6 +44,7 @@ const clearSelectedFiles = () => {
 fileInput.addEventListener('change', () => {
     clearStatus();
     const newFiles = Array.from(fileInput.files);
+    console.log(newFiles);
 
     newFiles.forEach(file => {
         const alreadyAdded = allSelectedFiles.some(f => f.name === file.name && f.size === file.size);
@@ -63,12 +64,16 @@ fileInput.addEventListener('change', () => {
 
     document.getElementById("clear-all-btn").style.display = "block";
     document.getElementById("done-btn").style.display = "block";
+    document.getElementById('upload-controls').style.display = "none";
 })
 
 document.getElementById("clear-all-btn").addEventListener("click", () => {
     clearSelectedFiles();
     document.getElementById("done-btn").style.display = "none";
     document.getElementById("clear-all-btn").style.display = "none";
+    document.getElementById('upload-controls').style.display = "flex";
+    document.getElementById('file-destination').style.display = 'none';
+    document.getElementById('upload-btn').style.display = "none";
     clearStatus();
 });
 
@@ -79,14 +84,20 @@ document.getElementById("done-btn").addEventListener("click", () => {
     } else {
         document.getElementById('content-controls').style.display = "none";
         document.getElementById('upload-controls').style.display = "flex";
-
+        document.getElementById('file-destination').style.display = "block";
+        document.getElementById('upload-btn').style.display = "block";
     };
 });
 
 document.getElementById("go-back-btn").addEventListener("click", () => {
-    document.getElementById('content-controls').style.display = "flex";
-    document.getElementById('upload-controls').style.display = "none";
-    clearStatus();
+    if (document.getElementById('file-destination').style.display === "block") {
+      document.getElementById('file-destination').value = "";
+      document.getElementById('content-controls').style.display = "flex";
+      document.getElementById('upload-controls').style.display = "none";
+      clearStatus();
+    } else {
+      toHome();
+    }
 });
 
 document.getElementById('file-destination').addEventListener("click", clearStatus);
@@ -170,7 +181,9 @@ const uploadFiles = async (array) => {
             allSelectedFiles = [];
             selectedFiles.innerHTML = ``;
             selectedFiles.style.display = "none";
-            document.getElementById('upload-controls').style.display = "none";
+            document.getElementById('upload-controls').style.display = "flex";
+            document.getElementById('file-destination').style.display = "none";
+            document.getElementById('upload-btn').style.display = 'none';
             document.getElementById('content-controls').style.display = "flex";
             document.getElementById("done-btn").style.display = "none";
             document.getElementById("clear-all-btn").style.display = "none";
@@ -375,15 +388,21 @@ document.getElementById('sort-portfolio').addEventListener("click", () => {
 });
 
 document.getElementById('to-upload').addEventListener("click", () => {
+  clearStatus();
     document.getElementById('feature-menu').style.display = "none";
     document.getElementById('upload-photos').style.display = "block";
+    document.getElementById('upload-controls').style.display = "flex";
     document.getElementById('page-title-text').innerText = `UPLOAD PHOTOS`;
 });
 
 document.getElementById('to-sort').addEventListener("click", () => {
+  // TESTING
+  updateStatus("Feature currently under construction. Try again later.");
+  /*
     document.getElementById('feature-menu').style.display = "none";
     document.getElementById('sort-photos').style.display = "block";
     document.getElementById('page-title-text').innerText = `EDIT GALLERY`;
+    */
 });
 
 document.getElementById('logo-container').addEventListener("click", () => {
