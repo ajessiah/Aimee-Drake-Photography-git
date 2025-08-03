@@ -53,7 +53,7 @@ const toHome = () => {
         content.innerHTML = data;
 
         // Scroll to top
-        window.scrollTo({ top: -20, behavior: "smooth" });
+        content.scrollTo({ top: 0, behavior: "smooth" });
 
         // Load slideshow container
         const carouselDiv = document.getElementById('carousel');
