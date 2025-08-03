@@ -177,7 +177,7 @@ const toHome = () => {
 };
 
 
-// window.onload = toHome;
+window.onload = toHome;
 homeBtn.addEventListener("click", toHome);
 logoDiv.addEventListener("click", toHome);
 hamHome.addEventListener("click", toHome);
@@ -211,8 +211,6 @@ const toAbout = () => {
 
 aboutBtn.addEventListener("click", toAbout);
 hamAbout.addEventListener("click", toAbout);
-
-toAbout();
 
 const toPortfolio = () => {
     content.classList.add('loading');
