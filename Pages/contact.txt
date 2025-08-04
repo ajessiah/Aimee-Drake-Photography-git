@@ -10,7 +10,7 @@
         <button type="button"><i class="fa-solid fa-envelope" style="color: #e6c068;"></i>aimee@aimeedrake.com</button>
       </a>
     </div>
-    <button id="contact-form-btn" class="contact-form-btn">Get a Quote</button>
+    <button id="contact-form-btn" class="contact-form-btn">Get In Touch</button>
     <form action="#" method="post" id="contact-form">
       <fieldset id="contact-name">
         <p>Your Name</p>

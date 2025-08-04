@@ -100,7 +100,7 @@ body::-webkit-scrollbar {
 #page-title {
     height: fit-content;
     width: 100%;
-    padding-top: 5vh;
+    padding-top: 3vh;
     display: flex;
     flex-flow: column;
     justify-content: flex-end;
@@ -230,7 +230,7 @@ input[type="file"] {
     text-align: center;
 }
 
-#go-back-btn {
+#upload-back-btn {
     background-color: #151515;
     border: 2px solid #E6C068;
     color: whitesmoke;
@@ -289,7 +289,7 @@ button:hover {
 #gallery-select {
     height: auto;
     width: fit-content;
-    margin: 3vh auto;
+    margin: 3vh auto 1vh auto;
 }
 
 #gallery-select button {
@@ -308,11 +308,11 @@ button:hover {
     overflow-y: scroll;
     overflow-x: hidden;
     width: 100vw;
-    display: flex;
     flex-flow: column nowrap;
     justify-content: flex-start;
     align-items: center;
-    margin: 0 auto 3vh auto;
+    margin: 0 auto;
+    display: none;
 }
 
 #sorting-gallery::-webkit-scrollbar {
@@ -356,12 +356,39 @@ button:hover {
     top: 60%;
 }
 
+#sort-controls {
+    height:5vh;
+    width: 60vw;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    text-align: center;
+    margin: 3vh auto;
+    display: none;
+}
+
+#sort-controls button:hover {
+    background-color: #E6C068;
+    color: black;
+}
+
+#sort-back-btn {
+    background-color: #151515;
+    border: 2px solid #E6C068;
+    color: whitesmoke;
+    font-size: 1rem;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 45vw;
+}
+
 #save-order-btn {
     background-color: #151515;
     border: 2px solid #E6C068;
     color: whitesmoke;
     font-size: 1rem;
-    margin: 0 auto 3vh auto;
+    flex-grow: 1;
+    flex-basis: 45vw;
     display: none;
 }
 

@@ -89,7 +89,7 @@ document.getElementById("done-btn").addEventListener("click", () => {
     };
 });
 
-document.getElementById("go-back-btn").addEventListener("click", () => {
+document.getElementById("upload-back-btn").addEventListener("click", () => {
     if (document.getElementById('file-destination').style.display === "block") {
       document.getElementById('file-destination').value = "";
       document.getElementById('content-controls').style.display = "flex";
@@ -143,7 +143,9 @@ const uploadFiles = async (array) => {
     const index = orderOffset + fileIndex; 
     fileIndex++;
 
-    const storageRef = ref(storage, `galleries/${destination}/${file.name}`);
+    const newName = `${destination}-${index.toString().padStart(2, '0')}-${file.name}`;
+    const storageRef = ref(storage, `galleries/${destination}/${newName}`);
+
     const uploadTask = uploadBytesResumable(storageRef, file);
 
     let previousTransferred = 0;
@@ -207,30 +209,26 @@ document.getElementById('upload-btn').addEventListener("click", () => {
 // EDIT GALLERY
 
 const confirmSort = async (destination) => {
-  const gallery = document.getElementById("sorting-gallery");
-  const imgContainers = Array.from(gallery.children);
   const storageFolderRef = ref(storage, `galleries/${destination}`);
   const items = await listAll(storageFolderRef);
 
   const sortedBlobs = await Promise.all(
-    imgContainers.map(async (container, index) => {
-      const img = container.querySelector('img');
-      const originalName = img.alt;
-      const fullPath = img.getAttribute('data-path');
+    currentOrder.map(async ({ name, fullPath }, index) => {
       const imageRef = ref(storage, fullPath);
       const url = await getDownloadURL(imageRef);
       const blob = await fetch(url).then(res => res.blob());
 
-      // Strip existing prefix (e.g., "carousel02-" or "portfolio15-")
-      const cleanName = originalName.replace(new RegExp(`^${destination}\\d{1,3}-`), '');
-      const newName = `${destination}${index.toString().padStart(2, '0')}-${cleanName}`;
+      // Clean the filename: remove prefix like "carousel02-" or "portfolio15-"
+      const cleanName = name.replace(new RegExp(`^[a-zA-Z]+-\\d{2,}-`), '');
+      console.log(cleanName);
+      const newName = `${destination}-${index.toString().padStart(2, '0')}-${cleanName}`;
       const newFullPath = `galleries/${destination}/${newName}`;
 
       return {
         index,
         blob,
         newName,
-        originalName,
+        originalName: name,
         fullPath,
         newFullPath
       };
@@ -305,15 +303,13 @@ const sortGallery = async (e) => {
 
 const getCurrentGallery = async (destination) => {
     currentOrder = []; 
+    document.getElementById('sort-controls').style.display = "flex";
+    document.getElementById('sorting-gallery').style.display = "flex";
+    document.getElementById('save-order-btn').style.display = "block";
     console.log(destination);
     const storageRef = ref(storage, `galleries/${destination}`);
     const sortingGallery = document.getElementById('sorting-gallery');
     sortingGallery.innerHTML = "";
-    /*
-    document.getElementById('save-order-btn').removeEventListener("click", () => {
-        confirmSort(destination);
-    });
-    */
 
   try {
     const currentGallery = await listAll(storageRef);
@@ -361,11 +357,22 @@ const getCurrentGallery = async (destination) => {
         btn.addEventListener("click", (e) => sortGallery(e));
     });
 
+    document.getElementById('sort-back-btn').addEventListener("click", () => {
+      if (document.getElementById('sorting-gallery').style.display === "flex") {
+        sortingGallery.innerHTML = "";
+        document.getElementById('sorting-gallery').style.display = "none";
+        document.getElementById('save-order-btn').style.display = "none";
+        document.getElementById('sort-portfolio').style.color = "whitesmoke";
+        document.getElementById('sort-carousel').style.color = "whitesmoke";
+      } else {
+        toHome();
+      }
+    });
+
     document.getElementById('save-order-btn').addEventListener("click", () => {
         confirmSort(destination);
     });
 
-    document.getElementById('save-order-btn').style.display = "block";
 
   } catch (error) {
     console.error("Error fetching storage items:", error);
@@ -375,7 +382,23 @@ const getCurrentGallery = async (destination) => {
 };
 
 
+document.getElementById('to-upload').addEventListener("click", () => {
+  clearStatus();
+    document.getElementById('feature-menu').style.display = "none";
+    document.getElementById('upload-photos').style.display = "block";
+    document.getElementById('upload-controls').style.display = "flex";
+    document.getElementById('page-title-text').innerText = `UPLOAD PHOTOS`;
+});
+
+document.getElementById('to-sort').addEventListener("click", () => {
+    document.getElementById('feature-menu').style.display = "none";
+    document.getElementById('sort-photos').style.display = "block";
+    document.getElementById('sort-controls').style.display = "flex";
+    document.getElementById('page-title-text').innerText = `EDIT GALLERY`;
+});
+
 document.getElementById('sort-carousel').addEventListener("click", () => {
+  document.getElementById('sorting-gallery');
     getCurrentGallery("carousel");
     document.getElementById('sort-carousel').style.color = "#E6C068";
     document.getElementById('sort-portfolio').style.color = "whitesmoke";
@@ -387,23 +410,6 @@ document.getElementById('sort-portfolio').addEventListener("click", () => {
     document.getElementById('sort-carousel').style.color = "whitesmoke";
 });
 
-document.getElementById('to-upload').addEventListener("click", () => {
-  clearStatus();
-    document.getElementById('feature-menu').style.display = "none";
-    document.getElementById('upload-photos').style.display = "block";
-    document.getElementById('upload-controls').style.display = "flex";
-    document.getElementById('page-title-text').innerText = `UPLOAD PHOTOS`;
-});
-
-document.getElementById('to-sort').addEventListener("click", () => {
-  // TESTING
-  updateStatus("Feature currently under construction. Try again later.");
-  /*
-    document.getElementById('feature-menu').style.display = "none";
-    document.getElementById('sort-photos').style.display = "block";
-    document.getElementById('page-title-text').innerText = `EDIT GALLERY`;
-    */
-});
 
 document.getElementById('logo-container').addEventListener("click", () => {
     toHome();
