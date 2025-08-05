@@ -342,8 +342,6 @@ const toPortfolio = () => {
 portfolioBtn.addEventListener("click", toPortfolio);
 hamPortfolio.addEventListener("click", toPortfolio);
 
-toPortfolio();
-
 const toRates = () => {
     content.classList.add('loading');
     fetch("Pages/rates.txt")
