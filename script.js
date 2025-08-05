@@ -295,7 +295,6 @@ const toPortfolio = () => {
                                     focusFrame.appendChild(focusImg);
                                     document.body.appendChild(focusFrame);
 
-                                    // Animate to centered position
                                     requestAnimationFrame(() => {
                                         const targetWidth = window.innerWidth * 0.85; 
                                         const targetHeight = window.innerWidth * 0.55;
@@ -307,7 +306,6 @@ const toPortfolio = () => {
                                         focusFrame.style.transform = `translate(-50%, -50%)`;
                                     });
 
-                                    // Close on click
                                     focusFrame.addEventListener('click', () => {
                                         focusFrame.style.width = `${rect.width}px`;
                                         focusFrame.style.height = `${rect.height}px`;
