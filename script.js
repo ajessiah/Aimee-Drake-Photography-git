@@ -297,7 +297,7 @@ const toPortfolio = () => {
 
                                     requestAnimationFrame(() => {
                                         const targetWidth = window.innerWidth * 0.85; 
-                                        const targetHeight = window.innerWidth * 0.55;
+                                        const targetHeight = window.innerHeight * 0.30;
 
                                         focusFrame.style.width = `${targetWidth}px`;
                                         focusFrame.style.height = `${targetHeight}px`;
