@@ -287,8 +287,6 @@ const sortGallery = async (e) => {
 
   // ✅ Swap items in currentOrder
   [currentOrder[currentIndex], currentOrder[swapIndex]] = [currentOrder[swapIndex], currentOrder[currentIndex]];
-  
-  console.log(currentOrder);
 
   // Optional: re-index container IDs and img IDs
   containers.forEach((container, i) => {
@@ -301,21 +299,30 @@ const sortGallery = async (e) => {
 
 };
 
+// testing
+
 const getCurrentGallery = async (destination) => {
     currentOrder = []; 
-    document.getElementById('sort-controls').style.display = "flex";
-    document.getElementById('sorting-gallery').style.display = "flex";
-    document.getElementById('save-order-btn').style.display = "block";
-    console.log(destination);
-    const storageRef = ref(storage, `galleries/${destination}`);
     const sortingGallery = document.getElementById('sorting-gallery');
-    sortingGallery.innerHTML = "";
 
+    sortingGallery.innerHTML = "";
+    sortingGallery.style.display = "flex";
+
+    console.log(`${sortingGallery.style.display}`);
+
+    document.getElementById('sort-controls').style.display = "flex";
+    document.getElementById('save-order-btn').style.display = "block";
+    const allContainers = [];
+    const storageRef = ref(storage, `galleries/${destination}`);
+
+;
   try {
     const currentGallery = await listAll(storageRef);
 
+    console.log(`${sortingGallery.style.display}`);
     
     for (const [index, itemRef] of currentGallery.items.entries()) {
+
         const url = await getDownloadURL(itemRef); 
         const imgContainer = document.createElement('div');
         imgContainer.id = `img-container-${index}`;
@@ -325,17 +332,20 @@ const getCurrentGallery = async (destination) => {
         img.alt = itemRef.name;
         img.setAttribute('data-path', itemRef.fullPath);
 
-        console.log(img.alt);
-        console.log(img.dataset.path);
+        const trashImg = document.createElement('button');
+        trashImg.classList.add('trash-btn');
+        trashImg.innerHTML = `<i class="fa-solid fa-trash-can"></i>`;
         
         const upSort = document.createElement('button');
         upSort.classList.add('sort-btn', 'up');
         upSort.innerHTML = `<i class="fa-solid fa-chevron-up" style="color: #E6C068"></i>`;
+
         const downSort = document.createElement('button');
         downSort.classList.add('sort-btn', 'down');
         downSort.innerHTML = `<i class="fa-solid fa-chevron-down" style="color: #E6C068"></i>`;
 
         imgContainer.appendChild(img);
+        imgContainer.appendChild(trashImg);
         imgContainer.appendChild(upSort);
         imgContainer.appendChild(downSort);
         sortingGallery.appendChild(imgContainer);
@@ -348,7 +358,6 @@ const getCurrentGallery = async (destination) => {
         downloadURL: url
       });
 
-      console.log(itemRef.fullPath);
     }
 
     const sortBtns = Array.from(document.getElementsByClassName('sort-btn'));
@@ -357,10 +366,15 @@ const getCurrentGallery = async (destination) => {
         btn.addEventListener("click", (e) => sortGallery(e));
     });
 
+    document.getElementById('save-order-btn').addEventListener("click", () => {
+        confirmSort(destination);
+
     document.getElementById('sort-back-btn').addEventListener("click", () => {
-      if (document.getElementById('sorting-gallery').style.display === "flex") {
+
+      console.log(`Back Btn: ${sortingGallery.style.display}`);
+      if (sortingGallery.style.display === "flex") {
         sortingGallery.innerHTML = "";
-        document.getElementById('sorting-gallery').style.display = "none";
+        sortingGallery.style.display = "none";
         document.getElementById('save-order-btn').style.display = "none";
         document.getElementById('sort-portfolio').style.color = "whitesmoke";
         document.getElementById('sort-carousel').style.color = "whitesmoke";
@@ -369,36 +383,41 @@ const getCurrentGallery = async (destination) => {
       }
     });
 
-    document.getElementById('save-order-btn').addEventListener("click", () => {
-        confirmSort(destination);
-    });
 
+    });
+    console.log(`${sortingGallery.style.display}`);
 
   } catch (error) {
     console.error("Error fetching storage items:", error);
   }
+  console.log(`${sortingGallery.style.display}`);
   console.log(currentOrder);
   return currentOrder; 
 };
 
-
-document.getElementById('to-upload').addEventListener("click", () => {
-  clearStatus();
+const toUpload = () => {
+    clearStatus();
     document.getElementById('feature-menu').style.display = "none";
     document.getElementById('upload-photos').style.display = "block";
     document.getElementById('upload-controls').style.display = "flex";
     document.getElementById('page-title-text').innerText = `UPLOAD PHOTOS`;
-});
+};
 
-document.getElementById('to-sort').addEventListener("click", () => {
+document.getElementById('to-upload').addEventListener("click", toUpload);
+
+const toSort = () => {
     document.getElementById('feature-menu').style.display = "none";
     document.getElementById('sort-photos').style.display = "block";
     document.getElementById('sort-controls').style.display = "flex";
     document.getElementById('page-title-text').innerText = `EDIT GALLERY`;
-});
+};
+
+document.getElementById('to-sort').addEventListener("click", toSort);
+
+toSort();
+getCurrentGallery('portfolio');
 
 document.getElementById('sort-carousel').addEventListener("click", () => {
-  document.getElementById('sorting-gallery');
     getCurrentGallery("carousel");
     document.getElementById('sort-carousel').style.color = "#E6C068";
     document.getElementById('sort-portfolio').style.color = "whitesmoke";
@@ -414,3 +433,4 @@ document.getElementById('sort-portfolio').addEventListener("click", () => {
 document.getElementById('logo-container').addEventListener("click", () => {
     toHome();
 });
+

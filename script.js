@@ -177,7 +177,7 @@ const toHome = () => {
 };
 
 
-window.onload = toHome;
+// window.onload = toHome;
 homeBtn.addEventListener("click", toHome);
 logoDiv.addEventListener("click", toHome);
 hamHome.addEventListener("click", toHome);
@@ -215,6 +215,7 @@ hamAbout.addEventListener("click", toAbout);
 const toPortfolio = () => {
     content.classList.add('loading');
     const portfolioRef = ref(storage, 'galleries/portfolio');
+    const allContainers = [];
     fetch(`Pages/portfolio.txt`)
         .then(response => {
             if (!response.ok) {
@@ -227,8 +228,8 @@ const toPortfolio = () => {
                 content.className = 'portfolio';
                 content.innerHTML = data;
 
-                    window.scrollTo({
-                        top: -20,
+                    content.scrollTo({
+                        top: 0,
                         behavior: "smooth"
                     });
                     
@@ -253,7 +254,6 @@ const toPortfolio = () => {
                                 listAll(portfolioRef).then((res) => {
                                 res.items.forEach((itemRef, i) => {
                                     getDownloadURL(itemRef).then((url) => {
-                                    console.log("Image URL:", url);
                                     const imgContainer = document.createElement("div");
                                     imgContainer.classList.add("img-frame");
 
@@ -261,7 +261,65 @@ const toPortfolio = () => {
                                     portfolioImg.setAttribute('data-src', url);
                                     portfolioImg.classList.add('lazy', 'portfolio-img');
                                     portfolioImg.setAttribute('alt', `Portfolio image ${i + 1}`);
+                                    
+                                    allContainers.push(imgContainer);
+                                    console.log(allContainers);
 
+                                    imgContainer.addEventListener("click", () => {
+                                    const existingEnlarged = document.querySelector('.img-frame.enlarged');
+                                    if (existingEnlarged) {
+                                        existingEnlarged.remove();
+                                    }
+
+                                    const rect = imgContainer.getBoundingClientRect();
+
+                                    const focusFrame = document.createElement('div');
+                                    focusFrame.classList.add("img-frame", "enlarged");
+
+                                    focusFrame.style.position = 'fixed';
+                                    focusFrame.style.top = `${rect.top}px`;
+                                    focusFrame.style.left = `${rect.left}px`;
+                                    focusFrame.style.width = `${rect.width}px`;
+                                    focusFrame.style.height = `${rect.height}px`;
+                                    focusFrame.style.zIndex = '9999';
+                                    focusFrame.style.transition = 'all 0.3s ease';
+                                    focusFrame.style.overflow = 'hidden';
+
+                                    const focusImg = document.createElement('img');
+                                    focusImg.src = url;
+                                    focusImg.classList.add('portfolio-img');
+                                    focusImg.style.width = '100%';
+                                    focusImg.style.height = '100%';
+                                    focusImg.style.objectFit = 'cover';
+
+                                    focusFrame.appendChild(focusImg);
+                                    document.body.appendChild(focusFrame);
+
+                                    // Animate to centered position
+                                    requestAnimationFrame(() => {
+                                        const targetWidth = window.innerWidth * 0.85; 
+                                        const targetHeight = window.innerWidth * 0.55;
+
+                                        focusFrame.style.width = `${targetWidth}px`;
+                                        focusFrame.style.height = `${targetHeight}px`;
+                                        focusFrame.style.top = `57%`;
+                                        focusFrame.style.left = `50%`;
+                                        focusFrame.style.transform = `translate(-50%, -50%)`;
+                                    });
+
+                                    // Close on click
+                                    focusFrame.addEventListener('click', () => {
+                                        focusFrame.style.width = `${rect.width}px`;
+                                        focusFrame.style.height = `${rect.height}px`;
+                                        focusFrame.style.top = `${rect.top}px`;
+                                        focusFrame.style.left = `${rect.left}px`;
+                                        focusFrame.style.transform = `none`;
+
+                                        setTimeout(() => {
+                                        focusFrame.remove();
+                                        }, 300);
+                                    });
+                                    });
                                     imgContainer.appendChild(portfolioImg);
                                     portfolioDiv.appendChild(imgContainer);
 
@@ -272,117 +330,8 @@ const toPortfolio = () => {
                                 }).catch((error) => {
                                 console.error('Error accessing folder:', error);
                                 });
-
-
-/*
-                        allImgs.forEach((image, i) => {
-                            const imgContainer = document.createElement("div");
-                            imgContainer.classList.add("img-frame");
-
-                            const portfolioImg = document.createElement("img");
-                            portfolioImg.setAttribute('data-src', image);
-                            portfolioImg.classList.add('lazy');
-                            portfolioImg.classList.add("portfolio-img");
-                            portfolioImg.setAttribute('alt', `Portfolio image ${i + 1}`);
-
-
-                            imgContainer.appendChild(portfolioImg);
-                            portfolioDiv.appendChild(imgContainer);
-                        })
-*/
                     };
-                    /* TESTING */
-                    /*
-                    const allProjects = [];
 
-                    allImgs.forEach((project) => {
-                        const projectDiv = document.createElement("div");
-                        projectDiv.classList.add("project-div");
-
-                        const projectLink = document.createElement("button");
-                        projectLink.textContent = project.name;
-                        projectLink.classList.add("project-btn");
-
-                        // Create image container (slideshow wrapper)
-                        const imgContainer = document.createElement("div");
-                        imgContainer.classList.add("project-content", "hidden");
-
-                        const slideshow = document.createElement("div");
-                        slideshow.classList.add("slideshow");
-
-                        // Image elements
-                        const imgElements = project.gallery.map((imagePath, index) => {
-                            const img = document.createElement("img");
-                            img.src = imagePath;
-                            img.alt = project.name;
-                            img.classList.add("project-img");
-                            if (index !== 0) img.style.display = "none"; // Show only the first image
-                            return img;
-                        });
-
-                        imgElements.forEach(img => slideshow.appendChild(img));
-                        imgContainer.appendChild(slideshow);
-
-                        // Nav buttons
-                        const prevBtn = document.createElement("button");
-                        prevBtn.textContent = "‹";
-                        prevBtn.classList.add("slideshow-nav", "prev");
-
-                        const nextBtn = document.createElement("button");
-                        nextBtn.textContent = "›";
-                        nextBtn.classList.add("slideshow-nav", "next");
-
-                        imgContainer.appendChild(prevBtn);
-                        imgContainer.appendChild(nextBtn);
-
-                        let currentIndex = 0;
-
-                        const showImage = (index) => {
-                            imgElements.forEach((img, i) => {
-                                img.style.display = i === index ? "block" : "none";
-                            });
-                        };
-
-                        prevBtn.addEventListener("click", (e) => {
-                            e.stopPropagation();
-                            currentIndex = (currentIndex - 1 + imgElements.length) % imgElements.length;
-                            showImage(currentIndex);
-                        });
-
-                        nextBtn.addEventListener("click", (e) => {
-                            e.stopPropagation();
-                            currentIndex = (currentIndex + 1) % imgElements.length;
-                            showImage(currentIndex);
-                        });
-
-                        allProjects.push(imgContainer);
-
-                        projectLink.addEventListener("click", () => {
-                            allProjects.forEach(container => {
-                                const link = container.previousElementSibling;
-                                if (container !== imgContainer) {
-                                    container.classList.add("hidden");
-                                    if (link) link.classList.remove("open");
-                                }
-                            });
-
-                            const isHidden = imgContainer.classList.contains("hidden");
-                            imgContainer.classList.toggle("hidden");
-
-                            if (isHidden) {
-                                projectLink.classList.add("open");
-                                showImage(0); // Reset to first image on open
-                                currentIndex = 0;
-                            } else {
-                                projectLink.classList.remove("open");
-                            }
-                        });
-
-                        projectDiv.appendChild(projectLink);
-                        projectDiv.appendChild(imgContainer);
-                        portfolioDiv.appendChild(projectDiv);
-                    });
-                    */
                     content.classList.remove('loading');
                 }, 200);
             });
@@ -394,6 +343,8 @@ const toPortfolio = () => {
 
 portfolioBtn.addEventListener("click", toPortfolio);
 hamPortfolio.addEventListener("click", toPortfolio);
+
+toPortfolio();
 
 const toRates = () => {
     content.classList.add('loading');
