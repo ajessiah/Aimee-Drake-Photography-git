@@ -317,7 +317,19 @@ const toPortfolio = () => {
                                         focusFrame.remove();
                                         }, 300);
                                     });
+
+                                    const menuBtns = document.getElementsByClassName('menu-btn');
+
+                                    Array.from(menuBtns).forEach((btn) => {
+                                        btn.addEventListener("click", () => {
+                                            if (focusFrame.classList.contains('enlarged')) {
+                                                focusFrame.remove(); 
+                                            }
+                                        });
                                     });
+
+                                    });
+
                                     imgContainer.appendChild(portfolioImg);
                                     portfolioDiv.appendChild(imgContainer);
 
