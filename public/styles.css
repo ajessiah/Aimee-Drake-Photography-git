@@ -289,7 +289,7 @@ button:hover {
 #gallery-select {
     height: auto;
     width: fit-content;
-    margin: 3vh auto 1vh auto;
+    margin: 3vh auto 2vh auto;
 }
 
 #gallery-select button {
@@ -303,16 +303,20 @@ button:hover {
    color: #E6C068;
 }
 
+.viewing {
+    color: #E6C068;
+}
+
 #sorting-gallery {
-    height: 50vh;
+    height: 40vh;
     overflow-y: scroll;
     overflow-x: hidden;
-    width: 100vw;
-    flex-flow: column nowrap;
-    justify-content: flex-start;
-    align-items: center;
+    width: 80vw;
+    background-color: black;
     margin: 0 auto;
     display: none;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
 }
 
 #sorting-gallery::-webkit-scrollbar {
@@ -320,19 +324,23 @@ button:hover {
     height: 0;
 }
 
-#sorting-gallery div {
-    height: auto;
-    width: 50vw;
-    display: flex;
-    position: relative;
-    justify-self: center;
-    margin: 5px 0;
+#sorting-gallery .img-container {
+  height: 12vh;
+  width: 100%;
+  position: relative;
+  justify-self: center;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  cursor: zoom-in;
+  max-width: 100%;
 }
 
 #sorting-gallery img {
     height: 100%;
     width: 100%;
     object-fit: cover;
+    object-position: center 50%;
+    z-index: 1;
 }
 
 #sorting-gallery button {
@@ -340,38 +348,74 @@ button:hover {
     background: none;
 }
 
-.gallery-index {
-
+.img-controls-div {
+    position: absolute;
+    top: 0;
+    width: 30%; 
+    height: 100%;
+    background-color: #00000066; 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 2;
+    pointer-events: none; 
 }
 
-.trash-btn {
-    height: 20px;
-    width: fit-content;
-    position: absolute;
-    right: 105%;
-    top: 50%;
-    z-index: 10;
+.img-right {
+    right: 0;
+}
+
+.img-left {
+    left: 0;
+}
+
+.img-controls-div button {
+    pointer-events: auto; 
+    background: none;
+    border: none;
+    margin: 5px;
+    cursor: pointer;
     color: #E6C068;
 }
 
+.img-controls-div {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+#sorting-gallery div:hover .img-controls-div {
+    opacity: 1;
+}
+
+.to-top {
+    font-size: 18px;
+}
+
+.img-index-display {
+    font-size: 14px;
+    margin: 0;
+    color: #E6C068;
+    pointer-events: none;
+    font-family: Arial, Helvetica, sans-serif;
+    opacity: 0.8;
+}
+
+.trash-btn {
+    font-size: 18px;
+}
+
 .sort-btn {
-    height: 20px;
-    width: fit-content;
-    position: absolute;
-    left: 105%;
+    font-size: 18px;
 }
 
-.up {
-    top: 40%;
-}
-
-.down {
-    top: 60%;
+.swap {
+    font-size: 18px;
 }
 
 #sort-controls {
     height:5vh;
-    width: 60vw;
+    width: 75vw;
     display: flex;
     flex-flow: row nowrap;
     justify-content: center;
@@ -393,6 +437,7 @@ button:hover {
     flex-grow: 1;
     flex-shrink: 1;
     flex-basis: 45vw;
+    display: block;
 }
 
 #save-order-btn {
@@ -412,7 +457,7 @@ button:hover {
 }
 
 #progress-bar-container {
-  width: 90%;
+  width: 80%;
   height: 20px;
   background-color: #ddd;
   border-radius: 10px;

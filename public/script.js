@@ -21,8 +21,10 @@ const app = initializeApp(firebaseConfig);
 const storage = getStorage(app);
 const fileInput = document.getElementById('fileInput');
 const selectedFiles = document.getElementById('selected-files');
+const sortingGallery = document.getElementById('sorting-gallery');
 let allSelectedFiles = [];
 let currentOrder = [];
+let activeGalleryLoadId = 0;
 
 const clearStatus = () => {
     document.getElementById('status').style.display = "none";
@@ -101,6 +103,25 @@ document.getElementById("upload-back-btn").addEventListener("click", () => {
 });
 
 document.getElementById('file-destination').addEventListener("click", clearStatus);
+
+document.getElementById('sort-back-btn').addEventListener("click", () => {
+  if (document.getElementById('sorting-gallery').style.display === "grid") {
+    clearStatus();
+    // could be throwing a testing error
+    if(!confirm("Unsaved changes to current gallery order will be reset. Are you sure?")) {
+      return;
+    } else {
+      clearStatus();
+      const editableGalleries = Array.from(document.querySelectorAll('.editable-gallery'));
+      document.getElementById('sorting-gallery').innerHTML = ``;
+      currentOrder = [];
+      document.getElementById('sorting-gallery').style.display = "none";
+      editableGalleries.forEach((gallery) => gallery.style.color = "whitesmoke");
+    }
+  } else {
+    toHome();
+  }
+});
 
 // ADMIN HOME
 
@@ -209,107 +230,259 @@ document.getElementById('upload-btn').addEventListener("click", () => {
 // EDIT GALLERY
 
 const confirmSort = async (destination) => {
+  clearStatus();
   const storageFolderRef = ref(storage, `galleries/${destination}`);
   const items = await listAll(storageFolderRef);
+
+  const containers = Array.from(document.querySelectorAll('#sorting-gallery .img-container'));
+  currentOrder = containers.map((container, i) => {
+    const img = container.querySelector('img');
+    const fullPath = img?.getAttribute('data-path');
+    return currentOrder.find(item => item.fullPath === fullPath);
+  }).filter(Boolean);
 
   const sortedBlobs = await Promise.all(
     currentOrder.map(async ({ name, fullPath }, index) => {
       const imageRef = ref(storage, fullPath);
       const url = await getDownloadURL(imageRef);
       const blob = await fetch(url).then(res => res.blob());
-
-      // Clean the filename: remove prefix like "carousel02-" or "portfolio15-"
-      const cleanName = name.replace(new RegExp(`^[a-zA-Z]+-\\d{2,}-`), '');
-      console.log(cleanName);
+      const cleanName = name.replace(/^[a-zA-Z]+-\d{2,}-/, '');
       const newName = `${destination}-${index.toString().padStart(2, '0')}-${cleanName}`;
       const newFullPath = `galleries/${destination}/${newName}`;
 
-      return {
-        index,
-        blob,
-        newName,
-        originalName: name,
-        fullPath,
-        newFullPath
-      };
+      return { blob, fullPath, newFullPath, size: blob.size };
     })
   );
 
-  const currentPaths = items.items.map(item => item.fullPath);
-
-  // 🔁 Step 1: Delete files that are changing position or name
   for (const item of items.items) {
-    const found = sortedBlobs.find(b => b.fullPath === item.fullPath);
-    const willChange = found && found.newFullPath !== item.fullPath;
-
-    if (willChange) {
+    const match = sortedBlobs.find(b => b.fullPath === item.fullPath);
+    if (match && match.newFullPath !== item.fullPath) {
       await deleteObject(item);
     }
   }
 
-  // 💾 Step 2: Upload only those that were moved or renamed
-  for (const { blob, newName, fullPath, newFullPath } of sortedBlobs) {
-    if (newFullPath !== fullPath) {
-      const newRef = ref(storage, newFullPath);
-      await uploadBytesResumable(newRef, blob);
-    }
-  }
+  const progressContainer = document.getElementById('progress-bar-container');
+  const progressVisual = document.getElementById('progress-bar-visual');
+  const progressLabel = document.getElementById('progress-label');
+  const statusLabel = document.getElementById('status');
 
-  updateStatus("Gallery successfully resorted and reuploaded.");
+  progressContainer.style.display = "block";
+  progressLabel.style.display = "block";
+  progressVisual.style.width = "0%";
+  progressLabel.textContent = "0% complete";
+
+  const maxConcurrent = 4;
+  let totalBytes = sortedBlobs.reduce((sum, file) => sum + file.size, 0);
+  let uploadedBytes = 0;
+  let activeUploads = 0;
+  let completed = 0;
+  let index = 0;
+
+  return new Promise((resolve) => {
+    function uploadNext() {
+      if (index >= sortedBlobs.length) return;
+
+      while (activeUploads < maxConcurrent && index < sortedBlobs.length) {
+        const { blob, newFullPath } = sortedBlobs[index++];
+        const storageRef = ref(storage, newFullPath);
+        const uploadTask = uploadBytesResumable(storageRef, blob);
+
+        let previousTransferred = 0;
+        activeUploads++;
+
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const current = snapshot.bytesTransferred;
+            const delta = current - previousTransferred;
+            previousTransferred = current;
+
+            uploadedBytes += delta;
+            const totalProgress = (uploadedBytes / totalBytes) * 100;
+            progressVisual.style.width = `${totalProgress}%`;
+            progressLabel.textContent = `${totalProgress.toFixed(2)}% complete`;
+          },
+          (error) => {
+            console.error("Upload failed:", error);
+            activeUploads--;
+            uploadNext(); 
+          },
+          () => {
+            activeUploads--;
+            completed++;
+            if (completed === sortedBlobs.length) {
+              progressContainer.style.display = "none";
+              progressLabel.style.display = "none";
+              statusLabel.style.display = "block";
+              document.getElementById('save-order-btn').style.display = "none";
+              updateStatus(`${destination.charAt(0).toUpperCase() + destination.slice(1)} successfully resorted and reuploaded.`);
+              const editableGalleries = Array.from(document.querySelectorAll('.editable-gallery'));
+              editableGalleries.forEach((gallery) => gallery.style.color = "whitesmoke");
+              sortingGallery.innerHTML = "";
+              sortingGallery.style.display = "none";
+              resolve();
+            } else {
+              uploadNext(); 
+            }
+          }
+        );
+      }
+    }
+    uploadNext(); 
+  });
 };
 
-const sortGallery = async (e) => {
-  const imgContainer = e.target.closest('div');
+const sortGallery = async (btn) => {
+  const imgContainer = btn.closest('.img-container');
+  if (!imgContainer) return;
+
   const parent = imgContainer.parentElement;
   const containers = Array.from(parent.children);
   const currentIndex = containers.indexOf(imgContainer);
+  const maxIndex = containers.length - 1;
+  let swapIndex = null;
 
-  let swapIndex;
+  if (btn.classList.contains('up')) {
+    if (currentIndex >= 2) {
+      swapIndex = currentIndex - 2;
+    } else if (currentIndex === 1) {
+      swapIndex = 0;
+    } else {
+      return; 
+    }
+  } else if (btn.classList.contains('down')) {
+    if (currentIndex < maxIndex - 2) {
+      swapIndex = currentIndex + 2;
+    } else if (currentIndex === maxIndex - 2 || currentIndex === maxIndex - 1) {
+      swapIndex = maxIndex;
+    } else {
+      return;
+    }
+  } else if (btn.classList.contains('swap')) {
+    const isEven = currentIndex % 2 === 0;
+    const swapIndex = isEven ? currentIndex + 1 : currentIndex - 1;
 
-  if (e.target.classList.contains('up')) {
-    if (currentIndex > 0) {
-      swapIndex = currentIndex - 1;
-    } else return;
-  } else if (e.target.classList.contains('down')) {
-    if (currentIndex < containers.length - 1) {
-      swapIndex = currentIndex + 1;
-    } else return;
-  }
+    if (swapIndex >= 0 && swapIndex < containers.length) {
+      const swapContainer = containers[swapIndex];
 
-  const swapContainer = containers[swapIndex];
+      if (isEven) {
+        parent.insertBefore(swapContainer, imgContainer);
+      } else {
+        parent.insertBefore(imgContainer, swapContainer);
+      }
 
-  // Swap in the DOM
-  if (e.target.classList.contains('up')) {
-    parent.insertBefore(imgContainer, swapContainer);
-  } else {
-    parent.insertBefore(swapContainer, imgContainer);
-  }
+      [currentOrder[currentIndex], currentOrder[swapIndex]] = [currentOrder[swapIndex], currentOrder[currentIndex]];
 
-  // ✅ Swap items in currentOrder
-  [currentOrder[currentIndex], currentOrder[swapIndex]] = [currentOrder[swapIndex], currentOrder[currentIndex]];
+      const updatedContainers = Array.from(parent.children);
 
-  // Optional: re-index container IDs and img IDs
-  containers.forEach((container, i) => {
+      updatedContainers.forEach((container, i) => {
+        container.id = `img-container-${i}`;
+        const img = container.querySelector('img');
+        if (img) img.id = `img-${i}`;
+        const indexDisplay = container.querySelector('.img-index-display');
+        if (indexDisplay) indexDisplay.textContent = i;
+      });
+    }
+  } else if (btn.classList.contains('to-top')) {
+  if (currentIndex === 0) return; 
+
+  parent.insertBefore(imgContainer, parent.firstElementChild);
+
+  const movedItem = currentOrder.splice(currentIndex, 1)[0];
+  currentOrder.unshift(movedItem);
+
+  const updatedContainers = Array.from(parent.children);
+  updatedContainers.forEach((container, i) => {
     container.id = `img-container-${i}`;
     const img = container.querySelector('img');
     if (img) img.id = `img-${i}`;
+    const indexDisplay = container.querySelector('.img-index-display');
+    if (indexDisplay) indexDisplay.textContent = i;
+  });
+  }
+
+  const swapContainer = containers[swapIndex];
+  if (!swapContainer) return;
+
+  if (swapIndex < currentIndex) {
+    parent.insertBefore(imgContainer, swapContainer);
+  } else if (swapIndex > currentIndex) {
+    parent.insertBefore(imgContainer, containers[swapIndex + 1])
+  } else {
+    return;
+  }
+
+  [currentOrder[currentIndex], currentOrder[swapIndex]] = [currentOrder[swapIndex], currentOrder[currentIndex]];
+
+  const updatedContainers = Array.from(parent.children);
+  updatedContainers.forEach((container, i) => {
+    container.id = `img-container-${i}`;
+    const img = container.querySelector('img');
+    if (img) img.id = `img-${i}`;
+    const indexDisplay = container.querySelector('.img-index-display');
+    if (indexDisplay) indexDisplay.textContent = i;
   });
 
   return currentOrder;
-
 };
 
-// testing
+const imgTrash = async (btn) => {
+  // could be throwing a testing error
+  if (!confirm("Are you sure you want to delete this image? This cannot be undone.")) {
+    return;
+  }
+
+  const imgContainer = btn.closest('.img-container');
+  if (!imgContainer) return;
+
+  const img = imgContainer.querySelector('img');
+  const imagePath = img.getAttribute('data-path');
+  const parent = imgContainer.parentElement;
+
+  try {
+    // Delete from Firebase Storage
+    const imageRef = ref(storage, imagePath);
+    await deleteObject(imageRef);
+
+    // Remove from DOM
+    parent.removeChild(imgContainer);
+
+    // Remove from currentOrder
+    const indexToRemove = currentOrder.findIndex(item => item.fullPath === imagePath);
+    if (indexToRemove > -1) {
+      currentOrder.splice(indexToRemove, 1);
+    }
+
+    // Re-index remaining containers and update IDs/texts
+    const updatedContainers = Array.from(parent.children);
+    updatedContainers.forEach((container, i) => {
+      container.id = `img-container-${i}`;
+      const img = container.querySelector('img');
+      if (img) img.id = `img-${i}`;
+      const indexDisplay = container.querySelector('.img-index-display');
+      if (indexDisplay) indexDisplay.textContent = i;
+    });
+
+  } catch (err) {
+    console.error("Failed to delete image:", err);
+    alert("Error deleting image. Check console for details.");
+  }
+};
 
 const getCurrentGallery = async (destination) => {
+    clearStatus();
+    const thisLoadId = ++activeGalleryLoadId;
+
+    if (thisLoadId !== activeGalleryLoadId) {
+      console.log(`Gallery load for ${destination} aborted – newer request in progress.`);
+      return; // Abort stale load
+    }
+
     currentOrder = []; 
+
     const sortingGallery = document.getElementById('sorting-gallery');
-
     sortingGallery.innerHTML = "";
-    sortingGallery.style.display = "flex";
-
-    console.log(`${sortingGallery.style.display}`);
-
+    sortingGallery.style.display = "grid";
     document.getElementById('sort-controls').style.display = "flex";
     document.getElementById('save-order-btn').style.display = "block";
     const allContainers = [];
@@ -318,13 +491,12 @@ const getCurrentGallery = async (destination) => {
 ;
   try {
     const currentGallery = await listAll(storageRef);
-
-    console.log(`${sortingGallery.style.display}`);
     
     for (const [index, itemRef] of currentGallery.items.entries()) {
 
         const url = await getDownloadURL(itemRef); 
         const imgContainer = document.createElement('div');
+        imgContainer.classList.add('img-container');
         imgContainer.id = `img-container-${index}`;
         const img = document.createElement('img');
         img.id = `img-${index}`;
@@ -332,22 +504,49 @@ const getCurrentGallery = async (destination) => {
         img.alt = itemRef.name;
         img.setAttribute('data-path', itemRef.fullPath);
 
-        const trashImg = document.createElement('button');
-        trashImg.classList.add('trash-btn');
-        trashImg.innerHTML = `<i class="fa-solid fa-trash-can"></i>`;
+        const leftOverlay = document.createElement('div');
+        leftOverlay.classList.add('img-controls-div', 'img-left');
+        const rightOverlay = document.createElement('div');
+        rightOverlay.classList.add('img-controls-div', 'img-right');
         
         const upSort = document.createElement('button');
         upSort.classList.add('sort-btn', 'up');
         upSort.innerHTML = `<i class="fa-solid fa-chevron-up" style="color: #E6C068"></i>`;
 
+        const swapColumn = document.createElement('button');
+        swapColumn.classList.add('sort-btn', 'swap');
+        swapColumn.innerHTML = `<i class="fa-solid fa-arrows-left-right"></i>`;
+
         const downSort = document.createElement('button');
         downSort.classList.add('sort-btn', 'down');
         downSort.innerHTML = `<i class="fa-solid fa-chevron-down" style="color: #E6C068"></i>`;
 
+        const trashImg = document.createElement('button');
+        trashImg.classList.add('trash-btn');
+        trashImg.innerHTML = `<i class="fa-solid fa-trash-can"></i>`;
+
+        const indexDisplay = document.createElement('span');
+        indexDisplay.classList.add('img-index-display');
+        indexDisplay.textContent = index; // Initial index
+
+        const sendToTopBtn = document.createElement('button');
+        sendToTopBtn.classList.add('sort-btn', 'to-top');
+        sendToTopBtn.innerHTML = `<i class="fa-solid fa-star"></i>`;
+
+        if (thisLoadId !== activeGalleryLoadId) {
+          console.log(`Gallery load for ${destination} aborted – newer request in progress.`);
+          return; // Abort stale load
+        }
+
+        rightOverlay.appendChild(upSort);
+        rightOverlay.appendChild(swapColumn);
+        rightOverlay.appendChild(downSort);
+        leftOverlay.appendChild(sendToTopBtn);
+        leftOverlay.appendChild(indexDisplay);
+        leftOverlay.appendChild(trashImg);
         imgContainer.appendChild(img);
-        imgContainer.appendChild(trashImg);
-        imgContainer.appendChild(upSort);
-        imgContainer.appendChild(downSort);
+        imgContainer.appendChild(rightOverlay);
+        imgContainer.appendChild(leftOverlay); 
         sortingGallery.appendChild(imgContainer);
 
       currentOrder.push({
@@ -363,35 +562,40 @@ const getCurrentGallery = async (destination) => {
     const sortBtns = Array.from(document.getElementsByClassName('sort-btn'));
 
     sortBtns.forEach((btn) => {
-        btn.addEventListener("click", (e) => sortGallery(e));
+      if (thisLoadId !== activeGalleryLoadId) {
+        console.log(`Gallery load for ${destination} aborted – newer request in progress.`);
+        return; // Abort stale load
+      }
+      btn.addEventListener("click", (e) => sortGallery(e.currentTarget));
+    });
+
+    const trashBtns = Array.from(document.getElementsByClassName('trash-btn'));
+
+    trashBtns.forEach((btn) => {
+      if (thisLoadId !== activeGalleryLoadId) {
+        console.log(`Gallery load for ${destination} aborted – newer request in progress.`);
+        return; // Abort stale load
+      }
+      btn.addEventListener("click", (e) => imgTrash(e.currentTarget));
     });
 
     document.getElementById('save-order-btn').addEventListener("click", () => {
+        if (thisLoadId !== activeGalleryLoadId) {
+          console.log(`Gallery load for ${destination} aborted – newer request in progress.`);
+          return; // Abort stale load
+        }
         confirmSort(destination);
-
-    document.getElementById('sort-back-btn').addEventListener("click", () => {
-
-      console.log(`Back Btn: ${sortingGallery.style.display}`);
-      if (sortingGallery.style.display === "flex") {
-        sortingGallery.innerHTML = "";
-        sortingGallery.style.display = "none";
-        document.getElementById('save-order-btn').style.display = "none";
-        document.getElementById('sort-portfolio').style.color = "whitesmoke";
-        document.getElementById('sort-carousel').style.color = "whitesmoke";
-      } else {
-        toHome();
-      }
     });
 
-
-    });
     console.log(`${sortingGallery.style.display}`);
 
   } catch (error) {
     console.error("Error fetching storage items:", error);
   }
-  console.log(`${sortingGallery.style.display}`);
-  console.log(currentOrder);
+  if (thisLoadId !== activeGalleryLoadId) {
+    console.log(`Gallery load for ${destination} aborted – newer request in progress.`);
+    return; // Abort stale load
+  }
   return currentOrder; 
 };
 
@@ -406,16 +610,16 @@ const toUpload = () => {
 document.getElementById('to-upload').addEventListener("click", toUpload);
 
 const toSort = () => {
-    document.getElementById('feature-menu').style.display = "none";
-    document.getElementById('sort-photos').style.display = "block";
-    document.getElementById('sort-controls').style.display = "flex";
-    document.getElementById('page-title-text').innerText = `EDIT GALLERY`;
+  clearStatus();
+  document.getElementById('feature-menu').style.display = "none";
+  document.getElementById('sort-photos').style.display = "block";
+  document.getElementById('sort-controls').style.display = "flex";
+  document.getElementById('page-title-text').innerText = `EDIT GALLERY`;
+  const editableGalleries = Array.from(document.querySelectorAll('.editable-gallery'));
+  editableGalleries.forEach((gallery) => gallery.style.color = "whitesmoke");
 };
 
 document.getElementById('to-sort').addEventListener("click", toSort);
-
-toSort();
-getCurrentGallery('portfolio');
 
 document.getElementById('sort-carousel').addEventListener("click", () => {
     getCurrentGallery("carousel");
@@ -428,7 +632,6 @@ document.getElementById('sort-portfolio').addEventListener("click", () => {
     document.getElementById('sort-portfolio').style.color = "#E6C068";
     document.getElementById('sort-carousel').style.color = "whitesmoke";
 });
-
 
 document.getElementById('logo-container').addEventListener("click", () => {
     toHome();
