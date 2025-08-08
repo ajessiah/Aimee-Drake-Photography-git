@@ -5,7 +5,8 @@ import {
     uploadBytesResumable,
     getDownloadURL,
     listAll,
-    deleteObject
+    deleteObject,
+    uploadString
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
 const firebaseConfig = {

@@ -2,7 +2,6 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/fireba
 import {
     getStorage,
     ref,
-    uploadBytesResumable,
     getDownloadURL,
     listAll
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
@@ -35,6 +34,7 @@ const hamPortfolio = document.getElementById('ham-portfolio-btn');
 const hamRates = document.getElementById('ham-rates-btn');
 const hamContact = document.getElementById('ham-contact-btn');
 const header = document.getElementById('header-div');
+let allContainers = [];
 
 const toHome = () => {
   content.classList.add('loading');
@@ -62,7 +62,6 @@ const toHome = () => {
         try {
 
             const result = await listAll(carouselRef);
-            console.log(result);
 
             await Promise.all(result.items.map(async (itemRef, index) => {
                 const url = await getDownloadURL(itemRef);
@@ -176,7 +175,6 @@ const toHome = () => {
     });
 };
 
-
 window.onload = toHome;
 homeBtn.addEventListener("click", toHome);
 logoDiv.addEventListener("click", toHome);
@@ -214,8 +212,10 @@ hamAbout.addEventListener("click", toAbout);
 
 const toPortfolio = () => {
     content.classList.add('loading');
+
     const portfolioRef = ref(storage, 'galleries/portfolio');
-    const allContainers = [];
+    allContainers = [];
+
     fetch(`Pages/portfolio.txt`)
         .then(response => {
             if (!response.ok) {
@@ -228,126 +228,136 @@ const toPortfolio = () => {
                 content.className = 'portfolio';
                 content.innerHTML = data;
 
-                    content.scrollTo({
-                        top: 0,
-                        behavior: "smooth"
-                    });
-                    
+                content.scrollTo({ top: 0, behavior: "smooth" });
+
                 requestAnimationFrame(() => {
                     const portfolioDiv = document.getElementById('portfolio-container');
 
-                        if (portfolioDiv) {
-                            const observer = new IntersectionObserver((entries, obs) => {
-                                entries.forEach(entry => {
-                                    if (entry.isIntersecting) {
-                                    const img = entry.target;
-                                    img.src = img.dataset.src;
-                                    img.onload = () => {
-                                        img.classList.remove('lazy');
-                                        img.classList.add('loaded');
-                                    };
-                                    obs.unobserve(img);
-                                    }
+                    if (!portfolioDiv) {
+                        console.error("portfolio-container not found");
+                        content.classList.remove('loading');
+                        return;
+                    }
+
+                    const observer = new IntersectionObserver((entries, obs) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                const img = entry.target;
+                                img.src = img.dataset.src;
+                                img.onload = () => {
+                                    img.classList.remove('lazy');
+                                    img.classList.add('loaded');
+                                };
+                                obs.unobserve(img);
+                            }
+                        });
+                    });
+
+                    listAll(portfolioRef).then((res) => {
+                        const sortedItems = res.items.sort((a, b) => {
+                            const getIndex = (file) => {
+                                const match = file.name.match(/^[a-zA-Z]+-(\d+)-/);
+                                return match ? parseInt(match[1], 10) : 0;
+                            };
+                            return getIndex(a) - getIndex(b);
+                        });
+
+                        return Promise.all(
+                            sortedItems.map((itemRef, i) => {
+                                return getDownloadURL(itemRef).then((url) => ({
+                                    url,
+                                    index: i,
+                                    name: itemRef.name
+                                }));
+                            })
+                        );
+                    }).then((images) => {
+                        images.forEach(({ url, index, name }) => {
+                            const imgContainer = document.createElement("div");
+                            imgContainer.classList.add("img-frame");
+
+                            const portfolioImg = document.createElement("img");
+                            portfolioImg.setAttribute('data-src', url);
+                            portfolioImg.classList.add('lazy', 'portfolio-img');
+                            portfolioImg.setAttribute('alt', `Portfolio image ${index + 1}`);
+
+                            imgContainer.appendChild(portfolioImg);
+                            portfolioDiv.appendChild(imgContainer);
+                            allContainers[index] = imgContainer;
+
+                            observer.observe(portfolioImg);
+
+                            // Click-to-enlarge logic
+                            imgContainer.addEventListener("click", () => {
+                                const existingEnlarged = document.querySelector('.img-frame.enlarged');
+                                if (existingEnlarged) existingEnlarged.remove();
+
+                                const rect = imgContainer.getBoundingClientRect();
+                                const focusFrame = document.createElement('div');
+                                focusFrame.classList.add("img-frame", "enlarged");
+                                focusFrame.style.position = 'fixed';
+                                focusFrame.style.top = `${rect.top}px`;
+                                focusFrame.style.left = `${rect.left}px`;
+                                focusFrame.style.width = `${rect.width}px`;
+                                focusFrame.style.height = `${rect.height}px`;
+                                focusFrame.style.zIndex = '9999';
+                                focusFrame.style.transition = 'all 0.3s ease';
+                                focusFrame.style.overflow = 'hidden';
+
+                                const focusImg = document.createElement('img');
+                                focusImg.src = url;
+                                focusImg.classList.add('portfolio-img');
+                                focusImg.style.width = '100%';
+                                focusImg.style.height = '100%';
+                                focusImg.style.objectFit = 'cover';
+
+                                focusFrame.appendChild(focusImg);
+                                document.body.appendChild(focusFrame);
+
+                                requestAnimationFrame(() => {
+                                    const targetWidth = window.innerWidth * 0.85;
+                                    const targetHeight = window.innerHeight * 0.30;
+                                    focusFrame.style.width = `${targetWidth}px`;
+                                    focusFrame.style.height = `${targetHeight}px`;
+                                    focusFrame.style.top = `57%`;
+                                    focusFrame.style.left = `50%`;
+                                    focusFrame.style.transform = `translate(-50%, -50%)`;
                                 });
-                                });
 
-                                listAll(portfolioRef).then((res) => {
-                                res.items.forEach((itemRef, i) => {
-                                    getDownloadURL(itemRef).then((url) => {
-                                    const imgContainer = document.createElement("div");
-                                    imgContainer.classList.add("img-frame");
-
-                                    const portfolioImg = document.createElement("img");
-                                    portfolioImg.setAttribute('data-src', url);
-                                    portfolioImg.classList.add('lazy', 'portfolio-img');
-                                    portfolioImg.setAttribute('alt', `Portfolio image ${i + 1}`);
-                                    
-                                    allContainers.push(imgContainer);
-                                    console.log(allContainers);
-
-                                    imgContainer.addEventListener("click", () => {
-                                    const existingEnlarged = document.querySelector('.img-frame.enlarged');
-                                    if (existingEnlarged) {
-                                        existingEnlarged.remove();
-                                    }
-
-                                    const rect = imgContainer.getBoundingClientRect();
-
-                                    const focusFrame = document.createElement('div');
-                                    focusFrame.classList.add("img-frame", "enlarged");
-
-                                    focusFrame.style.position = 'fixed';
-                                    focusFrame.style.top = `${rect.top}px`;
-                                    focusFrame.style.left = `${rect.left}px`;
+                                focusFrame.addEventListener('click', () => {
                                     focusFrame.style.width = `${rect.width}px`;
                                     focusFrame.style.height = `${rect.height}px`;
-                                    focusFrame.style.zIndex = '9999';
-                                    focusFrame.style.transition = 'all 0.3s ease';
-                                    focusFrame.style.overflow = 'hidden';
+                                    focusFrame.style.top = `${rect.top}px`;
+                                    focusFrame.style.left = `${rect.left}px`;
+                                    focusFrame.style.transform = `none`;
 
-                                    const focusImg = document.createElement('img');
-                                    focusImg.src = url;
-                                    focusImg.classList.add('portfolio-img');
-                                    focusImg.style.width = '100%';
-                                    focusImg.style.height = '100%';
-                                    focusImg.style.objectFit = 'cover';
-
-                                    focusFrame.appendChild(focusImg);
-                                    document.body.appendChild(focusFrame);
-
-                                    requestAnimationFrame(() => {
-                                        const targetWidth = window.innerWidth * 0.85; 
-                                        const targetHeight = window.innerHeight * 0.30;
-
-                                        focusFrame.style.width = `${targetWidth}px`;
-                                        focusFrame.style.height = `${targetHeight}px`;
-                                        focusFrame.style.top = `57%`;
-                                        focusFrame.style.left = `50%`;
-                                        focusFrame.style.transform = `translate(-50%, -50%)`;
-                                    });
-
-                                    focusFrame.addEventListener('click', () => {
-                                        focusFrame.style.width = `${rect.width}px`;
-                                        focusFrame.style.height = `${rect.height}px`;
-                                        focusFrame.style.top = `${rect.top}px`;
-                                        focusFrame.style.left = `${rect.left}px`;
-                                        focusFrame.style.transform = `none`;
-
-                                        setTimeout(() => {
+                                    setTimeout(() => {
                                         focusFrame.remove();
-                                        }, 300);
-                                    });
+                                    }, 300);
+                                });
 
-                                    const menuBtns = document.getElementsByClassName('menu-btn');
-
-                                    Array.from(menuBtns).forEach((btn) => {
-                                        btn.addEventListener("click", () => {
-                                            if (focusFrame.classList.contains('enlarged')) {
-                                                focusFrame.remove(); 
-                                            }
-                                        });
-                                    });
-
-                                    });
-
-                                    imgContainer.appendChild(portfolioImg);
-                                    portfolioDiv.appendChild(imgContainer);
-
-                                    // Observe each lazy image as it's added
-                                    observer.observe(portfolioImg);
+                                const menuBtns = document.getElementsByClassName('menu-btn');
+                                Array.from(menuBtns).forEach((btn) => {
+                                    btn.addEventListener("click", () => {
+                                        if (focusFrame.classList.contains('enlarged')) {
+                                            focusFrame.remove();
+                                        }
                                     });
                                 });
-                                }).catch((error) => {
-                                console.error('Error accessing folder:', error);
-                                });
-                    };
+                            });
+                        });
 
-                    content.classList.remove('loading');
+                        content.classList.remove('loading');
+                    }).catch((error) => {
+                        console.error('Error accessing folder or loading images:', error);
+                        content.classList.remove('loading');
+                    });
                 }, 200);
             });
         })
         .catch(error => {
             console.error('Error loading the text file:', error);
+            content.classList.remove('loading');
         });
 };
 
