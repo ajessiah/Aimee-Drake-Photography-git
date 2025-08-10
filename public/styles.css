@@ -315,8 +315,6 @@ button:hover {
     background-color: black;
     margin: 0 auto;
     display: none;
-    grid-template-columns: 1fr 1fr;
-    gap: 5px;
 }
 
 #sorting-gallery::-webkit-scrollbar {
@@ -325,7 +323,7 @@ button:hover {
 }
 
 #sorting-gallery .img-container {
-  height: 12vh;
+  height: 25vh;
   width: 100%;
   position: relative;
   justify-self: center;
@@ -333,6 +331,10 @@ button:hover {
   transition: transform 0.3s ease;
   cursor: zoom-in;
   max-width: 100%;
+}
+
+#sorting-gallery .special {
+    height: 12vh;
 }
 
 #sorting-gallery img {
@@ -393,12 +395,14 @@ button:hover {
 }
 
 .img-index-display {
-    font-size: 14px;
+    font-size: 1.2rem;
     margin: 0;
+    padding: 0;
     color: #E6C068;
     pointer-events: none;
     font-family: Arial, Helvetica, sans-serif;
     opacity: 0.8;
+    font-weight: bold;
 }
 
 .trash-btn {

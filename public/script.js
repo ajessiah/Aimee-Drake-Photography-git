@@ -483,10 +483,27 @@ const getCurrentGallery = async (destination) => {
 
     const sortingGallery = document.getElementById('sorting-gallery');
     sortingGallery.innerHTML = "";
-    sortingGallery.style.display = "grid";
+
+    if(destination === "portfolio") {
+      Object.assign(sortingGallery.style, {
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr',
+        gridAutoRows: 'auto',
+        gap: '5px',
+        justifyItems: 'center'
+      });
+    } else {
+      Object.assign(sortingGallery.style, {
+        display: 'grid',
+        gridTemplateColumns: '1fr',
+        gridAutoRows: 'auto',
+        gap: '5px',
+        justifyItems: 'center'
+      });
+    }
+
     document.getElementById('sort-controls').style.display = "flex";
     document.getElementById('save-order-btn').style.display = "block";
-    const allContainers = [];
     const storageRef = ref(storage, `galleries/${destination}`);
 
 ;
@@ -498,6 +515,11 @@ const getCurrentGallery = async (destination) => {
         const url = await getDownloadURL(itemRef); 
         const imgContainer = document.createElement('div');
         imgContainer.classList.add('img-container');
+
+        if (destination === "portfolio") {
+          imgContainer.classList.add('special');
+        }
+
         imgContainer.id = `img-container-${index}`;
         const img = document.createElement('img');
         img.id = `img-${index}`;
@@ -539,12 +561,21 @@ const getCurrentGallery = async (destination) => {
           return; // Abort stale load
         }
 
-        rightOverlay.appendChild(upSort);
-        rightOverlay.appendChild(swapColumn);
-        rightOverlay.appendChild(downSort);
-        leftOverlay.appendChild(sendToTopBtn);
-        leftOverlay.appendChild(indexDisplay);
-        leftOverlay.appendChild(trashImg);
+        if (destination === "portfolio") {
+          rightOverlay.appendChild(upSort);
+          rightOverlay.appendChild(swapColumn);
+          rightOverlay.appendChild(downSort);
+          leftOverlay.appendChild(sendToTopBtn);
+          leftOverlay.appendChild(indexDisplay);
+          leftOverlay.appendChild(trashImg);
+        } else {
+          rightOverlay.appendChild(upSort);
+          rightOverlay.appendChild(indexDisplay);
+          rightOverlay.appendChild(downSort);
+          leftOverlay.appendChild(sendToTopBtn);
+          leftOverlay.appendChild(trashImg);
+        }
+
         imgContainer.appendChild(img);
         imgContainer.appendChild(rightOverlay);
         imgContainer.appendChild(leftOverlay); 
@@ -587,8 +618,6 @@ const getCurrentGallery = async (destination) => {
         }
         confirmSort(destination);
     });
-
-    console.log(`${sortingGallery.style.display}`);
 
   } catch (error) {
     console.error("Error fetching storage items:", error);
