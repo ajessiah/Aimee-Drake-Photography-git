@@ -353,6 +353,7 @@ const confirmSort = async (destination) => {
 };
 
 const sortGallery = async (btn) => {
+  
   const imgContainer = btn.closest('.img-container');
   if (!imgContainer) return;
 
@@ -362,22 +363,24 @@ const sortGallery = async (btn) => {
   const maxIndex = containers.length - 1;
   let swapIndex = null;
 
-  if (btn.classList.contains('up')) {
-    if (currentIndex >= 2) {
-      swapIndex = currentIndex - 2;
-    } else if (currentIndex === 1) {
-      swapIndex = 0;
-    } else {
-      return; 
-    }
-  } else if (btn.classList.contains('down')) {
-    if (currentIndex < maxIndex - 2) {
-      swapIndex = currentIndex + 2;
-    } else if (currentIndex === maxIndex - 2 || currentIndex === maxIndex - 1) {
-      swapIndex = maxIndex;
-    } else {
-      return;
-    }
+  const sortStyle = parent.style.gridTemplateColumns === "1fr" ? "one" : "two";
+  
+  if (btn.classList.contains('to-top')) {
+    if (currentIndex === 0) return; 
+
+    parent.insertBefore(imgContainer, parent.firstElementChild);
+
+    const movedItem = currentOrder.splice(currentIndex, 1)[0];
+    currentOrder.unshift(movedItem);
+
+    const updatedContainers = Array.from(parent.children);
+    updatedContainers.forEach((container, i) => {
+      container.id = `img-container-${i}`;
+      const img = container.querySelector('img');
+      if (img) img.id = `img-${i}`;
+      const indexDisplay = container.querySelector('.img-index-display');
+      if (indexDisplay) indexDisplay.textContent = i;
+    });
   } else if (btn.classList.contains('swap')) {
     const isEven = currentIndex % 2 === 0;
     const swapIndex = isEven ? currentIndex + 1 : currentIndex - 1;
@@ -403,23 +406,41 @@ const sortGallery = async (btn) => {
         if (indexDisplay) indexDisplay.textContent = i;
       });
     }
-  } else if (btn.classList.contains('to-top')) {
-  if (currentIndex === 0) return; 
-
-  parent.insertBefore(imgContainer, parent.firstElementChild);
-
-  const movedItem = currentOrder.splice(currentIndex, 1)[0];
-  currentOrder.unshift(movedItem);
-
-  const updatedContainers = Array.from(parent.children);
-  updatedContainers.forEach((container, i) => {
-    container.id = `img-container-${i}`;
-    const img = container.querySelector('img');
-    if (img) img.id = `img-${i}`;
-    const indexDisplay = container.querySelector('.img-index-display');
-    if (indexDisplay) indexDisplay.textContent = i;
-  });
-  }
+  } else if (sortStyle === "one") {
+    if (btn.classList.contains('up')) {
+      if (currentIndex >= 1) {
+        swapIndex = currentIndex - 1;
+      } else {
+        return; 
+      }
+    } else if (btn.classList.contains('down')) {
+      if (currentIndex < maxIndex) {
+        swapIndex = currentIndex + 1;
+      } else {
+        return;
+      }
+    } 
+  } else if (sortStyle === "two") {
+    if (btn.classList.contains('up')) {
+      if (currentIndex >= 2) {
+        swapIndex = currentIndex - 2;
+      } else if (currentIndex === 1) {
+        swapIndex = 0;
+      } else {
+        return; 
+      }
+    } else if (btn.classList.contains('down')) {
+      if (currentIndex < maxIndex - 2) {
+        swapIndex = currentIndex + 2;
+      } else if (currentIndex === maxIndex - 2 || currentIndex === maxIndex - 1) {
+        swapIndex = maxIndex;
+      } else {
+        return;
+      }
+    } 
+  } else {
+    return;
+  };
 
   const swapContainer = containers[swapIndex];
   if (!swapContainer) return;
@@ -528,6 +549,7 @@ const getCurrentGallery = async (destination) => {
 ;
   try {
     const currentGallery = await listAll(storageRef);
+
     originalOrder = currentGallery.items.map((item, index) => ({
       fullPath: item.fullPath,
       originalIndex: index
@@ -635,10 +657,6 @@ const getCurrentGallery = async (destination) => {
     });
 
     document.getElementById('save-order-btn').addEventListener("click", () => {
-        if (thisLoadId !== activeGalleryLoadId) {
-          console.log(`Gallery load for ${destination} aborted – newer request in progress.`);
-          return; // Abort stale load
-        }
         confirmSort(destination);
     });
 
