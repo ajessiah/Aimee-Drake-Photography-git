@@ -37,157 +37,154 @@ const header = document.getElementById('header-div');
 let allContainers = [];
 
 const toHome = () => {
-    content.classList.add('loading');
-    const carouselRef = ref(storage, 'galleries/carousel');
+  content.classList.add('loading');
+  const carouselRef = ref(storage, 'galleries/carousel');
 
-    fetch("Pages/home.txt")
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok: " + response.statusText);
+  fetch("Pages/home.txt")
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok: " + response.statusText);
+      }
+      return response.text();
+    })
+    .then(data => {
+      setTimeout(async () => {
+        content.className = 'home';
+        content.innerHTML = data;
+
+        // Scroll to top
+        content.scrollTo({ top: 0, behavior: "smooth" });
+
+        const carouselDiv = document.getElementById('carousel');
+
+        try {
+          const listResult = await listAll(carouselRef);
+
+          // ✅ Track original order by filename index
+          const originalOrder = listResult.items.map((item, index) => ({
+            fullPath: item.fullPath,
+            originalIndex: index
+          }));
+
+          // ✅ Optional: Sort by filename if Firebase returns items unsorted
+          listResult.items.sort((a, b) => {
+            const nameA = a.name.toLowerCase();
+            const nameB = b.name.toLowerCase();
+            return nameA.localeCompare(nameB, undefined, { numeric: true });
+          });
+
+          await Promise.all(listResult.items.map(async (itemRef, index) => {
+            const url = await getDownloadURL(itemRef);
+            const slide = document.createElement('img');
+            slide.classList.add('slide', 'lazy');
+            slide.dataset.src = url;
+            slide.dataset.originalIndex = originalOrder.find(o => o.fullPath === itemRef.fullPath)?.originalIndex ?? index;
+            slide.alt = `Slide ${index + 1}`;
+            if (index === 0) slide.classList.add('active');
+            carouselDiv.appendChild(slide);
+          }));
+
+          // ✅ Ensure appended DOM order matches `originalOrder`
+          const slidesArray = Array.from(carouselDiv.querySelectorAll('.slide'));
+          slidesArray.sort((a, b) => {
+            return parseInt(a.dataset.originalIndex, 10) - parseInt(b.dataset.originalIndex, 10);
+          }).forEach(slide => carouselDiv.appendChild(slide));
+
+          // ✅ Lazy-load + fade-in
+          const slides = document.querySelectorAll('.slide');
+          slides.forEach(img => {
+            img.src = img.dataset.src;
+            img.onload = () => {
+              img.classList.remove('lazy');
+              img.classList.add('loaded');
+            };
+          });
+
+          // ✅ Carousel nav/controls
+          if (slides.length === 0) throw new Error("No slides found");
+          const prevBtn = document.querySelector('.nav.prev');
+          const nextBtn = document.querySelector('.nav.next');
+          let currentIndex = 0;
+          let slideInterval = setInterval(showNextSlide, 3000);
+
+          function transitionSlide(nextIndex, direction = 'left') {
+            const currentSlide = slides[currentIndex];
+            const nextSlide = slides[nextIndex];
+            if (!nextSlide || !currentSlide) return;
+
+            nextSlide.classList.remove('active', 'out-left', 'out-right');
+            nextSlide.style.transition = 'none';
+            nextSlide.style.transform = direction === 'left' ? 'translateX(100%)' : 'translateX(-100%)';
+            nextSlide.style.opacity = '1';
+            nextSlide.style.zIndex = '2';
+
+            void nextSlide.offsetWidth;
+
+            nextSlide.style.transition = 'transform 0.8s ease-in-out, opacity 0.8s ease-in-out';
+            nextSlide.style.transform = 'translateX(0)';
+
+            currentSlide.style.transition = 'transform 0.8s ease-in-out, opacity 0.8s ease-in-out';
+            currentSlide.style.transform = direction === 'left' ? 'translateX(-100%)' : 'translateX(100%)';
+            currentSlide.style.opacity = '0';
+            currentSlide.style.zIndex = '1';
+
+            setTimeout(() => {
+              currentSlide.classList.remove('active');
+              nextSlide.classList.add('active');
+              currentSlide.removeAttribute('style');
+              nextSlide.removeAttribute('style');
+            }, 800);
+
+            currentIndex = nextIndex;
+          }
+
+          function showNextSlide() {
+            const nextIndex = (currentIndex + 1) % slides.length;
+            transitionSlide(nextIndex, 'left');
+          }
+
+          function showPrevSlide() {
+            const prevIndex = (currentIndex - 1 + slides.length) % slides.length;
+            transitionSlide(prevIndex, 'right');
+          }
+
+          nextBtn.addEventListener('click', () => {
+            clearInterval(slideInterval);
+            showNextSlide();
+            slideInterval = setInterval(showNextSlide, 3000);
+          });
+
+          prevBtn.addEventListener('click', () => {
+            clearInterval(slideInterval);
+            showPrevSlide();
+            slideInterval = setInterval(showNextSlide, 3000);
+          });
+
+          let touchStartX = 0;
+          carouselDiv.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+          }, false);
+
+          carouselDiv.addEventListener('touchend', e => {
+            const touchEndX = e.changedTouches[0].screenX;
+            const diff = touchStartX - touchEndX;
+            if (Math.abs(diff) > 50) {
+              clearInterval(slideInterval);
+              diff > 0 ? showNextSlide() : showPrevSlide();
+              slideInterval = setInterval(showNextSlide, 3000);
             }
-            return response.text();
-        })
-        .then(data => {
-            setTimeout(async () => {
-                content.className = 'home';
-                content.innerHTML = data;
+          }, false);
 
-                // Scroll to top
-                content.scrollTo({ top: 0, behavior: "smooth" });
+        } catch (err) {
+          console.error("Error loading carousel images:", err);
+        }
 
-                // Load slideshow container
-                const carouselDiv = document.getElementById('carousel');
-
-                try {
-                    const result = await listAll(carouselRef);
-
-                    // ✅ Sort files by numeric index in filename (e.g., "carousel-3-image.jpg")
-                    const sortedItems = result.items.sort((a, b) => {
-                        const getIndex = (file) => {
-                            const match = file.name.match(/^[a-zA-Z]+-(\d+)-/);
-                            return match ? parseInt(match[1], 10) : 0;
-                        };
-                        return getIndex(a) - getIndex(b);
-                    });
-
-                    // ✅ Get download URLs in sorted order
-                    const images = await Promise.all(
-                        sortedItems.map(async (itemRef, i) => {
-                            const url = await getDownloadURL(itemRef);
-                            return { url, index: i, name: itemRef.name };
-                        })
-                    );
-
-                    // ✅ Append to carousel in sorted order
-                    images.forEach(({ url, index }) => {
-                        const slide = document.createElement('img');
-                        slide.classList.add('slide', 'lazy');
-                        slide.dataset.src = url;
-                        slide.alt = `Slide ${index + 1}`;
-                        if (index === 0) slide.classList.add('active');
-                        carouselDiv.appendChild(slide);
-                    });
-
-                    // Load images after appending
-                    const slides = document.querySelectorAll('.slide');
-                    slides.forEach(img => {
-                        const realSrc = img.dataset.src;
-                        img.src = realSrc;
-                        img.onload = () => {
-                            img.classList.remove('lazy');
-                            img.classList.add('loaded');
-                        };
-                    });
-
-                    if (slides.length === 0) throw new Error("No slides found");
-
-                    // Navigation buttons
-                    const prevBtn = document.querySelector('.nav.prev');
-                    const nextBtn = document.querySelector('.nav.next');
-                    let currentIndex = 0;
-                    let slideInterval = setInterval(showNextSlide, 3000);
-
-                    function transitionSlide(nextIndex, direction = 'left') {
-                        const currentSlide = slides[currentIndex];
-                        const nextSlide = slides[nextIndex];
-                        if (!nextSlide || !currentSlide) return; // Safety check
-
-                        nextSlide.classList.remove('active', 'out-left', 'out-right');
-                        nextSlide.style.transition = 'none';
-                        nextSlide.style.transform = direction === 'left' ? 'translateX(100%)' : 'translateX(-100%)';
-                        nextSlide.style.opacity = '1';
-                        nextSlide.style.zIndex = '2';
-
-                        void nextSlide.offsetWidth;
-
-                        nextSlide.style.transition = 'transform 0.8s ease-in-out, opacity 0.8s ease-in-out';
-                        nextSlide.style.transform = 'translateX(0)';
-
-                        currentSlide.style.transition = 'transform 0.8s ease-in-out, opacity 0.8s ease-in-out';
-                        currentSlide.style.transform = direction === 'left' ? 'translateX(-100%)' : 'translateX(100%)';
-                        currentSlide.style.opacity = '0';
-                        currentSlide.style.zIndex = '1';
-
-                        setTimeout(() => {
-                            currentSlide.classList.remove('active');
-                            nextSlide.classList.add('active');
-
-                            currentSlide.removeAttribute('style');
-                            nextSlide.removeAttribute('style');
-                        }, 800);
-
-                        currentIndex = nextIndex;
-                    }
-
-                    function showNextSlide() {
-                        const nextIndex = (currentIndex + 1) % slides.length;
-                        transitionSlide(nextIndex, 'left');
-                    }
-
-                    function showPrevSlide() {
-                        const prevIndex = (currentIndex - 1 + slides.length) % slides.length;
-                        transitionSlide(prevIndex, 'right');
-                    }
-
-                    nextBtn.addEventListener('click', () => {
-                        clearInterval(slideInterval);
-                        showNextSlide();
-                        slideInterval = setInterval(showNextSlide, 3000);
-                    });
-
-                    prevBtn.addEventListener('click', () => {
-                        clearInterval(slideInterval);
-                        showPrevSlide();
-                        slideInterval = setInterval(showNextSlide, 3000);
-                    });
-
-                    // Swipe support for mobile
-                    let touchStartX = 0;
-                    carouselDiv.addEventListener('touchstart', (e) => {
-                        touchStartX = e.changedTouches[0].screenX;
-                    }, false);
-
-                    carouselDiv.addEventListener('touchend', (e) => {
-                        const touchEndX = e.changedTouches[0].screenX;
-                        const diff = touchStartX - touchEndX;
-
-                        if (Math.abs(diff) > 50) {
-                            clearInterval(slideInterval);
-                            diff > 0 ? showNextSlide() : showPrevSlide();
-                            slideInterval = setInterval(showNextSlide, 3000);
-                        }
-                    }, false);
-
-                } catch (err) {
-                    console.error("Error loading carousel images:", err);
-                }
-
-                content.classList.remove('loading');
-            }, 200);
-        })
-        .catch(error => {
-            console.error('Error loading the text file:', error);
-        });
+        content.classList.remove('loading');
+      }, 200);
+    })
+    .catch(error => {
+      console.error('Error loading the text file:', error);
+    });
 };
 
 window.onload = toHome;

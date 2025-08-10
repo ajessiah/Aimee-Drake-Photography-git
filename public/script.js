@@ -24,6 +24,7 @@ const fileInput = document.getElementById('fileInput');
 const selectedFiles = document.getElementById('selected-files');
 const sortingGallery = document.getElementById('sorting-gallery');
 let allSelectedFiles = [];
+let originalOrder = [];
 let currentOrder = [];
 let activeGalleryLoadId = 0;
 
@@ -236,22 +237,40 @@ const confirmSort = async (destination) => {
   const items = await listAll(storageFolderRef);
 
   const containers = Array.from(document.querySelectorAll('#sorting-gallery .img-container'));
-  currentOrder = containers.map((container, i) => {
+
+  const newOrder = containers.map((container, index) => {
+    const img = container.querySelector('img');
+    const fullPath = img?.getAttribute('data-path');
+    return { fullPath, newIndex: index };
+  });
+
+  // Keep only moved files
+  const changedFiles = newOrder.filter(({ fullPath, newIndex }) => {
+    const original = originalOrder.find(o => o.fullPath === fullPath);
+    return original && original.originalIndex !== newIndex;
+  });
+
+  if (!changedFiles.length) {
+    updateStatus("No image order changes detected. Original gallery order preserved.");
+    return;
+  }
+
+    currentOrder = containers.map((container, i) => {
     const img = container.querySelector('img');
     const fullPath = img?.getAttribute('data-path');
     return currentOrder.find(item => item.fullPath === fullPath);
   }).filter(Boolean);
 
+  // Process only changed files
   const sortedBlobs = await Promise.all(
-    currentOrder.map(async ({ name, fullPath }, index) => {
+    changedFiles.map(async ({ fullPath, newIndex }) => {
       const imageRef = ref(storage, fullPath);
       const url = await getDownloadURL(imageRef);
       const blob = await fetch(url).then(res => res.blob());
-      const cleanName = name.replace(/^[a-zA-Z]+-\d{2,}-/, '');
-      const newName = `${destination}-${index.toString().padStart(2, '0')}-${cleanName}`;
-      const newFullPath = `galleries/${destination}/${newName}`;
-
-      return { blob, fullPath, newFullPath, size: blob.size };
+      const oldName = fullPath.split('/').pop();
+      const cleanName = oldName.replace(/^[a-zA-Z]+-\d{2,}-/, '');
+      const destinationName = `${destination}-${newIndex.toString().padStart(2, '0')}-${cleanName}`;
+      return { blob, fullPath, newFullPath: `galleries/${destination}/${destinationName}`, size: blob.size };
     })
   );
 
@@ -509,6 +528,10 @@ const getCurrentGallery = async (destination) => {
 ;
   try {
     const currentGallery = await listAll(storageRef);
+    originalOrder = currentGallery.items.map((item, index) => ({
+      fullPath: item.fullPath,
+      originalIndex: index
+    }));
     
     for (const [index, itemRef] of currentGallery.items.entries()) {
 
