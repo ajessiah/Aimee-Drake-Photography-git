@@ -1,9 +1,6 @@
 
-<div id="page-title">
-            <p>ABOUT ME</p>
-	    <div class="underline"></div>
-        </div>
-        <div id="about-me">
+
+        <div id="about-me-container">
             <p>
 	      <div id="headshot"><img src="Photos/Headshot.JPEG" alt='headshot'/></div>
 	    </p>

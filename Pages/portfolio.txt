@@ -1,6 +1,1 @@
-
-<div id="page-title">
-  <p>PORTFOLIO</p>
-  <div class="underline"></div>
-</div>
 <div id="portfolio-container"></div>

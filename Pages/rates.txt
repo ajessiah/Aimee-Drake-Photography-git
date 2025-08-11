@@ -1,7 +1,4 @@
-      <div id="page-title">
-        <p>RATES</p>
-        <div class="underline"></div>
-      </div>
+<div id="rates-container">
       <div id="rates-summary">
         <button id="tier-one-rates" class="dropdown-btn">Up to 2500 sqft</button>
         <div id="tier-one-dropdown" class="dropdown-content hidden">
@@ -51,3 +48,4 @@
           </ul>
         </div>
       </div>
+</div>

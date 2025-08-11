@@ -1,23 +1,5 @@
-<div id="page-title">
-  <p>WELCOME</p>
-  <div class="underline"></div>
-</div>
 <div id="slideshow-div" class="carousel">
   <div id='carousel'></div>
-<!-- TESTING
-  <img class="slide active" loading="lazy" src="Photos/Featured/Sun Room 1.jpg" alt="Slide 1">
-  <img class="slide" loading="lazy" src="Photos/Featured/Twilight Ext 01.jpg" alt="Slide 2">
-  <img class="slide" loading="lazy" src="Photos/Featured/Dining Room 1.jpg" alt="Slide 3">
-  <img class="slide" loading="lazy" src="Photos/Featured/Kitchen 01.jpg" alt="Slide 4">
-  <img class="slide" loading="lazy" src="Photos/Featured/Backyard 1.jpg" alt="Slide 5">
-  <img class="slide" loading="lazy" src="Photos/Featured/Aerial 1.jpg" alt="Slide 6">
-  <img class="slide" loading="lazy" src="Photos/Featured/Twilight Ext.jpg" alt="Slide 7">
-  <img class="slide" loading="lazy" src="Photos/Featured/23ValleyView_16.jpg" alt="Slide 8">
-  <img class="slide" loading="lazy" src="Photos/Featured/23ValleyView_11.jpg" alt="Slide 9">
-  <img class="slide" loading="lazy" src="Photos/Featured/Living Room 01.jpg" alt="Slide 10">
-  <img class="slide" loading="lazy" src="Photos/Featured/Living Room 2.jpg" alt="Slide 11">
-TESTING -->
-
   <button class="nav prev">&#10094;</button>
   <button class="nav next">&#10095;</button>
 </div>

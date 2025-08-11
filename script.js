@@ -39,6 +39,7 @@ let allContainers = [];
 const toHome = () => {
   content.classList.add('loading');
   const carouselRef = ref(storage, 'galleries/carousel');
+  document.getElementById('page-title-text').innerText = `WELCOME`;
 
   fetch("Pages/home.txt")
     .then(response => {
@@ -60,13 +61,11 @@ const toHome = () => {
         try {
           const listResult = await listAll(carouselRef);
 
-          // ✅ Track original order by filename index
           const originalOrder = listResult.items.map((item, index) => ({
             fullPath: item.fullPath,
             originalIndex: index
           }));
 
-          // ✅ Optional: Sort by filename if Firebase returns items unsorted
           listResult.items.sort((a, b) => {
             const nameA = a.name.toLowerCase();
             const nameB = b.name.toLowerCase();
@@ -194,6 +193,8 @@ hamHome.addEventListener("click", toHome);
 
 const toAbout = () => {
     content.classList.add('loading');
+    document.getElementById('page-title-text').innerText = `ABOUT ME`;
+
     fetch("Pages/about.txt")
         .then(response => {
             if (!response.ok) {
@@ -222,8 +223,11 @@ const toAbout = () => {
 aboutBtn.addEventListener("click", toAbout);
 hamAbout.addEventListener("click", toAbout);
 
+
+
 const toPortfolio = () => {
     content.classList.add('loading');
+    document.getElementById('page-title-text').innerText = `PORTFOLIO`;
 
     const portfolioRef = ref(storage, 'galleries/portfolio');
     allContainers = [];
@@ -322,13 +326,21 @@ const toPortfolio = () => {
                                 focusImg.style.width = '100%';
                                 focusImg.style.height = '100%';
                                 focusImg.style.objectFit = 'cover';
+                                focusImg.style.objectPosition = "center 60%";
 
                                 focusFrame.appendChild(focusImg);
                                 document.body.appendChild(focusFrame);
 
                                 requestAnimationFrame(() => {
                                     const targetWidth = window.innerWidth * 0.85;
-                                    const targetHeight = window.innerHeight * 0.30;
+                                    let targetHeight;
+                                    
+                                    if (window.innerWidth < 481) {
+                                        targetHeight = window.innerHeight * 0.30;
+                                    } else {
+                                        targetHeight = window.innerHeight * 0.37;
+                                    }
+                                    
                                     focusFrame.style.width = `${targetWidth}px`;
                                     focusFrame.style.height = `${targetHeight}px`;
                                     focusFrame.style.top = `57%`;
@@ -373,11 +385,15 @@ const toPortfolio = () => {
         });
 };
 
+
+
 portfolioBtn.addEventListener("click", toPortfolio);
 hamPortfolio.addEventListener("click", toPortfolio);
 
 const toRates = () => {
     content.classList.add('loading');
+    document.getElementById('page-title-text').innerText = `RATES`;
+
     fetch("Pages/rates.txt")
     .then(response => {
         if (!response.ok) {
@@ -418,6 +434,8 @@ hamRates.addEventListener("click", toRates);
 
 const toContact = () => {
     content.classList.add('loading');
+    document.getElementById('page-title-text').innerText = `CONTACT`;
+
     fetch("Pages/contact.txt")
     .then(response => {
         if (!response.ok) {

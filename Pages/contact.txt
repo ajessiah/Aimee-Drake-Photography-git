@@ -1,7 +1,4 @@
-    <div id="page-title">
-      <p>CONTACT</p>
-      <div class="underline"></div>
-    </div>
+<div id='contact-container'>
     <div id="contact-btns">
       <a href="tel:+15035286244">
         <button type="button"><i class="fa-solid fa-phone" style="color: #e6c068;"></i>503.528.6244</button>
@@ -36,3 +33,4 @@
       </fieldset>
       <button type="submit">SUBMIT</button>
     </form>
+</div>
