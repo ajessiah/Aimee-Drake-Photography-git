@@ -56,7 +56,33 @@ const toHome = () => {
         // Scroll to top
         content.scrollTo({ top: 0, behavior: "smooth" });
 
+        const slideshowDiv = document.getElementById('slideshow-div');
         const carouselDiv = document.getElementById('carousel');
+        const carouselNav = Array.from(document.getElementsByClassName('nav'));
+        
+        if (window.innerWidth >= 769) {
+            carouselNav.forEach((nav) => {
+                nav.classList.add('sleepy');
+            });
+        };
+
+        slideshowDiv.addEventListener("mouseenter", () => {
+            carouselNav.forEach((nav) => {
+                if(nav.classList.contains('sleepy')) {
+                    nav.classList.remove('sleepy');
+                }
+            });
+        });
+
+        slideshowDiv.addEventListener("mouseleave", () => {
+            carouselNav.forEach((nav) => {
+                if (window.innerWidth >= 769) {
+                    carouselNav.forEach((nav) => {
+                        nav.classList.add('sleepy');
+                    });
+                };
+            });
+        });
 
         try {
           const listResult = await listAll(carouselRef);
@@ -186,7 +212,7 @@ const toHome = () => {
     });
 };
 
-window.onload = toHome;
+//window.onload = toHome;
 homeBtn.addEventListener("click", toHome);
 logoDiv.addEventListener("click", toHome);
 hamHome.addEventListener("click", toHome);
@@ -212,6 +238,25 @@ const toAbout = () => {
                 behavior: "smooth"
             });
 
+            const aboutMe = document.getElementById('about-me-container');
+            const breaks = aboutMe.querySelectorAll("br");
+            console.log(breaks);
+
+            if (window.innerWidth >= 769) {
+                breaks.forEach((br, index) => {
+                    if (index % 2 === 0) {
+                        console.log(index);
+                        br.style.display = "none";
+                        breaks[index + 1].style.display = "none";
+                    } 
+                    
+                    if (index % 4 === 0 && index !== 0) {
+                        br.style.display = "block";
+                        breaks[index + 1].style.display = "block";
+                    } 
+                })
+            }
+
             content.classList.remove('loading');
             }, 200);
         })
@@ -222,8 +267,6 @@ const toAbout = () => {
 
 aboutBtn.addEventListener("click", toAbout);
 hamAbout.addEventListener("click", toAbout);
-
-
 
 const toPortfolio = () => {
     content.classList.add('loading');
@@ -326,7 +369,13 @@ const toPortfolio = () => {
                                 focusImg.style.width = '100%';
                                 focusImg.style.height = '100%';
                                 focusImg.style.objectFit = 'cover';
-                                focusImg.style.objectPosition = "center 60%";
+
+                                if (window.innerWidth > 786) {
+                                    focusImg.style.objectPosition = "center 45%";
+                                } else {
+                                    focusImg.style.objectPosition = "center 60%";
+                                }
+                                
 
                                 focusFrame.appendChild(focusImg);
                                 document.body.appendChild(focusFrame);
@@ -335,10 +384,16 @@ const toPortfolio = () => {
                                     const targetWidth = window.innerWidth * 0.85;
                                     let targetHeight;
                                     
-                                    if (window.innerWidth < 481) {
+                                    if (window.innerWidth <= 480) {
                                         targetHeight = window.innerHeight * 0.30;
-                                    } else {
+                                    } 
+                                    
+                                    if (window.innerWidth > 480 && window.innerWidth <= 768) {
                                         targetHeight = window.innerHeight * 0.37;
+                                    }
+
+                                    if (window.innerWidth > 786 && window.innerWidth <= 1024) {
+                                        targetHeight = window.innerHeight * 0.54;
                                     }
                                     
                                     focusFrame.style.width = `${targetWidth}px`;
@@ -385,8 +440,6 @@ const toPortfolio = () => {
         });
 };
 
-
-
 portfolioBtn.addEventListener("click", toPortfolio);
 hamPortfolio.addEventListener("click", toPortfolio);
 
@@ -412,8 +465,13 @@ const toRates = () => {
             });
 
             const dropdownBtns = document.querySelectorAll(".dropdown-btn");
-            const dropdownContent = document.querySelectorAll(".dropdown-content");
+            const dropdownContent = Array.from(document.querySelectorAll(".dropdown-content"));
+            const addOnsAerial = dropdownContent[3].querySelector('img');
 
+            if(window.innerWidth >= 769) {
+                addOnsAerial.style.objectPosition = "50% 85%";
+            };
+            
             dropdownBtns.forEach((button, index) => {
                 button.addEventListener("click", () => {
                     dropdownContent[index].classList.toggle("hidden");
@@ -496,6 +554,9 @@ const toContact = () => {
 contactBtn.addEventListener("click", toContact);
 hamContact.addEventListener("click", toContact);
 
+toContact();
+
+
 hamMenuBtn.addEventListener("click", (e) => {
     e.stopPropagation();
     hamMenu.classList.toggle("active");
@@ -526,3 +587,4 @@ overlayButtons.forEach(button => {
     hamMenuBtn.style.color = "white";
   });
 });
+

@@ -1,6 +1,6 @@
 <div id="slideshow-div" class="carousel">
   <div id='carousel'></div>
-  <button class="nav prev">&#10094;</button>
-  <button class="nav next">&#10095;</button>
+  <button class="nav prev"><i class="fa-solid fa-chevron-left"></i></button>
+  <button class="nav next"><i class="fa-solid fa-chevron-right"></i></button>
 </div>
 
