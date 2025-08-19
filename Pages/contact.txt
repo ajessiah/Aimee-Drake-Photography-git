@@ -11,8 +11,8 @@
     <form action="#" method="post" id="contact-form">
       <fieldset id="contact-name">
         <p>Your Name</p>
-        <input type="text" id="first-name" name="first-name" placeholder="First Name" required>
-        <input type="text" id="last-name" name="last-name" placeholder="Last Name" required>
+        <input type="text" id="first-name" name="firstName" placeholder="First Name" required>
+        <input type="text" id="last-name" name="lastName" placeholder="Last Name" required>
       </fieldset>
       <fieldset id="contact-message">
       <p>Your Message</p>
@@ -21,11 +21,11 @@
       <fieldset id="contact-preference">
         <p>Preferred Contact Method</p>
         <label>
-          <input id="pref-phone" type="radio" name="contact-method" value="phone" checked required>
+          <input id="pref-phone" type="radio" name="contact-method" value="Phone" checked required>
           Phone
         </label>
         <label>
-          <input id="pref-email" type="radio" name="contact-method" value="email" required>
+          <input id="pref-email" type="radio" name="contact-method" value="Email" required>
           Email
         </label>
         <input type="text" id="phone-input" name="contact-info" placeholder="555-555-5555">

@@ -1,10 +1,15 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
     getStorage,
-    ref,
+    ref as storageRef,
     getDownloadURL,
-    listAll
+    listAll, 
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+import { 
+    getFirestore, collection, addDoc, getDocs 
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getDatabase, push, set, ref as realTimeRef } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyCzeqUokZe4nVbZPCaqLVkioetMEUY6M2k",
@@ -17,6 +22,8 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const storage = getStorage(app);
+const firebase = getFirestore(app);
+const realTime = getDatabase(app);
 
 const content = document.getElementById('page-content');
 const logoDiv = document.getElementById('logo-container');
@@ -36,9 +43,15 @@ const hamContact = document.getElementById('ham-contact-btn');
 const header = document.getElementById('header-div');
 let allContainers = [];
 
+async function submitForm(data) {
+  const submissionsRef = realTimeRef(realTime, "customerFeedback");
+  const newSubmission = push(submissionsRef);
+  await set(newSubmission, data);
+}
+
 const toHome = () => {
   content.classList.add('loading');
-  const carouselRef = ref(storage, 'galleries/carousel');
+  const carouselRef = storageRef(storage, 'galleries/carousel');
   document.getElementById('page-title-text').innerText = `WELCOME`;
 
   fetch("Pages/home.txt")
@@ -272,7 +285,7 @@ const toPortfolio = () => {
     content.classList.add('loading');
     document.getElementById('page-title-text').innerText = `PORTFOLIO`;
 
-    const portfolioRef = ref(storage, 'galleries/portfolio');
+    const portfolioRef = storageRef(storage, 'galleries/portfolio');
     allContainers = [];
 
     fetch(`Pages/portfolio.txt`)
@@ -515,6 +528,43 @@ const toContact = () => {
             const dropdownContent = document.getElementById('contact-form');
             dropdownContent.classList.add("hidden");
 
+            document.getElementById("contact-form").addEventListener("submit", async (e) => {
+                e.preventDefault();
+                console.log(e.target.firstName.value);
+
+                let contactValue;
+                let customerName = `${e.target.firstName.value} ${e.target.lastName.value}`
+
+                const contactMethod = document.querySelector('input[name="contact-method"]:checked').value;
+
+                if (contactMethod === "Phone") {
+                    // Grab value from the phone input
+                    contactValue = document.getElementById("phone-input").value;
+                } else if (contactMethod === "Email") {
+                    // Grab value from the email input
+                    contactValue = document.getElementById("email-input").value;
+                }
+
+                const formData = new URLSearchParams();
+                formData.append("name", customerName);
+                formData.append("contactMethod", contactMethod);
+                formData.append("contactValue", contactValue);
+                formData.append("message", e.target.message.value);
+                formData.append("timestamp", Date.now());
+
+                await fetch("https://hooks.zapier.com/hooks/catch/24269960/utmko0s/", {
+                    method: "POST",
+                    body: formData
+                });
+
+                const submissionsRef = realTimeRef(realTime, "customerFeedback");
+                const newSubmission = push(submissionsRef);
+                await set(newSubmission, formData);
+
+                alert("Form submitted");
+                e.target.reset();
+            });
+
             dropdownBtn.addEventListener("click", () => {
                 dropdownContent.classList.toggle("hidden");
 
@@ -542,6 +592,7 @@ const toContact = () => {
                     emailRadio.addEventListener("change", toggleContactInput);
                 }
             })
+
             content.classList.remove('loading');
 
         }, 200);

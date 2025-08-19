@@ -617,7 +617,6 @@
 
 }
 
-
 @media (min-width: 481px) and (max-width: 768px) {
     body {
         background-color: black;
@@ -1241,67 +1240,140 @@
     }
 
     #header-div {
-        height: 20vh;
+        height: 15vh;
         width: 100vw;
         margin: 0;
         position: fixed;
+        padding: 0 5% ;
         z-index: 9;
         box-shadow: 0 7px 35px #3b3b3a8c;
+        background-color: black;
+        display: flex;
+        align-items: flex-end;
     }
 
     #site-title {
-        height: 20vh;
-        width: 100vw;
-        margin: 0 auto;
-        padding: 0 20px 0 20px;
+        height: 100%;
+        max-height: 100px;
+        width: auto;
+        max-width: 200px;
+        margin: 0;
+        padding: 5px 5px 5px 10px;
         display: flex;
-        flex-flow: row nowrap;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
-        background-color: black;
         color: white;
+        
     }
 
     #logo-container {
-        height: 16vh;
-        width: 70vw;
-        margin: 0;
+        height: 100%;
+        width: 100%;
         display: flex;
+        justify-content: center;
+        position: relative;
+        
     }
 
     #logo-container img {
-        object-fit: fill;
+        object-fit: contain;
+        width: 100%;
+        height: 100%;
     }
 
     #hamburger-btn {
-        width: fit-content;
-        margin: 0;
-        padding: 0;
-        display: block;
-        background: none;
-        border: none;
-        color: white;
-        font-size: 2rem;
-        cursor: pointer;
+        display: none;
     }
 
     #to-instagram {
         display: none;
     }
 
-    #nav-menu, #nav-menu ul, #nav-menu li, #nav-menu button {
-        display: none;
+    #nav-menu {
+        display: flex;
+        width: 100%;
+        height: fit-content;
+        margin: 0;
+        padding: 0;
+    }
+
+    #nav-menu ul {
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        margin: 0 auto;
+        padding: 0;
+        width: 100%;
+    }
+
+    #nav-menu li {
+        list-style: none;
+        width: fit-content;
+        font-family: Arial, Helvetica, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+    }
+
+    #nav-menu button {
+        height: 90%;
+        display: flex;
+        font-size: clamp(0.05rem, 1.3vw + 0.35rem, 2.5rem);
+        border: none;
+        color: #292929;
+        border-bottom: 2px solid transparent;
+        padding: 0 0 6px 0;
+        letter-spacing: 0.25rem;
+        transition: color 0.35s ease-in-out, border 0.35s ease-in-out;
+        justify-content: center;
+        width: fit-content;
+    }
+
+    #nav-menu button:hover {
+        border-bottom: 2px solid #E6C068;
+        color: whitesmoke;
+        padding: none;
+        margin: none;
+    }
+
+    .menu-spacer {
+        height: 100%;
+        width: 40px;
+    }
+
+    .menu-spacer.bookend {
+        width: 28px;
+    }
+
+    #home-btn {
+        background: none;
+    }
+
+    #about-btn {
+        background: none;
+    }
+
+    #portfolio-btn {
+        background: none;
+    }
+
+    #rates-btn {
+        background: none;
+    }
+
+    #contact-btn {
+        background: none;
     }
 
     #page-title {
-        height: fit-content;
+        height: 8vh;
         width: 100%;
-        padding-top: 3vh;
         display: flex;
         flex-flow: column;
         justify-content: flex-end;
         align-items: center;
-        margin: 20vh auto 2.5vh auto;
+        margin: 15vh auto 0 auto;
     }
 
     h2 {
@@ -1309,7 +1381,7 @@
         padding: 0;
         color: white;
         font-family: Arial, Helvetica, sans-serif;
-        font-size: 1.8rem;
+        font-size: clamp(1.9rem, 1.9em * 1vw, 2rem);
         font-weight: 600;
         letter-spacing: 7px;
         
@@ -1322,67 +1394,52 @@
         border-radius: 1px;
         display: block;
         background-color: #E6C068;
-        
     }
 
     #page-content {
-        height: fit-content;
-        min-height: 46vh;
+        height: 63vh;
         width: 100vw;
-        margin: 0 auto 2.5vh auto;
+        padding-top: 3vh;
         display: flex;
         align-items: center;
         justify-content: center;
-        overflow-y: auto;
+        overflow-y: scroll;
     }
 
+    #page-content::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
     #menu-overlay {
-        height: 42vh;
-        width: 85%;
-        margin-top: 20vh;
-        padding-right: 25px;
-        position: fixed;
-        right: 0;
-        display: flex;
-        flex-flow: column wrap;
-        justify-content: space-between;
-        background-color: #000000e8;
-        box-shadow:  0 0 50px 25px #00000099;
-        z-index: 10;
+        display: none;
     }
 
     #menu-overlay ul {
-        margin: 0;
-        padding: 0;
-        position: relative;
-        list-style: none;
+        display: none;
     }
 
     .overlay-btns {
-        height: 8vh;
-        width: 100%;
-        margin: 0;
-        position: relative;
-        background: none;
-        border: none;
-        color: whitesmoke;
-        text-align: right;
-        font-size: 1.2rem;
-        letter-spacing: 2px;
+        display: none;
     }
 
-    .overlay-btns:hover {
-        color: #E6C068;
+    #footer {
+        height: 14vh;
+        box-shadow: 0 -10px 25px #3b3b3a8c;
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        flex-flow: column nowrap;
+        align-items: center;
     }
 
     #licensing {
-        height: fit-content;
-        width: 100vw;
-        padding: 15px 10vw;
+        height: 50%;
+        width: 90%;
         display: flex;
         justify-content: center;
         background-color: black;
-        box-shadow: 0 -10px 25px #3b3b3a8c;
+        
     }
 
     #licensing p {
@@ -1394,9 +1451,8 @@
     }
 
     #social-footer {
-        height: 7vh;
+        height: 50%;
         width: 100%;
-        margin-bottom:5vh;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -1424,6 +1480,7 @@
 
     #slideshow-div {
         height: 50vh;
+        max-height: 500px;
         width: 90%;
         position: relative;
         overflow: hidden;
@@ -1521,7 +1578,7 @@
     #about-me-container {
         height: fit-content;
         width: 90%;
-        margin: 0 auto;
+        margin: 0 auto 2vh auto;
         padding: 45px;
         overflow-y: scroll;
         background-color: #151515;
@@ -1732,6 +1789,7 @@
     form input, form textarea {
         background-color: #151515;
         border: none;
+        color: whitesmoke;
     }
 
     form input:focus, form textarea:focus {
@@ -1751,6 +1809,7 @@
     fieldset {
         margin: 5px auto;
         border: none;
+        color: whitesmoke;
     }
 
     #contact-name {
@@ -1811,6 +1870,7 @@
         padding: 8px;
         font-family: Arial, Helvetica, sans-serif;
         font-size: 1rem;
+        color: whitesmoke;
     }
 
     #contact-preference {
@@ -1870,10 +1930,10 @@
     
 }
 
-
 @media (min-width: 1025px) {
 
 }
+
 
 html, body {
     width: 100%;
@@ -1881,6 +1941,7 @@ html, body {
     padding: 0;
     margin: 0;
     overflow-x: hidden;
+    overflow-y: hidden;
     scroll-behavior: auto; 
 }
 
