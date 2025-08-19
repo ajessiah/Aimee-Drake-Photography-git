@@ -225,7 +225,7 @@ const toHome = () => {
     });
 };
 
-//window.onload = toHome;
+window.onload = toHome;
 homeBtn.addEventListener("click", toHome);
 logoDiv.addEventListener("click", toHome);
 hamHome.addEventListener("click", toHome);
@@ -604,8 +604,6 @@ const toContact = () => {
 
 contactBtn.addEventListener("click", toContact);
 hamContact.addEventListener("click", toContact);
-
-toContact();
 
 
 hamMenuBtn.addEventListener("click", (e) => {
