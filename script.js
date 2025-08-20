@@ -1,14 +1,14 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 import {
     getStorage,
     ref as storageRef,
     getDownloadURL,
     listAll, 
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-storage.js";
 import { 
     getFirestore, collection, addDoc, getDocs 
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import { getDatabase, push, set, ref as realTimeRef } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+import { getDatabase, push, set, ref as realTimeRef } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
 
 
 const firebaseConfig = {
