@@ -745,7 +745,5 @@ document.getElementById('sort-portfolio').addEventListener("click", () => {
     document.getElementById('sort-carousel').style.color = "whitesmoke";
 });
 
-document.getElementById('logo-container').addEventListener("click", () => {
-    toHome();
-});
+
 
