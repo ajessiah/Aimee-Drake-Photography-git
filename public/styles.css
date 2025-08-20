@@ -46,12 +46,105 @@ body::-webkit-scrollbar {
     background-color: black;
     width: 100vw;
     height: fit-content;
-    min-height: 100vh;
     padding-top: 20vh;
+    display: flex;
+    flex-direction: column; 
+    min-height: 100vh; 
+}
+
+#page-title-text {
+    font-size: 1.8rem;
+}
+
+#login-form, #admin-ui {
+  display: none;
+}
+
+#login-form {
+    background-color: #151515;
+    display: flex;
+    flex-flow: column wrap;
+    width: 80vw;
+    max-width: 525px;
+    height: 25vh;
+    padding: 2.5vh 0;
+    margin: 4vh auto 0 auto;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#login-form input {
+    border: none;
+    height: 5vh;
+    width: 65vw;
+    max-width: 450px;
+    background-color: black;
+    padding: 10px;
+    font-size: 1rem;
+    color: whitesmoke;
+}
+
+#login-form input:focus {
+    outline: 2px solid #E6C068;
+}
+
+#email {
+    display: block;
+}
+
+#password {
+    display: block;
+}
+
+#login-btn {
+    display: block;
+    width: 35vw;
+    max-width: 315px;
+    height: 5vh;
+    margin: 1vh 0 0 0;
+    background-color: black;
+    border: none;
+    color: whitesmoke;
+    font-family: Arial, Helvetica, sans-serif;
+    letter-spacing: 0.2rem;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+#login-btn:hover {
+    background-color: #E6C068;
+    color: black;
+}
+
+#admin-ui {
+    background-color: black;
+    height: fit-content;
+    width: 100%;
+    margin-top: auto; 
+    margin-bottom: 1vh;
+    box-shadow: 0 -5px 35px #3b3b3a8c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#logout-btn {
+    background-color: black;
+    color: whitesmoke;
+    border: 2px solid #E6C068;
+    height: 5vh;
+    width: 20vw;
+    margin: 1rem;
+    font-size: 1rem;
+}
+
+#logout-btn:hover {
+    background-color: #E6C068;
+    color: black;
 }
 
 #feature-menu {
-    display: flex;
+    display: none;
     flex-flow: column nowrap;
     height: 12vh;
     width: 100%;

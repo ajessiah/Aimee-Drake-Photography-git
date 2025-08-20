@@ -1,4 +1,4 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 import {
     getStorage,
     ref,
@@ -7,7 +7,13 @@ import {
     listAll,
     deleteObject,
     uploadString
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-storage.js";
+import { 
+    getAuth, 
+    onAuthStateChanged, 
+    signInWithEmailAndPassword, 
+    signOut 
+  } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCzeqUokZe4nVbZPCaqLVkioetMEUY6M2k",
@@ -20,6 +26,42 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const storage = getStorage(app);
+const auth = getAuth(app);
+
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+      console.log("Signed in as:", user.email);
+      document.getElementById('page-title-text').innerHTML = "ADMIN HOME";
+      document.getElementById("admin-ui").style.display = "flex";
+      document.getElementById("login-form").style.display = "none";
+      document.getElementById('feature-menu').style.display = "flex";
+    } else {
+      console.log("Not signed in");
+      document.getElementById('page-title-text').innerHTML = "ADMIN LOGIN";
+      document.getElementById("login-form").style.display = "flex";
+      document.getElementById("admin-ui").style.display = "none";
+      document.getElementById('feature-menu').style.display = "none";
+    }
+  });
+
+  // Login handler
+  document.getElementById("login-btn")?.addEventListener("click", async () => {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      console.log("Signed in");
+    } catch (err) {
+      alert("Login failed: " + err.message);
+    }
+  });
+
+  // Logout handler
+  document.getElementById("logout-btn")?.addEventListener("click", async () => {
+    await signOut(auth);
+    console.log("Signed out");
+  });
+
 const fileInput = document.getElementById('fileInput');
 const selectedFiles = document.getElementById('selected-files');
 const sortingGallery = document.getElementById('sorting-gallery');
@@ -135,7 +177,6 @@ const toHome = () => {
     document.getElementById('page-title-text').innerText = `ADMIN HOME`;
 };
 
-window.onload = toHome();
 
 // UPLOAD PHOTOS
 
