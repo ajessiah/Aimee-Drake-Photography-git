@@ -296,31 +296,31 @@ const confirmSort = async (destination) => {
     return;
   }
 
-    currentOrder = containers.map((container, i) => {
+  currentOrder = containers.map((container, i) => {
     const img = container.querySelector('img');
     const fullPath = img?.getAttribute('data-path');
     return currentOrder.find(item => item.fullPath === fullPath);
   }).filter(Boolean);
 
-  // Process only changed files
+  // Fetch blobs for changed files
   const sortedBlobs = await Promise.all(
     changedFiles.map(async ({ fullPath, newIndex }) => {
       const imageRef = ref(storage, fullPath);
       const url = await getDownloadURL(imageRef);
       const blob = await fetch(url).then(res => res.blob());
+
       const oldName = fullPath.split('/').pop();
       const cleanName = oldName.replace(/^[a-zA-Z]+-\d{2,}-/, '');
       const destinationName = `${destination}-${newIndex.toString().padStart(2, '0')}-${cleanName}`;
-      return { blob, fullPath, newFullPath: `galleries/${destination}/${destinationName}`, size: blob.size };
+
+      return { 
+        blob, 
+        fullPath, 
+        newFullPath: `galleries/${destination}/${destinationName}`, 
+        size: blob.size 
+      };
     })
   );
-
-  for (const item of items.items) {
-    const match = sortedBlobs.find(b => b.fullPath === item.fullPath);
-    if (match && match.newFullPath !== item.fullPath) {
-      await deleteObject(item);
-    }
-  }
 
   const progressContainer = document.getElementById('progress-bar-container');
   const progressVisual = document.getElementById('progress-bar-visual');
@@ -344,7 +344,7 @@ const confirmSort = async (destination) => {
       if (index >= sortedBlobs.length) return;
 
       while (activeUploads < maxConcurrent && index < sortedBlobs.length) {
-        const { blob, newFullPath } = sortedBlobs[index++];
+        const { blob, newFullPath, fullPath } = sortedBlobs[index++];
         const storageRef = ref(storage, newFullPath);
         const uploadTask = uploadBytesResumable(storageRef, blob);
 
@@ -368,7 +368,16 @@ const confirmSort = async (destination) => {
             activeUploads--;
             uploadNext(); 
           },
-          () => {
+          async () => {
+            // ✅ After upload success, delete old file
+            try {
+              if (newFullPath !== fullPath) {
+                await deleteObject(ref(storage, fullPath));
+              }
+            } catch (err) {
+              console.warn(`Could not delete old file ${fullPath}:`, err);
+            }
+
             activeUploads--;
             completed++;
             if (completed === sortedBlobs.length) {
