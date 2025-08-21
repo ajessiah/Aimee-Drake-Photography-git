@@ -173,6 +173,7 @@ body::-webkit-scrollbar {
 #status-placeholder {
     margin: 0 auto;
     height: 5vh;
+    width: 100%;
 }
 
 #status {

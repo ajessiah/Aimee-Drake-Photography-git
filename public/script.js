@@ -58,6 +58,7 @@ onAuthStateChanged(auth, (user) => {
 
   // Logout handler
   document.getElementById("logout-btn")?.addEventListener("click", async () => {
+    clearStatus();
     await signOut(auth);
     if (document.getElementById('sort-photos').style.display = "block") {
       document.getElementById('sort-photos').style.display = "none";
