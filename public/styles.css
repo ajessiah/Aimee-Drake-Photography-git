@@ -8,7 +8,8 @@ html, body {
     padding: 0;
     margin: 0;
     overflow-x: hidden;
-    scroll-behavior: auto;
+    overflow-y: hidden;
+    scroll-behavior: none;
     background-color: black;
 }
 
@@ -24,7 +25,6 @@ body::-webkit-scrollbar {
     width: 100vw;
     margin: 0;
     position: fixed;
-    margin: 0 auto;
     padding: 15px 0;
     display: flex;
     align-items: center;
@@ -43,13 +43,14 @@ body::-webkit-scrollbar {
 /* PAGE CONTENT */
 
 #page-content {
-    background-color: black;
     width: 100vw;
     height: fit-content;
+    min-height: 66vh;
     padding-top: 20vh;
     display: flex;
     flex-direction: column; 
     min-height: 100vh; 
+
 }
 
 #page-title-text {
@@ -121,8 +122,7 @@ body::-webkit-scrollbar {
     height: fit-content;
     width: 100%;
     margin-top: auto; 
-    margin-bottom: 1vh;
-    box-shadow: 0 -5px 35px #3b3b3a8c;
+    margin-bottom: 5vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -136,7 +136,7 @@ body::-webkit-scrollbar {
     border: 2px solid #E6C068;
     height: 5vh;
     width: 20vw;
-    min-width: 100px;
+    min-width: 115px;
     margin: 1rem;
     font-size: 1rem;
 }
@@ -172,7 +172,7 @@ body::-webkit-scrollbar {
 
 #status-placeholder {
     margin: 0 auto;
-    height: 31.5px;
+    height: 5vh;
 }
 
 #status {
@@ -191,12 +191,13 @@ body::-webkit-scrollbar {
 
 #upload-photos {
     display: none;
+    height: 51.5vh;
+    margin-top: 3vh;
 }
 
 #page-title {
-    height: fit-content;
+    height: 7vh;
     width: 100%;
-    padding-top: 3vh;
     display: flex;
     flex-flow: column;
     justify-content: flex-end;
@@ -211,7 +212,6 @@ h2 {
     font-size: 1.8rem;
     font-weight: 600;
     letter-spacing: 7px;
-    
 }
 
 .underline {
@@ -226,20 +226,22 @@ h2 {
 
 #files {
     height: fit-content;
+    max-height: 50vh;
     width: 100%;
-    margin: 3vh auto 0 auto;
+    margin: 0 auto 0 auto;
     display: flex;
     flex-flow: column wrap;
     justify-content: space-around;
     align-items: center;
     overflow: hidden;
+    scroll-behavior: auto;
 }
 
 #selected-files {
     height: fit-content;
     width: 90%;
     background-color: #151515;
-    max-height: 50vh;
+    max-height: 38vh;
     overflow-y: scroll;
     color: whitesmoke;
     padding: 3vh;
@@ -404,7 +406,7 @@ button:hover {
 }
 
 #sorting-gallery {
-    height: 40vh;
+    height: 37vh;
     overflow-y: scroll;
     overflow-x: hidden;
     width: 80vw;
@@ -555,15 +557,22 @@ button:hover {
     width: 100%;
     pointer-events: none;
 }
+#progress-bar {
+    position: absolute;
+    left: 0;
+    z-index: 40;
+    width: 100%;
+}
 
 #progress-bar-container {
   width: 80%;
-  height: 20px;
+  height: 2.5vh;
   background-color: #ddd;
   border-radius: 10px;
   margin: 10px auto;
   overflow: hidden;
   display: none;
+
 }
 
 #progress-bar-visual {
@@ -580,4 +589,15 @@ button:hover {
   margin-top: 5px;
   color: whitesmoke;
   font-family: Arial, Helvetica, sans-serif;
+}
+
+#footer {
+    height: 14vh;
+    width: 100%;
+    box-shadow: 0 -5px 35px #3b3b3a8c;
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    align-items: center;
+    background-color: black;
 }
