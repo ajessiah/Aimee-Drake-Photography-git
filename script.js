@@ -244,7 +244,7 @@ const toHome = () => {
     });
 };
 
-//window.onload = toHome;
+window.onload = toHome;
 homeBtn.addEventListener("click", toHome);
 logoDiv.addEventListener("click", toHome);
 hamHome.addEventListener("click", toHome);
@@ -668,9 +668,6 @@ const toContact = () => {
 contactBtn.addEventListener("click", toContact);
 hamContact.addEventListener("click", toContact);
 
-
-
-
 hamMenuBtn.addEventListener("click", (e) => {
     e.stopPropagation();
     hamMenu.classList.toggle("active");
@@ -701,6 +698,4 @@ overlayButtons.forEach(button => {
     hamMenuBtn.style.color = "white";
   });
 });
-
-toContact();
 
