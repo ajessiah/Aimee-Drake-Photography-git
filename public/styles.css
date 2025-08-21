@@ -44,8 +44,7 @@ body::-webkit-scrollbar {
 
 #page-content {
     width: 100vw;
-    height: fit-content;
-    min-height: 66vh;
+    height: 66vh;
     padding-top: 20vh;
     display: flex;
     flex-direction: column; 
