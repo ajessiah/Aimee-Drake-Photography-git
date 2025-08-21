@@ -161,10 +161,11 @@
     #social-footer {
         height: 7vh;
         width: 100%;
-        margin-bottom:5vh;
+        margin-bottom: 5vh;
         display: flex;
         justify-content: center;
         align-items: center;
+        background-color: black;
     }
 
     #ham-to-phone {
@@ -273,7 +274,7 @@
     /* ABOUT ME */
 
     #about-me-container {
-        height: 46vh;
+        height: 42vh;
         width: 90%;
         margin: 0 auto;
         padding: 30px;
@@ -347,7 +348,7 @@
     /* RATES */
 
     #rates-container {
-        min-height: 46vh;
+        min-height: 42vh;
         height: fit-content;
         width: 100%;
     }
@@ -410,7 +411,7 @@
     /* CONTACT */
 
     #contact-container {
-        min-height: 46vh;
+        min-height: 42vh;
         height: fit-content;
         width: 100%;
     }
@@ -480,6 +481,7 @@
     form input, form textarea {
         background-color: #151515;
         border: none;
+        color: whitesmoke;
     }
 
     form input:focus, form textarea:focus {
@@ -780,6 +782,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        background-color: black;
     }
 
     #ham-to-phone {
@@ -1094,6 +1097,7 @@
     form input, form textarea {
         background-color: #151515;
         border: none;
+        color: whitesmoke;
     }
 
     form input:focus, form textarea:focus {
@@ -1456,6 +1460,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        background-color: black;
     }
 
     #ham-to-phone {
@@ -1479,8 +1484,7 @@
     /* HOME */
 
     #slideshow-div {
-        height: 50vh;
-        max-height: 500px;
+        height: 63vh;
         width: 90%;
         position: relative;
         overflow: hidden;
@@ -1576,7 +1580,7 @@
     /* ABOUT ME */
 
     #about-me-container {
-        height: fit-content;
+        height: 63vh;
         width: 90%;
         margin: 0 auto 2vh auto;
         padding: 45px;
@@ -1649,8 +1653,7 @@
     /* RATES */
 
     #rates-container {
-        min-height: 50vh;
-        height: fit-content;
+        height: 63vh;
         width: 100%;
     }
 
@@ -1720,8 +1723,7 @@
     /* CONTACT */
 
     #contact-container {
-        min-height: 50vh;
-        height: fit-content;
+        height: 63vh;
         width: 100%;
     }
 

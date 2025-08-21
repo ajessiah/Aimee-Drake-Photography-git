@@ -43,6 +43,23 @@ const hamContact = document.getElementById('ham-contact-btn');
 const header = document.getElementById('header-div');
 let allContainers = [];
 
+
+function showError(inputElement, message) {
+    inputElement.classList.add("error");
+    const errorEl = document.createElement("div");
+    errorEl.className = "error-message";
+    errorEl.style.color = "red";
+    errorEl.style.fontSize = "0.9rem";
+    errorEl.style.marginTop = "4px";
+    errorEl.textContent = message;
+    inputElement.insertAdjacentElement("afterend", errorEl);
+}
+
+function clearErrors() {
+    document.querySelectorAll(".error-message").forEach(el => el.remove());
+    document.querySelectorAll(".error").forEach(el => el.classList.remove("error"));
+}
+
 async function submitForm(data) {
   const submissionsRef = realTimeRef(realTime, "customerFeedback");
   const newSubmission = push(submissionsRef);
@@ -96,6 +113,8 @@ const toHome = () => {
                 };
             });
         });
+
+        slideshowDiv.addEventListener("click", toPortfolio);
 
         try {
           const listResult = await listAll(carouselRef);
@@ -225,7 +244,7 @@ const toHome = () => {
     });
 };
 
-window.onload = toHome;
+//window.onload = toHome;
 homeBtn.addEventListener("click", toHome);
 logoDiv.addEventListener("click", toHome);
 hamHome.addEventListener("click", toHome);
@@ -530,26 +549,43 @@ const toContact = () => {
 
             document.getElementById("contact-form").addEventListener("submit", async (e) => {
                 e.preventDefault();
-                console.log(e.target.firstName.value);
+                clearErrors();
 
                 let contactValue;
-                let customerName = `${e.target.firstName.value} ${e.target.lastName.value}`
-
+                let customerName = `${e.target.firstName.value.trim()} ${e.target.lastName.value.trim()}`;
                 const contactMethod = document.querySelector('input[name="contact-method"]:checked').value;
 
+                let isValid = true;
+
                 if (contactMethod === "Phone") {
-                    // Grab value from the phone input
-                    contactValue = document.getElementById("phone-input").value;
+                    const phoneInput = document.getElementById("phone-input");
+                    contactValue = phoneInput.value.trim();
+
+                    const phoneRegex = /^\+?[0-9\s\-()]{7,20}$/;
+                    if (!phoneRegex.test(contactValue)) {
+                        showError(phoneInput, "Please enter a valid phone number.");
+                        isValid = false;
+                    }
+
                 } else if (contactMethod === "Email") {
-                    // Grab value from the email input
-                    contactValue = document.getElementById("email-input").value;
+                    const emailInput = document.getElementById("email-input");
+                    contactValue = emailInput.value.trim();
+
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(contactValue)) {
+                        showError(emailInput, "Please enter a valid email address.");
+                        isValid = false;
+                    }
                 }
 
+                if (!isValid) return; // Stop submission if invalid
+
+                // Build form data
                 const formData = new URLSearchParams();
                 formData.append("name", customerName);
                 formData.append("contactMethod", contactMethod);
                 formData.append("contactValue", contactValue);
-                formData.append("message", e.target.message.value);
+                formData.append("message", e.target.message.value.trim());
                 formData.append("timestamp", Date.now());
 
                 await fetch("https://hooks.zapier.com/hooks/catch/24269960/utmko0s/", {
@@ -561,9 +597,22 @@ const toContact = () => {
                 const newSubmission = push(submissionsRef);
                 await set(newSubmission, formData);
 
-                alert("Form submitted");
+                dropdownContent.classList.toggle("hidden");
+                alert("Form submitted successfully!");
                 e.target.reset();
             });
+
+            // Helper: show error under input
+            function showError(inputElement, message) {
+                inputElement.classList.add("error"); // add red border
+                const errorEl = document.createElement("div");
+                errorEl.className = "error-message";
+                errorEl.style.color = "red";
+                errorEl.style.fontSize = "0.9rem";
+                errorEl.style.marginTop = "4px";
+                errorEl.textContent = message;
+                inputElement.insertAdjacentElement("afterend", errorEl);
+            }
 
             dropdownBtn.addEventListener("click", () => {
                 dropdownContent.classList.toggle("hidden");
@@ -576,6 +625,7 @@ const toContact = () => {
 
                     function toggleContactInput() {
                         if (phoneRadio.checked) {
+                            hideError;
                         phoneInput.style.display = "block";
                         emailInput.style.display = "none";
                         phoneInput.required = true;
@@ -590,6 +640,19 @@ const toContact = () => {
 
                     phoneRadio.addEventListener("change", toggleContactInput);
                     emailRadio.addEventListener("change", toggleContactInput);
+
+                    document.querySelectorAll('input[name="contact-method"]').forEach(radio => {
+                        radio.addEventListener("change", clearErrors);
+                    });
+
+                    document.querySelectorAll("#phone-input, #email-input, #contact-form input, #contact-form textarea")
+                        .forEach(el => el.addEventListener("focus", clearErrors));
+
+                    document.addEventListener("click", (e) => {
+                        if (!e.target.closest("#contact-form")) {
+                            clearErrors();
+                        }
+                    });
                 }
             })
 
@@ -604,6 +667,8 @@ const toContact = () => {
 
 contactBtn.addEventListener("click", toContact);
 hamContact.addEventListener("click", toContact);
+
+
 
 
 hamMenuBtn.addEventListener("click", (e) => {
@@ -636,4 +701,6 @@ overlayButtons.forEach(button => {
     hamMenuBtn.style.color = "white";
   });
 });
+
+toContact();
 
