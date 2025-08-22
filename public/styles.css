@@ -21,7 +21,7 @@ body::-webkit-scrollbar {
 /* HEADER */
 
 #header {
-    height: 20vh;
+    height: 16vh;
     width: 100%;
     margin: 0;
     position: fixed;
@@ -29,19 +29,17 @@ body::-webkit-scrollbar {
     display: flex;
     align-items: center;
     box-shadow: 0 5px 35px #3b3b3a8c;
-    background-color: red;
     z-index: 10;
+    overflow: hidden;
 }
 
 #logo-container {
     height: auto;
-    width: 40vw;
-    max-width: 160px;
+    width: 25vw;
+    max-width: 140px;
     margin: 0 auto;
     display: flex;
     position: relative;
-    background-color: yellow;
-    padding: 1px;
 }
 
 #logo-container img {
@@ -55,7 +53,7 @@ body::-webkit-scrollbar {
 #page-content {
     width: 100vw;
     height: 66vh;
-    padding-top: 20vh;
+    padding-top: 16vh;
     display: flex;
     flex-direction: column; 
     min-height: 100vh; 
