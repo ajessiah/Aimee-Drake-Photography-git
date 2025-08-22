@@ -380,6 +380,7 @@ button:hover {
 #sort-photos {
     display: none;
     height: 52vh;
+    overflow-y: scroll;
 }
 
 #gallery-select {
