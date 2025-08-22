@@ -22,22 +22,32 @@ body::-webkit-scrollbar {
 
 #header {
     height: 20vh;
-    width: 100vw;
+    width: 100%;
     margin: 0;
     position: fixed;
     padding: 15px 0;
     display: flex;
     align-items: center;
     box-shadow: 0 5px 35px #3b3b3a8c;
-    background-color: black;
+    background-color: red;
     z-index: 10;
 }
 
 #logo-container {
-    height: 100%;
-    width: fit-content;
+    height: auto;
+    width: 40vw;
+    max-width: 160px;
     margin: 0 auto;
     display: flex;
+    position: relative;
+    background-color: yellow;
+    padding: 1px;
+}
+
+#logo-container img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
 }
 
 /* PAGE CONTENT */
