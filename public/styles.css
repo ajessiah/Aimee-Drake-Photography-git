@@ -120,8 +120,6 @@ body::-webkit-scrollbar {
     background-color: black;
     height: fit-content;
     width: 100%;
-    margin-top: auto; 
-    margin-bottom: 8%;
     display: flex;
     align-items: center;
     justify-content: center;
