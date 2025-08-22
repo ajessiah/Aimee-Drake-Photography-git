@@ -126,7 +126,7 @@ body::-webkit-scrollbar {
 
 #admin-ui {
     background-color: black;
-    height: 5vh;
+    height: 4vh;
     width: 100%;
     display: flex;
     align-items: center;
@@ -597,7 +597,7 @@ button:hover {
 }
 
 #footer {
-    height: 10vh;
+    height: 8vh;
     width: 100%;
     box-shadow: 0 -5px 35px #3b3b3a8c;
     display: flex;
