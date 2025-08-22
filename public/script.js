@@ -298,7 +298,7 @@ const confirmSort = async (destination) => {
   });
 
   if (!changedFiles.length) {
-    updateStatus("No image order changes detected. Original gallery order preserved.");
+    updateStatus("No changes detected. Original gallery order preserved.");
     return;
   }
 
@@ -334,7 +334,7 @@ const confirmSort = async (destination) => {
   const statusLabel = document.getElementById('status');
 
   progressContainer.style.display = "block";
-  progressLabel.style.display = "block";
+  progressLabel.style.display = "none";
   progressVisual.style.width = "0%";
   progressLabel.textContent = "0% complete";
 

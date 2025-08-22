@@ -168,7 +168,7 @@ body::-webkit-scrollbar {
 
 #status-placeholder {
     margin: 0 auto;
-    height: 5vh;
+    height: 4.75vh;
     width: 100%;
 }
 
@@ -193,7 +193,7 @@ body::-webkit-scrollbar {
 }
 
 #page-title {
-    height: 7vh;
+    height: fit-content;
     width: 100%;
     display: flex;
     flex-flow: column;
@@ -380,7 +380,6 @@ button:hover {
 #sort-photos {
     display: none;
     height: 52vh;
-    overflow-y: scroll;
 }
 
 #gallery-select {
@@ -582,7 +581,7 @@ button:hover {
 }
 
 #progress-label {
-  display: block;
+  display: none;
   text-align: center;
   margin-top: 5px;
   color: whitesmoke;
