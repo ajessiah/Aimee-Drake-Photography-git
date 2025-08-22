@@ -125,8 +125,7 @@ body::-webkit-scrollbar {
     display: flex;
     align-items: center;
     justify-content: center;
-    position: fixed;
-    bottom: 0;
+    background-color: red;
 }
 
 #logout-btn {
