@@ -125,7 +125,7 @@ body::-webkit-scrollbar {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: red;
+    background-color: black;
 }
 
 #logout-btn {
@@ -381,10 +381,11 @@ button:hover {
 
 #sort-photos {
     display: none;
+    height: 52vh;
 }
 
 #gallery-select {
-    height: auto;
+    height: 2.5vh;
     width: fit-content;
     margin: 3vh auto 2vh auto;
 }
@@ -405,11 +406,10 @@ button:hover {
 }
 
 #sorting-gallery {
-    height: 37vh;
+    height: 36.5vh;
     overflow-y: scroll;
     overflow-x: hidden;
     width: 80vw;
-    background-color: black;
     margin: 0 auto;
     display: none;
 }
@@ -515,7 +515,7 @@ button:hover {
 }
 
 #sort-controls {
-    height:5vh;
+    height: 5vh;
     width: 75vw;
     display: flex;
     flex-flow: row nowrap;
