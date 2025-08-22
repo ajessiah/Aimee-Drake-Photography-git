@@ -131,7 +131,7 @@ body::-webkit-scrollbar {
     color: whitesmoke;
     border: 2px solid #E6C068;
     height: 5vh;
-    width: 20vw;
+    width: 25vw;
     min-width: 115px;
     margin: 1rem;
     font-size: 1rem;
