@@ -13,47 +13,44 @@
         <li>24hr Turnaround</li>
       </ul>
     </div>
-
-        <button id="tier-two-rates" class="dropdown-btn">2500 - 4000 sqft</button>
-        <div id="tier-two-dropdown" class="dropdown-content hidden">
+    <button id="tier-two-rates" class="dropdown-btn">2500 - 4000 sqft</button>
+    <div id="tier-two-dropdown" class="dropdown-content hidden">
       <div class="dropdown-img-container">
-	  <img src="Photos/Rates/23ValleyView_38.jpg" alt="House Exterior at Sunset"><img>
+	      <img src="Photos/Rates/23ValleyView_38.jpg" alt="House Exterior at Sunset"><img>
       </div>
-          <p class='emp'>$349</p>
-          <p>Includes:</p>
-          <ul>
-            <li>32+ Photos for MLS / Rental Platforms & Print</li>
-            <li>Comprehensive Editing</li>
-            <li>Up to 5 Drone Photos</li>
-            <li>24hr Turnaround</li>
-          </ul>
-        </div>
-
-        <button id="tier-three-rates" class="dropdown-btn">More Than 4000 sqft</button>
-        <div id="tier-three-dropdown" class="dropdown-content hidden">
+      <p class='emp'>$349</p>
+      <p>Includes:</p>
+      <ul>
+        <li>32+ Photos for MLS / Rental Platforms & Print</li>
+        <li>Comprehensive Editing</li>
+        <li>Up to 5 Drone Photos</li>
+        <li>24hr Turnaround</li>
+      </ul>
+    </div>
+    <button id="tier-three-rates" class="dropdown-btn">More Than 4000 sqft</button>
+    <div id="tier-three-dropdown" class="dropdown-content hidden">
       <div class="dropdown-img-container">
-	  <img src="Photos/Rates/290LibertyRd.Aerials_09.jpg" alt="House Exterior at Sunset"><img>
+	      <img src="Photos/Rates/290LibertyRd.Aerials_09.jpg" alt="House Exterior at Sunset"><img>
       </div>
-          <p class='emp'>$599</p>
-          <p>Includes:</p>
-          <ul>
-            <li>32+ Photos for MLS / Rental Platforms & Print</li>
-            <li>Comprehensive Editing</li>
-            <li>Up to 10 Drone Photos</li>
-            <li>30sec Drone Video</li>
-            <li>Virtual Walkthrough Video</li>
-          </ul>
-        </div>
-
-        <button id="add-ons-rates" class="dropdown-btn">Add-Ons</button>
-        <div id="add-ons-dropdown" class="dropdown-content hidden">
+      <p class='emp'>$599</p>
+      <p>Includes:</p>
+      <ul>
+        <li>32+ Photos for MLS / Rental Platforms & Print</li>
+        <li>Comprehensive Editing</li>
+        <li>Up to 10 Drone Photos</li>
+        <li>30sec Drone Video</li>
+        <li>Virtual Walkthrough Video</li>
+      </ul>
+    </div>
+    <button id="add-ons-rates" class="dropdown-btn">Add-Ons</button>
+    <div id="add-ons-dropdown" class="dropdown-content hidden">
       <div class="dropdown-img-container">
-	<img src="Photos/Rates/Aerial 1.jpg" alt="House Exterior at Sunset"><img>
+	      <img src="Photos/Rates/Aerial 1.jpg" alt="House Exterior at Sunset"><img>
       </div>
-          <ul>
-            <li><span class='price'>$49</span>  5 Drone Photos</li>
-            <li><span class='price'>$99</span>  30sec Drone Video</li>
-          </ul>
-        </div>
-      </div>
+      <ul>
+        <li><span class='price'>$49</span>  5 Drone Photos</li>
+        <li><span class='price'>$99</span>  30sec Drone Video</li>
+      </ul>
+    </div>
+  </div>
 </div>

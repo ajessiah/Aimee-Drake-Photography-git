@@ -30,13 +30,11 @@ const auth = getAuth(app);
 
 onAuthStateChanged(auth, (user) => {
     if (user) {
-      console.log("Signed in as:", user.email);
       document.getElementById('page-title-text').innerHTML = "ADMIN HOME";
       document.getElementById("admin-ui").style.display = "flex";
       document.getElementById("login-form").style.display = "none";
       document.getElementById('feature-menu').style.display = "flex";
     } else {
-      console.log("Not signed in");
       document.getElementById('page-title-text').innerHTML = "ADMIN LOGIN";
       document.getElementById("login-form").style.display = "flex";
       document.getElementById("admin-ui").style.display = "none";
@@ -44,19 +42,16 @@ onAuthStateChanged(auth, (user) => {
     }
   });
 
-  // Login handler
   document.getElementById("login-btn")?.addEventListener("click", async () => {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      console.log("Signed in");
     } catch (err) {
       alert("Login failed: " + err.message);
     }
   });
 
-  // Logout handler
   document.getElementById("logout-btn")?.addEventListener("click", async () => {
     clearStatus();
     await signOut(auth);
@@ -65,7 +60,6 @@ onAuthStateChanged(auth, (user) => {
     } else if (document.getElementById('upload-photos').style.display = "block") {
       document.getElementById('upload-photos').style.display = "none";
     }
-    console.log("Signed out");
   });
 
 const fileInput = document.getElementById('fileInput');
@@ -96,7 +90,6 @@ const clearSelectedFiles = () => {
 fileInput.addEventListener('change', () => {
     clearStatus();
     const newFiles = Array.from(fileInput.files);
-    console.log(newFiles);
 
     newFiles.forEach(file => {
         const alreadyAdded = allSelectedFiles.some(f => f.name === file.name && f.size === file.size);
@@ -157,7 +150,6 @@ document.getElementById('file-destination').addEventListener("click", clearStatu
 document.getElementById('sort-back-btn').addEventListener("click", () => {
   if (document.getElementById('sorting-gallery').style.display === "grid") {
     clearStatus();
-    // could be throwing a testing error
     if(!confirm("Unsaved changes to current gallery order will be reset. Are you sure?")) {
       return;
     } else {
@@ -291,7 +283,6 @@ const confirmSort = async (destination) => {
     return { fullPath, newIndex: index };
   });
 
-  // Keep only moved files
   const changedFiles = newOrder.filter(({ fullPath, newIndex }) => {
     const original = originalOrder.find(o => o.fullPath === fullPath);
     return original && original.originalIndex !== newIndex;
@@ -308,7 +299,6 @@ const confirmSort = async (destination) => {
     return currentOrder.find(item => item.fullPath === fullPath);
   }).filter(Boolean);
 
-  // Fetch blobs for changed files
   const sortedBlobs = await Promise.all(
     changedFiles.map(async ({ fullPath, newIndex }) => {
       const imageRef = ref(storage, fullPath);
@@ -375,7 +365,6 @@ const confirmSort = async (destination) => {
             uploadNext(); 
           },
           async () => {
-            // ✅ After upload success, delete old file
             try {
               if (newFullPath !== fullPath) {
                 await deleteObject(ref(storage, fullPath));
@@ -524,7 +513,6 @@ const sortGallery = async (btn) => {
 };
 
 const imgTrash = async (btn) => {
-  // could be throwing a testing error
   if (!confirm("Are you sure you want to delete this image? This cannot be undone.")) {
     return;
   }
@@ -537,20 +525,16 @@ const imgTrash = async (btn) => {
   const parent = imgContainer.parentElement;
 
   try {
-    // Delete from Firebase Storage
     const imageRef = ref(storage, imagePath);
     await deleteObject(imageRef);
 
-    // Remove from DOM
     parent.removeChild(imgContainer);
 
-    // Remove from currentOrder
     const indexToRemove = currentOrder.findIndex(item => item.fullPath === imagePath);
     if (indexToRemove > -1) {
       currentOrder.splice(indexToRemove, 1);
     }
 
-    // Re-index remaining containers and update IDs/texts
     const updatedContainers = Array.from(parent.children);
     updatedContainers.forEach((container, i) => {
       container.id = `img-container-${i}`;
@@ -562,7 +546,7 @@ const imgTrash = async (btn) => {
 
   } catch (err) {
     console.error("Failed to delete image:", err);
-    alert("Error deleting image. Check console for details.");
+    alert("Failed to delete selected image. Please try again.");
   }
 };
 
@@ -571,8 +555,7 @@ const getCurrentGallery = async (destination) => {
     const thisLoadId = ++activeGalleryLoadId;
 
     if (thisLoadId !== activeGalleryLoadId) {
-      console.log(`Gallery load for ${destination} aborted – newer request in progress.`);
-      return; // Abort stale load
+      return; 
     }
 
     currentOrder = []; 
@@ -651,15 +634,14 @@ const getCurrentGallery = async (destination) => {
 
         const indexDisplay = document.createElement('span');
         indexDisplay.classList.add('img-index-display');
-        indexDisplay.textContent = index; // Initial index
+        indexDisplay.textContent = index; 
 
         const sendToTopBtn = document.createElement('button');
         sendToTopBtn.classList.add('sort-btn', 'to-top');
         sendToTopBtn.innerHTML = `<i class="fa-solid fa-star"></i>`;
 
         if (thisLoadId !== activeGalleryLoadId) {
-          console.log(`Gallery load for ${destination} aborted – newer request in progress.`);
-          return; // Abort stale load
+          return; 
         }
 
         if (destination === "portfolio") {
@@ -696,8 +678,7 @@ const getCurrentGallery = async (destination) => {
 
     sortBtns.forEach((btn) => {
       if (thisLoadId !== activeGalleryLoadId) {
-        console.log(`Gallery load for ${destination} aborted – newer request in progress.`);
-        return; // Abort stale load
+        return; 
       }
       btn.addEventListener("click", (e) => sortGallery(e.currentTarget));
     });
@@ -706,8 +687,7 @@ const getCurrentGallery = async (destination) => {
 
     trashBtns.forEach((btn) => {
       if (thisLoadId !== activeGalleryLoadId) {
-        console.log(`Gallery load for ${destination} aborted – newer request in progress.`);
-        return; // Abort stale load
+        return; 
       }
       btn.addEventListener("click", (e) => imgTrash(e.currentTarget));
     });
@@ -720,8 +700,7 @@ const getCurrentGallery = async (destination) => {
     console.error("Error fetching storage items:", error);
   }
   if (thisLoadId !== activeGalleryLoadId) {
-    console.log(`Gallery load for ${destination} aborted – newer request in progress.`);
-    return; // Abort stale load
+    return; 
   }
   return currentOrder; 
 };

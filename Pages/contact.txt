@@ -1,36 +1,36 @@
 <div id='contact-container'>
-    <div id="contact-btns">
-      <a href="tel:+15035286244">
-        <button type="button"><i class="fa-solid fa-phone" style="color: #e6c068;"></i>503.528.6244</button>
-      </a>
-      <a href="mailto:aimee@aimeedrake.com">
-        <button type="button"><i class="fa-solid fa-envelope" style="color: #e6c068;"></i>aimee@aimeedrake.com</button>
-      </a>
-    </div>
-    <button id="contact-form-btn" class="contact-form-btn">Get In Touch</button>
-    <form action="#" method="post" id="contact-form">
-      <fieldset id="contact-name">
-        <p>Your Name</p>
-        <input type="text" id="first-name" name="firstName" placeholder="First Name" required>
-        <input type="text" id="last-name" name="lastName" placeholder="Last Name" required>
-      </fieldset>
-      <fieldset id="contact-message">
-      <p>Your Message</p>
-      <textarea id="message" name="message" rows="6" cols="40" placeholder="Hi, Aimee..."></textarea>
-      </fieldset>
-      <fieldset id="contact-preference">
-        <p>Preferred Contact Method</p>
-        <label>
-          <input id="pref-phone" type="radio" name="contact-method" value="Phone" checked required>
-          Phone
-        </label>
-        <label>
-          <input id="pref-email" type="radio" name="contact-method" value="Email" required>
-          Email
-        </label>
-        <input type="text" id="phone-input" name="contact-info" placeholder="555-555-5555">
-        <input type="text" id="email-input" name="contact-info" placeholder="yourname@email.com">
-      </fieldset>
-      <button type="submit">SUBMIT</button>
-    </form>
+  <div id="contact-btns">
+    <a href="tel:+15035286244">
+      <button type="button"><i class="fa-solid fa-phone" style="color: #e6c068;"></i>503.528.6244</button>
+    </a>
+    <a href="mailto:aimee@aimeedrake.com">
+      <button type="button"><i class="fa-solid fa-envelope" style="color: #e6c068;"></i>aimee@aimeedrake.com</button>
+    </a>
+  </div>
+  <button id="contact-form-btn" class="contact-form-btn">Get In Touch</button>
+  <form action="#" method="post" id="contact-form">
+    <fieldset id="contact-name">
+      <p>Your Name</p>
+      <input type="text" id="first-name" name="firstName" placeholder="First Name" required>
+      <input type="text" id="last-name" name="lastName" placeholder="Last Name" required>
+    </fieldset>
+    <fieldset id="contact-message">
+    <p>Your Message</p>
+    <textarea id="message" name="message" rows="6" cols="40" placeholder="Hi, Aimee..."></textarea>
+    </fieldset>
+    <fieldset id="contact-preference">
+      <p>Preferred Contact Method</p>
+      <label>
+        <input id="pref-phone" type="radio" name="contact-method" value="Phone" checked required>
+        Phone
+      </label>
+      <label>
+        <input id="pref-email" type="radio" name="contact-method" value="Email" required>
+        Email
+      </label>
+      <input type="text" id="phone-input" name="contact-info" placeholder="555-555-5555">
+      <input type="text" id="email-input" name="contact-info" placeholder="yourname@email.com">
+    </fieldset>
+    <button type="submit">SUBMIT</button>
+  </form>
 </div>

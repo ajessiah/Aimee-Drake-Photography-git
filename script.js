@@ -83,7 +83,6 @@ const toHome = () => {
         content.className = 'home';
         content.innerHTML = data;
 
-        // Scroll to top
         content.scrollTo({ top: 0, behavior: "smooth" });
 
         const slideshowDiv = document.getElementById('slideshow-div');
@@ -141,13 +140,11 @@ const toHome = () => {
             carouselDiv.appendChild(slide);
           }));
 
-          // ✅ Ensure appended DOM order matches `originalOrder`
           const slidesArray = Array.from(carouselDiv.querySelectorAll('.slide'));
           slidesArray.sort((a, b) => {
             return parseInt(a.dataset.originalIndex, 10) - parseInt(b.dataset.originalIndex, 10);
           }).forEach(slide => carouselDiv.appendChild(slide));
 
-          // ✅ Lazy-load + fade-in
           const slides = document.querySelectorAll('.slide');
           slides.forEach(img => {
             img.src = img.dataset.src;
@@ -157,7 +154,6 @@ const toHome = () => {
             };
           });
 
-          // ✅ Carousel nav/controls
           if (slides.length === 0) throw new Error("No slides found");
           const prevBtn = document.querySelector('.nav.prev');
           const nextBtn = document.querySelector('.nav.next');
@@ -244,7 +240,7 @@ const toHome = () => {
     });
 };
 
-window.onload = toHome;
+//window.onload = toHome;
 homeBtn.addEventListener("click", toHome);
 logoDiv.addEventListener("click", toHome);
 hamHome.addEventListener("click", toHome);
@@ -272,12 +268,15 @@ const toAbout = () => {
 
             const aboutMe = document.getElementById('about-me-container');
             const breaks = aboutMe.querySelectorAll("br");
-            console.log(breaks);
+            const linksToRates = Array.from(document.getElementsByClassName('link-to-rates'));
+
+            linksToRates.forEach(link => {
+                link.addEventListener("click", toRates);    
+            });
 
             if (window.innerWidth >= 769) {
                 breaks.forEach((br, index) => {
                     if (index % 2 === 0) {
-                        console.log(index);
                         br.style.display = "none";
                         breaks[index + 1].style.display = "none";
                     } 
@@ -378,7 +377,6 @@ const toPortfolio = () => {
 
                             observer.observe(portfolioImg);
 
-                            // Click-to-enlarge logic
                             imgContainer.addEventListener("click", () => {
                                 const existingEnlarged = document.querySelector('.img-frame.enlarged');
                                 if (existingEnlarged) existingEnlarged.remove();
@@ -522,6 +520,7 @@ const toRates = () => {
 ratesBtn.addEventListener("click", toRates);
 hamRates.addEventListener("click", toRates);
 
+
 const toContact = () => {
     content.classList.add('loading');
     document.getElementById('page-title-text').innerText = `CONTACT`;
@@ -578,9 +577,8 @@ const toContact = () => {
                     }
                 }
 
-                if (!isValid) return; // Stop submission if invalid
+                if (!isValid) return; 
 
-                // Build form data
                 const formData = new URLSearchParams();
                 formData.append("name", customerName);
                 formData.append("contactMethod", contactMethod);
@@ -598,13 +596,12 @@ const toContact = () => {
                 await set(newSubmission, formData);
 
                 dropdownContent.classList.toggle("hidden");
-                alert("Form submitted successfully!");
+                alert("Message submitted successfully. Thank you!");
                 e.target.reset();
             });
 
-            // Helper: show error under input
             function showError(inputElement, message) {
-                inputElement.classList.add("error"); // add red border
+                inputElement.classList.add("error"); 
                 const errorEl = document.createElement("div");
                 errorEl.className = "error-message";
                 errorEl.style.color = "red";
@@ -699,3 +696,6 @@ overlayButtons.forEach(button => {
   });
 });
 
+
+
+toContact();

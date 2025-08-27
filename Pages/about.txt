@@ -1,37 +1,35 @@
-
-
-        <div id="about-me-container">
-            <p>
-	      <div id="headshot"><img src="Photos/Headshot.JPEG" alt='headshot'/></div>
-	    </p>
-	    <p>
-I enjoy working with owners and managers of both long and short term rental properties as well as real estate brokers listing properties for sale. 
-<br>
-<br>
-In any of these types of real estate photography, photos serve as the first point of contact between a property and potential tenants, guests, or buyers, making them a critical marketing tool. 
-<br>
-<br>
-High-quality images capture attention instantly, creating a strong first impression that can drive interest and highlight the home's best features. 
-<br>
-<br>
-This can influence a buyer’s or tenant’s decision to schedule a viewing, and a potential guest’s decision to reserve a stay at your property. 
-<br>
-<br>
-Born and raised in the mountains of western North Carolina, I developed a deep love for nature and the outdoors early in life. 
-<br>
-<br>
-In 1997, I moved to Portland, Oregon, where I took my first photography class—Darkroom Essentials for 35mm black-and-white film—and discovered a lifelong passion for visual storytelling. 
-<br>
-<br>
-Photography quickly became a personal outlet for artistic expression. In 2000, I became a licensed real estate broker and began using my photography skills to showcase properties in compelling ways. 
-<br>
-<br>
-Over time, I expanded my experience by collaborating with a commercial photographer, working on a wide range of projects including corporate campaigns, individual portraits, food, product, and real estate photography.
-<br>
-<br>
-Now back in the mountains of western North Carolina, I’ve returned to my roots and am launching my own real estate photography business—combining my love of the craft with a keen eye for visual detail.
-<br>
-<br>
-Please see my rates page for an outline of available services for your specific needs. I look forward to working with you!
-            </p>
-        </div>
+<div id="about-me-container">
+  <p>
+    <div id="headshot"><img src="Photos/Headshot.JPEG" alt='headshot'/></div>
+  </p>
+  <p>
+    I enjoy working with owners and managers of both long and short term rental properties as well as real estate brokers listing properties for sale. 
+    <br> 
+    <br> 
+    In any of these types of real estate photography, photos serve as the first point of contact between a property and potential tenants, guests, or buyers, making them a critical marketing tool. 
+    <br> 
+    <br> 
+    High-quality images capture attention instantly, creating a strong first impression that can drive interest and highlight the home's best features. 
+    <br> 
+    <br>
+    This can influence a buyer’s or tenant’s decision to schedule a viewing, and a potential guest’s decision to reserve a stay at your property. 
+    <br> 
+    <br> 
+    Born and raised in the mountains of western North Carolina, I developed a deep love for nature and the outdoors early in life. 
+    <br> 
+    <br>
+    In 1997, I moved to Portland, Oregon, where I took my first photography class—Darkroom Essentials for 35mm black-and-white film—and discovered a lifelong passion for visual storytelling. 
+    <br>
+    <br>
+    Photography quickly became a personal outlet for artistic expression. In 2000, I became a licensed real estate broker and began using my photography skills to showcase properties in compelling ways. 
+    <br>
+    <br>
+    Over time, I expanded my experience by collaborating with a commercial photographer, working on a wide range of projects including corporate campaigns, individual portraits, food, product, and real estate photography.
+    <br>
+    <br>
+    Now back in the mountains of western North Carolina, I’ve returned to my roots and am launching my own real estate photography business—combining my love of the craft with a keen eye for visual detail.
+    <br>
+    <br>
+    Please see my <a href="#" class='link-to-rates'>rates page</a> for an outline of available services for your specific needs. I look forward to working with you!
+  </p>
+</div>
