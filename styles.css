@@ -2,19 +2,31 @@
     box-sizing: border-box;
 }
 
+html {
+    -webkit-text-size-adjust: 100%; 
+    text-size-adjust: 100%; 
+    scroll-behavior: none; 
+    height: 100%;
+}
+
 
 html, body {
     width: 100%;
-    height: 100%;
     padding: 0;
     margin: 0;
     overflow-x: hidden;
-    scroll-behavior: none; 
+    display: flex;
+    flex-direction: column;
 }
 
 body {
     background-color: black;
     padding-bottom: env(safe-area-inset-bottom);
+    padding-top: 20vh;
+    scroll-behavior: smooth; 
+    overflow-y: scroll;
+    height: auto;       /* not 100% */
+    min-height: 100%;   /* ensures footer always pushed */
 }
 
 body::-webkit-scrollbar {
@@ -30,6 +42,7 @@ body::-webkit-scrollbar {
     width: 100vw;
     margin: 0;
     position: fixed;
+    top: 0;
     z-index: 9;
     box-shadow: 0 7px 35px #3b3b3a8c;
     background-color: black;
@@ -38,7 +51,6 @@ body::-webkit-scrollbar {
 #menu-overlay {
     height: 42vh;
     width: 85vw;
-    margin-top: 20vh;
     padding-right: 25px;
     position: fixed;
     right: 0;
@@ -56,26 +68,30 @@ body::-webkit-scrollbar {
     }
 
 #page-title {
-    height: 8vh;
     width: 100vw;
     display: flex;
-    flex-flow: column;
+    flex-flow: column wrap;
     justify-content: flex-end;
     align-items: center;
-    margin: 20vh auto 2.5vh auto;
+    margin: 0 auto 15px auto;
+    padding: 0;
+    flex: 0 0 auto;   /* do not shrink, size to content */
+    height: auto;     /* avoid forcing height */
 }
 
 #page-content {
-    height: fit-content;
-    min-height: 55.5vh;
-    width: 100vw;
-    margin: 0 auto 2.5vh auto;
-    overflow-y: auto;
+    width: 100vw;    
     display: flex;
-    align-items: flex-start;
-    justify-content: center;
+    flex-flow: column;
+    align-items: center;
+    justify-content: flex-start;
     opacity: 1;
     transition: opacity 0.3s ease-in-out;
+    height: auto;          /* let it expand */
+    min-height: 0;         /* avoids flex overflow bugs */
+    flex: 0 0 auto;        /* in a flex column, makes it shrink/grow to contents */
+    overflow: visible; 
+    margin: 0 auto;
 }
 
     #page-content.loading {
@@ -88,18 +104,18 @@ body::-webkit-scrollbar {
     }
 
 #footer {
-    height: 14vh;
-    width: 100vw;
-    box-shadow: 0 -10px 25px #3b3b3a8c;
-    display: flex;
-    position: fixed;
-    bottom: 0;
-    padding-top: 10px;
-    flex-flow: column nowrap;
-    align-items: center;
-    justify-content: flex-start;
-    background-color: black;
-    z-index: 30;
+  height: fit-content;
+  width: 100%;
+  box-shadow: 0 -10px 25px #3b3b3a8c;
+  display: flex;
+  padding: 10px 0;
+  flex-flow: column wrap;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: black;
+  margin: 0 auto;
+  bottom: 0;
+  left: 0;
 }
 
 
@@ -172,7 +188,7 @@ body::-webkit-scrollbar {
 
             #nav-menu button {
                 height: 90%;
-                font-size: clamp(0.05rem, 1.3vw + 0.35rem, 2.5rem);
+                font-size: clamp(0.05rem, 1.3vw + 0.35rem, 1.5rem);
                 border: none;
                 color: #292929;
                 border-bottom: 2px solid transparent;
@@ -185,8 +201,7 @@ body::-webkit-scrollbar {
             }
 
             #nav-menu button:hover {
-                border-bottom: 2px solid #E6C068;
-                color: whitesmoke;
+                color: #E6C068;
                 padding: none;
                 margin: none;
             }
@@ -222,7 +237,7 @@ body::-webkit-scrollbar {
 /* PAGE TITLE */
 
 #page-title-text {
-    margin: 0;
+    margin: 15px 0 5px 0;
     padding: 0;
     color: white;
     font-family: Arial, Helvetica, sans-serif;
@@ -233,8 +248,9 @@ body::-webkit-scrollbar {
 
 .underline {
     height: 2px;
-    width: 70%;
-    margin: 8px auto 0 auto;
+    width: 60%;
+    max-width: 400px;
+    margin: 0 auto;
     border-radius: 1px;
     display: block;
     background-color: #E6C068;
@@ -254,10 +270,10 @@ body::-webkit-scrollbar {
     #licensing p {
         color: #E6C068;
         font-family: Arial, Helvetica, sans-serif;
-        font-size: 0.7rem;
+        font-size: 10px;
         text-align: center;
         padding: 0;
-        margin: 0;
+        margin: 0 auto;
     }
 
         .footer-link {
@@ -271,7 +287,8 @@ body::-webkit-scrollbar {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 10px;
+    margin: 10px 0 0 0;
+    background-color: black;
 }
 
     #ham-to-phone {
@@ -296,11 +313,14 @@ body::-webkit-scrollbar {
 /* HOME */
 
 #slideshow-div {
-    height: 40vh;
+    height: auto;
+    min-height: 44vh;
     width: 100%;
     position: relative;
     overflow: hidden;
     background-color: #0000003f;
+    margin: 0 0 10px 0;
+    padding: 0;
 }
 
     .nav {
@@ -339,8 +359,8 @@ body::-webkit-scrollbar {
 /*  js  */
 
     .slide {
-        height: 100%;
         width: 100%;
+        height: 100%;
         position: absolute;
         object-fit: cover;
         opacity: 0;
@@ -395,11 +415,11 @@ body::-webkit-scrollbar {
 
 #about-me-container {
     width: 90%;
-    margin: 0 auto;
-    padding: 30px;
-    overflow-y: scroll;
+    height: fit-content;
+    min-height: 44vh;
+    margin: 0 auto 10px auto;
+    padding: 25px;
     background-color: #151515;
-    font-size: 2em;
 }
 
 #about-me-container::-webkit-scrollbar {
@@ -445,7 +465,9 @@ body::-webkit-scrollbar {
 #portfolio-container {
     height: fit-content;
     width: 90vw;
-    margin: 0 auto 14vh auto;
+    max-width: 1150px;
+    margin: 0 auto 10px auto;
+    padding: 0;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 5px;
@@ -460,6 +482,7 @@ body::-webkit-scrollbar {
 
     .img-frame {
         width: 100%;
+        min-height: 100px;
         margin: 0 auto;
         padding: 0;
         overflow: hidden;
@@ -479,6 +502,7 @@ body::-webkit-scrollbar {
             width: 100%;
             object-fit: cover;
             object-position: center 50%;
+
         }
 
         img.lazy {
@@ -495,8 +519,10 @@ body::-webkit-scrollbar {
 
 #rates-container {
     height: fit-content;
+    min-height: 44vh;
     width: 100%;
-    margin: 0 auto 14vh auto;
+    margin: 0 0 10px 0;
+    padding: 0;
 }
 
 #rates-container::-webkit-scrollbar {
@@ -512,7 +538,9 @@ body::-webkit-scrollbar {
 
         .dropdown-btn {
             height: 7vh;
+            min-height: 40px;
             width: 90vw;
+            max-width: 1250px;
             padding-left: 20px;
             background-color: #151515;
             border: 1px solid #E6C068;
@@ -529,6 +557,7 @@ body::-webkit-scrollbar {
         .dropdown-content {
             height: fit-content;
             width: 90vw;
+            max-width: 1250px;
             margin: 0 0 10px 0;
             padding: 10px;
             overflow: hidden;
@@ -564,8 +593,10 @@ body::-webkit-scrollbar {
 
 #contact-container {
     height: fit-content;
+    min-height: 44vh;
     width: 100%;
-    margin: 0 auto 14vh auto;
+    max-width: 1250px;
+    margin: 0 auto 10px auto;
 }
 
 #contact-container::-webkit-scrollbar {
@@ -603,6 +634,7 @@ body::-webkit-scrollbar {
 
     .contact-form-btn {
         height: 7vh;
+        min-height: 40px;
         width: 90%;
         margin: 0 auto;
         display: block;
@@ -757,6 +789,7 @@ body::-webkit-scrollbar {
 
         button[type="submit"] {
             height: 5vh;
+            min-height: 40px;
             width: 60%;
             margin: 15px auto 5px auto;
             background-color: black;
@@ -767,13 +800,15 @@ body::-webkit-scrollbar {
         }
 
 
-
+/* MEDIA RULES */
 
 @media (max-width: 480px) {
-    /* ABOUT ME */
+
+    /* ABOUT */
 
     #about-me-container {
         height: 42vh;
+        overflow-y: scroll;
     }
 
     /* PORTFOLIO */
@@ -782,17 +817,7 @@ body::-webkit-scrollbar {
         height: 12vh;
     }
 
-    /* RATES */
-
-    #rates-container {
-        min-height: 42vh;
-    }
-
     /* CONTACT */
-
-    #contact-container {
-        min-height: 42vh;
-    }
 
     #contact-name input {
         height: 30px;
@@ -820,29 +845,13 @@ body::-webkit-scrollbar {
 
 @media (min-width: 481px) and (max-width: 768px) {
 
-    /* ABOUT ME */
-
-    #about-me-container {
-        height: 46vh;
-    }
-
     /* PORTFOLIO */
 
     .img-frame {
         height: 20vh;
     }
 
-    /* RATES */
-
-    #rates-container {
-        min-height: 46vh;
-    }
-
     /* CONTACT */
-
-    #contact-container {
-        min-height: 46vh;
-    }
 
     #contact-name input {
         height: 35px;
@@ -868,10 +877,10 @@ body::-webkit-scrollbar {
 
 }
 
-/* Working on unifying 2 smallest and 2 largest media rules to create a global style list */
-
-
 @media (min-width: 769px) and (max-width: 1024px) {
+    body {
+    padding-top: 15vh; 
+  }
 
     /* CORE STRUCTURE */
 
@@ -889,17 +898,7 @@ body::-webkit-scrollbar {
     }
 
     #page-title {
-        margin: 15vh auto 2.5vh auto;
-        min-height: 40px;
-    }
-
-    #page-content {
-        min-height: none; 
-    }
-
-    #footer {
-        height: 10vh;
-        min-height: 60px; 
+        margin: 0 auto 25px auto;
     }
 
     /* HEADER */
@@ -989,13 +988,17 @@ body::-webkit-scrollbar {
     #page-title-text {
         font-size: clamp(0.9rem, 1.2rem + 1vmin, 2rem);
         letter-spacing: 12px;
+        margin: 25px 0 10px 0;
+    }
+
+    .underline {
+        width: 40%;
     }
 
     /* FOOTER */
 
-    #footer {
-        position: relative;
-        bottom: auto;
+    #licensing p {
+        font-size: 0.8rem;
     }
 
     #social-footer {
@@ -1013,8 +1016,10 @@ body::-webkit-scrollbar {
     /* HOME */
 
     #slideshow-div {
-        height: 62vh; 
+        max-height: 62vh; 
         width: 90%; 
+        aspect-ratio: 16 / 9;
+        margin: 0 0 20px 0;
     }
 
     .nav {
@@ -1022,16 +1027,21 @@ body::-webkit-scrollbar {
         background: none; 
     }
 
+    /* ABOUT ME */
+
+    #about-me-container {
+        margin: 0 0  20px 0;
+        padding: 30px;
+    }
+
+    #about-me-container p {
+        font-size: 1.1rem;
+    }
+
     /*  js  */
 
     .slide {
         object-position: 40% 80%;
-    }
-
-    /* ABOUT ME */
-
-    #about-me-container {
-        height: 62vh; 
     }
 
     #headshot {
@@ -1042,7 +1052,7 @@ body::-webkit-scrollbar {
     /* PORTFOLIO */
 
     #portfolio-container {
-        margin: 0 auto; 
+        margin: 0 auto 20px auto;
     }
 
     /*  js  */
@@ -1055,11 +1065,11 @@ body::-webkit-scrollbar {
 
     #rates-container {
         min-height: 62vh;
-        margin: 0 auto;
+        margin: 0 0 20px 0;
     }
 
     .dropdown-content {
-        padding: 10px 35px;
+        padding: 20px 35px;
     }
 
     .dropdown-img-container {
@@ -1078,7 +1088,7 @@ body::-webkit-scrollbar {
 
     #contact-container {
         min-height: 62vh;
-        margin: 0 auto;
+        margin: 0 0 20px 0;
     }
 
     #contact-btns {
@@ -1137,6 +1147,10 @@ body::-webkit-scrollbar {
 }
 
 @media (min-width: 1025px) {
+    body {
+    padding-top: 15vh; 
+  }
+
     /* CORE STRUCTURE */
 
     #header-div {
@@ -1153,17 +1167,16 @@ body::-webkit-scrollbar {
     }
 
     #page-title {
-        margin: 15vh auto 2.5vh auto;
-        min-height: 40px;
+        margin: 0 auto 25px auto;
     }
 
     #page-content {
-        min-height: none; 
+        height: fit-content;
     }
 
     #footer {
-        height: 10vh;
-        min-height: 60px; 
+        padding: 10px 0 5px 0;
+        position: static !important;
     }
 
     /* HEADER */
@@ -1188,20 +1201,13 @@ body::-webkit-scrollbar {
         display: none;
     }
 
-    #nav-menu {
-        display: flex;
-    }
-
-    #nav-menu ul {
-        display: flex;
-    }
-
-    #nav-menu li {
+    #nav-menu, #nav-menu ul, #nav-menu li, #nav-menu button {
         display: flex;
     }
 
     #nav-menu button {
-        display: flex;
+        background: none;
+        font-size: 1.2rem;
     }
 
     .menu-spacer {
@@ -1210,56 +1216,32 @@ body::-webkit-scrollbar {
     }
 
     .menu-spacer.bookend {
-        height: 100%;
         width: 32px;
-    }
-
-    #home-btn {
-        background: none;
-    }
-
-    #about-btn {
-        background: none;
-    }
-
-    #portfolio-btn {
-        background: none;
-    }
-
-    #rates-btn {
-        background: none;
-    }
-
-    #contact-btn {
-        background: none;
     }
 
     /* OVERLAY MENU */
 
-    #menu-overlay {
-        display: none;
-    }
-
-    #menu-overlay ul {
-        display: none;
-    }
-
-    .overlay-btns {
+    
+    #menu-overlay, #menu-overlay ul, .overlay-btns{
         display: none;
     }
 
     /* PAGE TITLE */
 
     #page-title-text {
-        font-size: clamp(0.9rem, 1.2rem + 1vmin, 2rem);
+        font-size: 2rem;
         letter-spacing: 12px;
+        margin: 45px 0 10px 0;
+    }
+
+    .underline {
+        width: 20%;
     }
 
     /* FOOTER */
 
-    #footer {
-        position: relative;
-        bottom: auto;
+    #licensing p {
+        font-size: 10px;
     }
 
     #social-footer {
@@ -1277,8 +1259,10 @@ body::-webkit-scrollbar {
     /* HOME */
 
     #slideshow-div {
-        height: 62vh; 
+        max-height: 62vh; 
+        margin: 0 0 20px 0;
         width: 90%; 
+        aspect-ratio: 16 / 9;
     }
 
     .nav {
@@ -1295,31 +1279,38 @@ body::-webkit-scrollbar {
     /* ABOUT ME */
 
     #about-me-container {
-        height: 62vh; 
+        max-height: 62vh;
+        margin: 0 0 20px 0;
+        padding: 30px;
+    }
+
+    #about-me-container p {
+        font-size: 1.2rem;
+        line-height: 1.32;
     }
 
     #headshot {
-        width: 25%;
-        margin-bottom: 3px;
+        width: 23.4%;
+        margin-bottom: 10px;
     }
 
     /* PORTFOLIO */
 
     #portfolio-container {
-        margin: 0 auto; 
+        margin: 0 auto 20px auto;
     }
 
     /*  js  */
 
     .img-frame {
-        height: 20vh;
+        height: 25vh;
     }
 
     /* RATES */
 
     #rates-container {
         min-height: 62vh;
-        margin: 0 auto;
+        margin: 0 0 20px 0;
     }
 
     .dropdown-content {
@@ -1342,7 +1333,7 @@ body::-webkit-scrollbar {
 
     #contact-container {
         min-height: 62vh;
-        margin: 0 auto;
+        margin: 0 0 20px 0;
     }
 
     #contact-btns {

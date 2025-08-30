@@ -70,7 +70,8 @@ const toHome = () => {
   content.classList.add('loading');
   const carouselRef = storageRef(storage, 'galleries/carousel');
   document.getElementById('page-title-text').innerText = `WELCOME`;
-
+  document.getElementById('page-title').classList.contains('extra-margin') ? document.getElementById('page-title').classList.remove('extra-margin') : null;
+  content.style.justifyContent = "center";
   fetch("Pages/home.txt")
     .then(response => {
       if (!response.ok) {
@@ -240,7 +241,7 @@ const toHome = () => {
     });
 };
 
-//window.onload = toHome;
+window.onload = toHome;
 homeBtn.addEventListener("click", toHome);
 logoDiv.addEventListener("click", toHome);
 hamHome.addEventListener("click", toHome);
@@ -411,24 +412,25 @@ const toPortfolio = () => {
                                 document.body.appendChild(focusFrame);
 
                                 requestAnimationFrame(() => {
-                                    const targetWidth = window.innerWidth * 0.85;
-                                    let targetHeight;
-                                    
-                                    if (window.innerWidth <= 480) {
-                                        targetHeight = window.innerHeight * 0.30;
-                                    } 
-                                    
-                                    if (window.innerWidth > 480 && window.innerWidth <= 768) {
-                                        targetHeight = window.innerHeight * 0.37;
+                                    let targetWidth = window.innerWidth * 0.85;
+                                    let targetHeight = targetWidth * (9 / 16);
+
+                                    const maxWidth = window.innerWidth * 0.95;
+                                    const maxHeight = window.innerHeight * 0.60; 
+
+                                    if (targetWidth > maxWidth) {
+                                        targetWidth = maxWidth;
+                                        targetHeight = targetWidth * (9 / 16);
                                     }
 
-                                    if (window.innerWidth > 786 && window.innerWidth <= 1024) {
-                                        targetHeight = window.innerHeight * 0.54;
+                                    if (targetHeight > maxHeight) {
+                                        targetHeight = maxHeight;
+                                        targetWidth = targetHeight * (16 / 9);
                                     }
-                                    
+
                                     focusFrame.style.width = `${targetWidth}px`;
                                     focusFrame.style.height = `${targetHeight}px`;
-                                    focusFrame.style.top = `57%`;
+                                    focusFrame.style.top = `62%`;
                                     focusFrame.style.left = `50%`;
                                     focusFrame.style.transform = `translate(-50%, -50%)`;
                                 });
@@ -697,5 +699,3 @@ overlayButtons.forEach(button => {
 });
 
 
-
-toContact();
