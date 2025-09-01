@@ -70,6 +70,8 @@ let originalOrder = [];
 let currentOrder = [];
 let activeGalleryLoadId = 0;
 
+
+
 const clearStatus = () => {
     document.getElementById('status').style.display = "none";
     document.getElementById('status').innerText = ``;
@@ -175,6 +177,7 @@ const toHome = () => {
     document.getElementById('page-title-text').innerText = `ADMIN HOME`;
 };
 
+// window.onload = toHome; 
 
 // UPLOAD PHOTOS
 
@@ -705,6 +708,9 @@ const getCurrentGallery = async (destination) => {
   return currentOrder; 
 };
 
+
+
+
 const toUpload = () => {
     clearStatus();
     document.getElementById('feature-menu').style.display = "none";
@@ -714,6 +720,8 @@ const toUpload = () => {
 };
 
 document.getElementById('to-upload').addEventListener("click", toUpload);
+
+
 
 const toSort = () => {
   clearStatus();
@@ -738,6 +746,4 @@ document.getElementById('sort-portfolio').addEventListener("click", () => {
     document.getElementById('sort-portfolio').style.color = "#E6C068";
     document.getElementById('sort-carousel').style.color = "whitesmoke";
 });
-
-
 
