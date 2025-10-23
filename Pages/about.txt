@@ -1,6 +1,6 @@
 <div id="about-me-container">
   <p>
-    <div id="headshot"><img src="Photos/Headshot.JPEG" alt='headshot'/></div>
+    <div id="headshot"><img src="Static Media/Headshot.JPEG" alt='headshot'/></div>
   </p>
   <p>
     I enjoy working with owners and managers of both long and short term rental properties as well as real estate brokers listing properties for sale. 

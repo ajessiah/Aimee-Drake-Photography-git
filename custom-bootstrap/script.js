@@ -1,3 +1,17 @@
+const navbarToggler = document.querySelector('.navbar-toggler');
+const navbarTogglerIcon = document.querySelector('.navbar-toggler-icon');
+
+navbarToggler.addEventListener('click', () => {
+  navbarTogglerIcon.classList.toggle('navbar-toggler-icon-open');
+  if (navbarTogglerIcon.classList.contains('navbar-toggler-icon-open')) {
+    navbarTogglerIcon.style.setProperty('--toggler-line-color', '#E6C068');
+  } else {
+    navbarTogglerIcon.style.setProperty('--toggler-line-color', 'white');
+  }
+});
+
+
+/* TESTING
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 import {
     getStorage,
@@ -698,4 +712,4 @@ overlayButtons.forEach(button => {
   });
 });
 
-
+*/
