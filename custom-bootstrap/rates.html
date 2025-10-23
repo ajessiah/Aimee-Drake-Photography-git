@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Aimee Drake Photography</title>
+    <script src="https://kit.fontawesome.com/31bce71fcd.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+  </head>
+  <body class="bg-black">
+    <nav id="header-div" class="navbar navbar-expand-lg bg-black">
+      <div class="container">
+        <a id="logo-container" class="navbar-brand" href="#" title="Aimee Drake Photography Home Button">
+            <img src="..\Static Media\Black & Gold Logo.png" class="logo" alt="Aimee Drake Photography Logo">
+        </a>
+        <button id="hamburger-btn" class="navbar-toggler" type="button" title="Hamburger Menu Button" data-bs-toggle="collapse" data-bs-target="#nav-menu">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="nav-menu">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a id="home-btn" class="nav-link text-light text-uppercase menu-btn" href="#">Home</a></li>
+                <li class="nav-item"><a id="about-btn" class="nav-link text-light text-uppercase menu-btn" href="#">About</a></li>
+                <li class="nav-item"><a id="portfolio-btn" class="nav-link text-light text-uppercase menu-btn" href="#">Portfolio</a></li>
+                <li class="nav-item"><a id="rates-btn" class="nav-link text-light text-uppercase menu-btn" href="#">Rates</a></li>
+                <li class="nav-item"><a id="contact-btn" class="nav-link text-light text-uppercase menu-btn" href="#">Contact</a></li>
+            </ul>
+        </div>
+      </div>
+    </nav>
+    <section class="py-3 page-main bg-black">
+      <div id="page-title" class="container text-center">
+        <h2 id='page-title-text' class="text-white">RATES</h2>
+        <div class="underline"></div>
+      </div>
+      <div id="page-content" class="container-fluid">
+        <div id="rates-container" class="container">
+            <button data-bs-toggle="collapse" data-bs-target="#tier-one-rates">Up to 2500 sqft</button>
+            <div id="tier-one-rates" class="collapse container rates-tier">
+                <div class="card rates-card">
+                    <img class="card-img-top" src="../Static Media/Rates/Twilight Ext 01.jpg" alt="Small Cream House Exterior at Sunset"/>
+                    <div class="card-body">
+                        <h4 class="card-title">$299</h4>
+                        <p class="card-text">Includes:</p>
+                              <ul>
+                                <li>32+ Photos for MLS / Rental Platforms & Print</li>
+                                <li>Comprehensive Editing</li>
+                                <li>24hr Turnaround</li>
+                            </ul>
+                    </div>
+                </div>
+            </div>
+            <button data-bs-toggle="collapse" data-bs-target="#tier-two-rates">2500 - 4000 sqft</button>
+            <div id="tier-two-rates" class="collapse container rates-tier">
+                <div class="card rates-card">
+                    <img class="card-img-top" src="../Static Media/Rates/23ValleyView_38.jpg" alt="Medium Brick House Exterior"/>
+                    <div class="card-body">
+                        <h4 class="card-title">$349</h4>
+                        <p class="card-text">Includes:</p>
+                            <ul>
+                                <li>32+ Photos for MLS / Rental Platforms & Print</li>
+                                <li>Comprehensive Editing</li>
+                                <li>Up to 5 Drone Photos</li>
+                                <li>24hr Turnaround</li>
+                            </ul>
+                    </div>
+                </div>
+            </div>
+            <button data-bs-toggle="collapse" data-bs-target="#tier-three-rates">More Than 4000 sqft</button>
+            <div id="tier-three-rates" class="collapse container rates-tier">
+                <div class="card rates-card">
+                    <img class="card-img-top" src="../Static Media/Rates/290LibertyRd.Aerials_09.jpg" alt="Aerial of a Large White House Exterior and Backyard"/>
+                    <div class="card-body">
+                        <h4 class="card-title">$599</h4>
+                        <p class="card-text">Includes:</p>
+                            <ul>
+                                <li>32+ Photos for MLS / Rental Platforms & Print</li>
+                                <li>Comprehensive Editing</li>
+                                <li>Up to 10 Drone Photos</li>
+                                <li>30sec Drone Video</li>
+                                <li>Virtual Walkthrough Video</li>
+                            </ul>
+                    </div>
+                </div>
+            </div>
+            <button data-bs-toggle="collapse" data-bs-target="#add-ons-rates">Add-Ons</button>
+            <div id="add-ons-rates" class="collapse container rates-tier">
+                <div class="card rates-card">
+                    <img class="card-img-top" src="../Static Media/Rates/Aerial 1.jpg" alt="Wide Aerial of a Small White House and Farmland"/>
+                    <div class="card-body">
+                        <h4 class="card-title"></h4>
+                            <ul class="card-text">
+                                <li><span class='price'>$49  </span>5 Drone Photos</li>
+                                <li><span class='price'>$99  </span>30sec Drone Video</li>
+                            </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </section>
+    <footer class="bg-black text-primary text-center py-3">
+      <div class="container">
+        <div id='licensing' class="container">
+          <p>
+            All photos on this site are © Aimee Drake Photography. 
+            Unauthorized use, copying, or distribution is prohibited. 
+            Licensing or permission is required for any use beyond viewing. 
+            For inquiries, contact <a href="mailto:aimee@aimeedrake.com" class="footer-link">aimee@aimeedrake.com</a>
+          </p>
+        </div>
+        <div id="social-footer" class="container">
+          <a href="tel:+15035286244">
+            <button id="ham-to-phone" title="to phone" type="button"><i class="fa-solid fa-phone fa-3x"></i></button>
+          </a>
+          <a href="https://www.instagram.com/aimeedrake.photos/" target="_blank" rel="noopener noreferrer">
+            <button id="ham-to-instagram" title="to instagram" type="button"><i class="fa-brands fa-instagram fa-4x"></i></button>
+          </a>
+        </div>
+      </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js" type="module"></script>
+  </body>
+</html>

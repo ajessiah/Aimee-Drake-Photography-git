@@ -11961,6 +11961,10 @@ body::-webkit-scrollbar {
   border-bottom: 2px solid #fff;
 }
 
+#page-content {
+  min-height: 50vh;
+}
+
 .page-main::-webkit-scrollbar {
   display: none;
 }
@@ -12110,6 +12114,50 @@ footer {
 #portfolio-container::-webkit-scrollbar {
   width: 0;
   height: 0;
+}
+
+#rates-container button {
+  height: 7vh;
+  min-height: 40px;
+  width: 90vw;
+  max-width: 1250px;
+  padding-left: 20px;
+  background-color: #151515;
+  border: 1px solid #E6C068;
+  color: #f8f9fa;
+  font-size: 1.2rem;
+  text-align: left;
+}
+
+.rates-tier {
+  width: 90vw;
+  max-width: 1250px;
+  margin: 0 0 10px 0;
+  padding: 10px;
+  overflow: hidden;
+  background-color: #151515;
+  color: #f8f9fa;
+  opacity: 0;
+  transition: all 0.1s ease-in-out;
+}
+
+.rates-tier.show {
+  opacity: 1;
+  transition: all 0.2s ease-out;
+}
+
+.rates-tier.collapsing:not(.show) {
+  opacity: 0;
+  transition: all 0.35s ease-out;
+}
+
+.rates-card {
+  background-color: #151515;
+  color: #f8f9fa;
+}
+
+.rates-card img {
+  border-radius: 0px;
 }
 
 /*# sourceMappingURL=styles.css.map */
