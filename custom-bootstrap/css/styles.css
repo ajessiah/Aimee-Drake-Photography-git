@@ -12096,4 +12096,20 @@ footer {
   transition: all 0.3s ease;
 }
 
+#portfolio-container {
+  height: fit-content;
+  width: 90vw;
+  max-width: 1150px;
+  margin: 0 auto 10px auto;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+}
+
+#portfolio-container::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
 /*# sourceMappingURL=styles.css.map */
