@@ -313,3 +313,165 @@ footer {
 .rates-card img {
     border-radius: 0px;
 }
+
+#contact-container {
+    max-width: 750px;
+}
+
+#contact-btns {
+    height: fit-content;
+    width: 65%;
+    margin: 0 auto 15px auto;
+    display: flex;
+    justify-content: center;
+}
+
+#contact-btns a {
+    height: 100%;
+    text-decoration: none;
+}
+
+#contact-btns button {
+    height: 100%;
+    margin: 5px;
+    padding: 8px 15px;
+    background: none;
+    border: none;
+    color: $primary;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    border: 2px solid transparent;
+    box-shadow: none;
+    transition: all 0.3s ease;
+}
+
+#contact-btns button:hover {
+    border: 2px solid $primary;
+    border-radius: 100px;
+    box-shadow: 0 0 10px 2px $secondary;
+    background-color: $dark;
+}
+
+#contact-btns i {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+#contact-btns p {
+    margin: 0;
+    font-size: 1.1rem;
+    padding-left: 10px;
+}
+
+.contact-form-btn {
+    height: 65px;
+    width: 90%;
+    margin: 0 auto;
+    display: block;
+    background-color: $dark;
+    border: 2px solid $primary;
+    color: $white;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.contact-form-btn:hover {
+    background-color: #E6C068;
+    color: black;
+}
+
+form {
+    width: 90%;
+    margin: 0 auto;
+    padding: 10px 20px;
+    border: 2px solid $primary;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+
+.form-label {
+    width: 100%;
+    text-align: center !important;
+}
+
+.form-control::placeholder {
+  color: $secondary;
+  font-weight: 500;
+}
+
+form input, form textarea {
+    background-color: $dark !important;
+    border: none !important;
+    color: whitesmoke !important;
+}
+
+form textarea {
+    overflow-y: scroll;
+}
+
+form textarea::-webkit-scrollbar {
+    display: none;
+}
+
+#first-name {
+    grid-row: 2 / span 1;
+    grid-column: 1 / span 1;
+}
+
+#last-name {
+    grid-row: 2 / span 1;
+    grid-column: 2 / span 1;
+}
+
+#contact-name, #contact-message {
+    width: 100%;
+}
+
+#contact-preference {
+    height: 15vh;
+    width: 100%;
+    padding: 0;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#contact-preference p {
+    margin: 0;
+    text-align: center;
+}
+
+#contact-preference label {
+    width: 60%;
+    margin: 0 auto;
+    text-align: center;
+}   
+
+#phone-input {
+    padding-left: 8px;
+    display: block;
+}
+
+#email-input {
+    padding-left: 8px;
+    display: none;
+}
+
+form button {
+    height: 50px;
+    width: 60%;
+    background-color: $dark;
+    border: 3px solid $primary;
+    color: $light;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+form button:hover {
+    background-color: $primary;
+    color: $dark;
+}
+
